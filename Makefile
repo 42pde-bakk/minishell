@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/13 22:38:15 by peer          ########   odam.nl          #
+#    Updated: 2020/04/14 17:56:25 by peer          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,12 @@ SRC_DIR = ./src
 GNL_DIR = ./gnl
 PRINTF_DIR = ./ft_printf
 
-SRC = minishell.c
+SRC = 	minishell.c \
+		directories.c \
+		environment.c \
+		bubblesort.c \
+		
+		
 GNL = get_next_line.c get_next_line_utils.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))

@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/13 21:35:59 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/14 18:38:55 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,18 @@
 
 # include "get_next_line.h"
 # include "libft.h"
+extern char **environ;
+
+typedef struct  s_vars
+{
+    char        **env1;
+}               t_vars;
+
+int		cd(char **args);
+int		pwd(void);
+
+int     export(char **args, t_vars *p);
+int		env(char **args, t_vars *p);
+char    **bubble_sort(char **arr);
 
 #endif
