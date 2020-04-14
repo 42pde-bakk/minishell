@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 18:41:10 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/14 18:41:18 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char 	**get_environment(void)
 	i = 0;
 	while (environ[i])
 	{
-		env[i] = malloc(ft_strlen(environ))
+		env[i] = malloc(ft_strlen(environ[i]))
 		env1[i] = environ[i];
 		i++;
 	}
