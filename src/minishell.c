@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 18:43:12 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/14 23:30:35 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	echo(char **args)
 	char	*new;
 
 	i = 0;
-	if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
+	if (args[1] == NULL)
+		ft_putchar_fd('\n', 1);
+	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
 	{
 		new = ft_strtrim(args[2], "\"");
 		ft_putstr_fd(new, 1);
@@ -58,7 +60,9 @@ char 	**get_environment(void)
 {
 	int	i;
 	char **env1;
+	int k;
 
+	k = 0;
 	i = 0;
 	while (environ[i])
 		i++;
@@ -67,8 +71,13 @@ char 	**get_environment(void)
 	i = 0;
 	while (environ[i])
 	{
-		env[i] = malloc(ft_strlen(environ[i]) wehebhwedhwvdwwd)
-		env1[i] = environ[i];
+		env1[i] = malloc(ft_strlen(environ[i]));
+		while (environ[i][k])
+		{
+			env1[i][k] = environ[i][k];
+			k++;
+		}
+		k = 0;
 		i++;
 	}
 	return (env1);

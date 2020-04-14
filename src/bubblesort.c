@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 16:24:27 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 17:49:37 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/14 22:41:34 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,40 @@ void    later_in_alph(char **arr, int *i)
     (*i) = 0; 
 }
 
-char    **bubble_sort(char **arr)
+char    **make_cpy(char **env1)
+{
+    char **arr;
+    int i;
+    int k;
+
+    k = 0;
+    i = 0;
+    while (env1[i])
+        i++;
+    arr = malloc(sizeof(char *) * (i + 1));
+    arr[i] = 0;
+    i = 0;
+    while (env1[i])
+    {
+        arr[i] = malloc(ft_strlen(env1[i]) + 1);
+        while (env1[i][k])
+        {
+            arr[i][k] = env1[i][k];
+            k++;
+        }
+        k = 0;
+        i++;
+    }
+    return (arr);
+}
+
+char    **bubble_sort(char **env1)
 {
     int i;
-    char *temp;
-    
+    char **arr;
     i = 0;
+
+    arr = make_cpy(env1);
     while (arr[i + 1])
     {
         if (arr[i][0] > arr[i + 1][0])
@@ -62,3 +90,4 @@ char    **bubble_sort(char **arr)
     }
     return (arr);
 }
+
