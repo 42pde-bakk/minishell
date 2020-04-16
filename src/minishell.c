@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/16 15:47:45 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/16 17:53:38 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,31 @@ int		main(int argc, char **argv)
 	int		status;
 	char	*line;
 	char	**args;
+	char	**cmds;
+	int 	i;
 	t_vars	p;
 	
+	i = 0;
 	p.env1 = get_environment();
 	status = 1;
 	while (status)
 	{
 		args = (char**)NULL;
+		cmds = (char**)NULL;
 		ft_putstr_fd("peershell> ", 1);
 		status = get_next_line(0, &line);
 		if (line)
-			args = ft_split(line, ' ');
-		if (args[0])
-			argcheck(args, &p);
+			cmds = ft_split(line, ';');
+			while (cmds[i])
+			{
+				args = ft_split(cmds[i], ' ');
+				if (args[0])
+					argcheck(args, &p);
+				i++;
+			}
+		i = 0;
+		if (cmds)
+			free(cmds);
 		if (line)
 			free(line);
 	}
