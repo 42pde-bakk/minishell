@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	print_export(char **args, t_vars *p)
+int		print_export(char **args, t_vars *p)
 {
 	int	i;
 	char **arr;

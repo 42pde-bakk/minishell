@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/14 17:56:25 by peer          ########   odam.nl          #
+#    Updated: 2020/04/16 15:44:37 by Wester        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRC = 	minishell.c \
 		directories.c \
 		environment.c \
 		bubblesort.c \
+		utils.c \
+		unset_env.c 
 		
 		
 GNL = get_next_line.c get_next_line_utils.c

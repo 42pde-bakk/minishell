@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 23:30:35 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/16 15:47:45 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ void	echo(char **args)
 	}
 }
 
-/* 	char	*argv[] = {"text", "en2", "test", NULL};
-	char	*argv2[] = {NULL};
-	
-	execve("./hello", argv, argv2);
- */
 void	argcheck(char **args, t_vars *p)
 {
 	if (ft_strncmp(args[0], "echo", 5) == 0)
@@ -54,6 +49,8 @@ void	argcheck(char **args, t_vars *p)
 		export(args, p);
 	if (ft_strncmp(args[0], "env", 4) == 0)
 		env(args, p);
+	if (ft_strncmp(args[0], "unset", 6) == 0)
+		unset_new(args, p);
 }
 
 char 	**get_environment(void)
@@ -104,4 +101,5 @@ int		main(int argc, char **argv)
 		if (line)
 			free(line);
 	}
+	return (0);
 }
