@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/17 14:16:55 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/17 14:43:28 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ char			**split_quotes(char *str);
 
 //utils
 int			    ft_strcmp_equal(char *str1, char *str2);
+char 			*ft_strstrip(char *str, char c);
 #endif

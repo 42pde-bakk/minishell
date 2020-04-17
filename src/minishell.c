@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/17 14:17:44 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/17 14:36:26 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,15 @@ void	echo(char **args)
 	i = 0;
 	if (args[1] == NULL)
 		ft_putchar_fd('\n', 1);
-	// printf("args: %s\n", args[1]);
 	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
 	{
-		new = ft_strtrim(args[2], "\"");
+		new = ft_strstrip(args[2], '\"');
 		ft_putstr_fd(new, 1);
 		free(new);
 	}
 	else if (args[1])
 	{
-		new = ft_strtrim(args[1], "\"");
-		// printf("new: %s\n", new);
+		new = ft_strstrip(args[1], '\"');
 		ft_putstr_fd(new, 1);
 		ft_putchar_fd('\n', 1);
 		free(new);
