@@ -6,24 +6,28 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 13:19:16 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/17 14:18:06 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/20 22:43:11 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int 		find_quote(char *str, int *i)
+int 		find_quote(char *str, int *i, char c)
 {
 	int ret;
+	int extra;
 
+	extra = 0;
 	ret = *i;
-	if (str[*i] == '\"')
+	if (str[*i] == c)
 	{
 		(*i)++;
-		while (str[*i] != '\"' && str[*i] != 0)
+		while (str[*i] != c && str[*i] != 0)
 			(*i)++;
 		(*i)++;
 	}
+	while (!(str[*i] == 32 || (str[*i] >= 9 && str[*i] <= 13)) && str[*i] != 0)
+			(*i)++;
 	return (*i - ret);
 }
 
@@ -39,9 +43,9 @@ int         ft_words(char *str)
 		words++;
 		while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 			i++;
-		find_quote(str, &i);
-		while (!(str[i] == 32 || (str[i] >= 9 && str[i] <= 13)) && str[i] != 0)
-			i++;
+		find_quote(str, &i, '\"');
+		// while (!(str[i] == 32 || (str[i] >= 9 && str[i] <= 13)) && str[i] != 0)
+		// 	i++;
 	}
 	return (words);
 }
@@ -57,26 +61,32 @@ char        **ft_free(char **arr, int count)
 	return (NULL);
 }
 
-char		*make_quote(char *str, int *i)
+char		*make_quote(char *str, int *i, char c)
 {
 	char 	*word;
 	int 	k;
 
 	k = *i;
-	word = malloc(find_quote(str, &k) + 1);
+	word = malloc(find_quote(str, &k, c) + 1);
 	if (!word)
 		return (NULL);
 	k = 0;
 	word[k] = str[*i];
 	k++;
 	(*i)++;
-	while (str[*i] != '\"' && str[*i] != 0)
+	while (str[*i] != c && str[*i] != 0)
 	{
 		word[k] = str[*i];
 		k++;
 		(*i)++;
 	}
-	word[k] = '\"';
+	word[k] = c;
+	while (str[*i] != 32 && !(str[*i] >= 9 && str[*i] <= 13) && str[*i] != 0)
+	{
+		word[k] = str[*i];
+		k++;
+		(*i)++;
+	}
 	word[k + 1] = 0;
 	return (word);
 }
@@ -87,8 +97,8 @@ char        *find_word(char *str, int *i)
 	char *word;
 
 	k = *i;
-	if (str[k] == '\"')
-		return (make_quote(str, i));
+	if (str[k] == '\"' || str[k] == '\'')
+		return (make_quote(str, i, str[k]));
 	while (str[k] != 32 && !(str[k] >= 9 && str[k] <= 13) && str[k] != 0)
 		k++;
 	word = malloc(k - *i + 1);
@@ -126,6 +136,7 @@ char        **split_quotes(char *str)
 			count++;
 		}
 	}
+	printf("split: %s\n", arr[1]);
 	arr[count] = 0;
 	return (arr);
 }

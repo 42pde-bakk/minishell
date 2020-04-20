@@ -6,14 +6,13 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/17 14:44:09 by Wester        ########   odam.nl          #
+#    Updated: 2020/04/20 13:39:22 by Wester        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC_DIR = ./src
-GNL_DIR = ./gnl
 PRINTF_DIR = ./ft_printf
 
 SRC = 	minishell.c \
@@ -23,13 +22,11 @@ SRC = 	minishell.c \
 		utils.c \
 		unset_env.c \
 		split_quotes.c \
+		get_next_line_q.c \
 		ft_strstrip.c
 		
-		
-GNL = get_next_line.c get_next_line_utils.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
-FILES += $(addprefix $(GNL_DIR)/, $(GNL))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))
 
 all: $(NAME)
