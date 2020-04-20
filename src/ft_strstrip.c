@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/17 14:35:27 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/20 22:47:42 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/20 23:32:20 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			count_char(char *str, char c, char e)
 		if (str[i] != 0)
 			i++;
 	}
-	printf("i: %i num: %d\n", i, i - co);
+	// printf("i: %i num: %d\n", i, i - co);
 	return (i - co);
 }
 
@@ -139,7 +139,7 @@ char 		*ft_strstrip(char *str, char c)
 	int		k;
 	char	*new_str;
 
-	printf("str; %s\n", str);
+	// printf("str; %s\n", str);
 	new_str = malloc(count_char(str, c, '\'') + 1);
 	if (!new_str)
 		return (NULL);
@@ -175,7 +175,7 @@ char 		*ft_strstrip(char *str, char c)
 			i++;
 		}
 	}
-	printf("new1: %s\n", new_str);
+	// printf("new1: %s\n", new_str);
 	new_str[k] = 0;
 	free(str);
 	new_str = last_strip_slash(&new_str);

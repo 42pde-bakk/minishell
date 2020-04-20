@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/20 22:29:37 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/20 23:32:40 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ void	echo(char **args)
 	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
 	{
 		new = ft_strstrip(args[2], '\"');
-		// new = ft_strstrip(new, '\"');
 		ft_putstr_fd(new, 1);
 		free(new);
 	}
 	else if (args[1])
 	{
 		new = ft_strstrip(args[1], '\"');
-		// new = ft_strstrip(new, '\"');
 		ft_putstr_fd(new, 1);
 		ft_putchar_fd('\n', 1);
 		free(new);
@@ -100,10 +98,8 @@ int		main(int argc, char **argv)
 		cmds = (char**)NULL;
 		ft_putstr_fd("peershell> ", 1);
 		status = get_next_line_q(0, &line);
-		printf("line: %s\n", line);
 		if (line)
 			cmds = ft_split(line, ';');
-			printf("cmds: %s\n", cmds[0]);
 			while (cmds[i])
 			{
 				args = split_quotes(cmds[i]);

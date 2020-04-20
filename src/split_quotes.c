@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 13:19:16 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/20 22:43:11 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/20 23:33:07 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char        **split_quotes(char *str)
 			count++;
 		}
 	}
-	printf("split: %s\n", arr[1]);
+	// printf("split: %s\n", arr[1]);
 	arr[count] = 0;
 	return (arr);
 }
