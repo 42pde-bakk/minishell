@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 15:16:57 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/25 17:41:45 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int		cd(char **args)
 	return (0);
 }
 
-int		pwd(void)
+int		pwd(int fd)
 {
 	char	buf[10240];
 	char	*ptr;
 
 	ptr = getcwd(buf, 10240);
-	ft_putstr_fd(ptr, 1);
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(ptr, fd);
+	ft_putchar_fd('\n', fd);
 	return (0);
 }

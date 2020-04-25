@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/20 13:39:36 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/25 17:42:04 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ typedef struct  s_vars
 }               t_vars;
 
 int				cd(char **args);
-int				pwd(void);
+int				pwd(int fd);
 
-int     		export(char **args, t_vars *p);
-int				env(char **args, t_vars *p);
+int     		export(char **args, t_vars *p, int fd);
+int				env(char **args, t_vars *p, int fd);
 char	 	  	**bubble_sort(char **arr);
 void			unset_new(char **args, t_vars *p);
 char			**split_quotes(char *str);
