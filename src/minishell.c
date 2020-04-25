@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/25 18:26:08 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/25 20:18:12 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	argcheck(char **args, t_vars *p)
 	if (n > 3 && ft_strncmp(args[n - 2], ">", 2) == 0) // if name contains a slash, gotta use opendir()
 		fd = open(args[n - 1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (n > 3 && ft_strncmp(args[n - 2], ">>", 3) == 0) // if name contains a slash, gotta use opendir()
-		fd = open(args[n - 1], O_CREAT | O_WRONLY, 0644);
+		fd = open(args[n - 1], O_APPEND | O_RDWR | O_CREAT, 0644);
 	printf("fd = %d, errno=%d\n", fd, errno);
 	if (args[0] == NULL || fd == -1)
 		return ;
