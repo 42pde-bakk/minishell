@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/26 17:50:56 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/26 17:57:32 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ void	redirect(char **args, t_vars *p, t_dup *redir)
 //		close(redir->outfilefd);
 	}
 	argcheck(args, p);
-	int test = dup2(redir->savestdout, redir->duppedout);
-	printf("test = %d\n", test);
+	int test0, test1;
+	if (in)
+		test0 = dup2(redir->savestdin, redir->duppedin);
+	if (out)
+		test1 = dup2(redir->savestdout, redir->duppedout);
 }
 
 void	argcheck(char **args, t_vars *p)
