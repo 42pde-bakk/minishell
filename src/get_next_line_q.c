@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/25 17:25:16 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/26 19:10:16 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 char	*str_connect(char **line, char c)
 {
 	int i;
-	int i2;
 	char *tmp;
 
 	i = 0;
-	i2 = 0;
 	tmp = malloc(ft_strlen(*line) + 2);
 	if (!tmp)
 		return (NULL);

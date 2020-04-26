@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 13:19:16 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/25 15:12:11 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/26 19:10:07 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int 		find_quote(char *str, int *i, char c)
 {
 	int ret;
-	int extra;
 
-	extra = 0;
 	ret = *i;
 	if (str[*i] == c)
 	{

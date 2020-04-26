@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/26 17:57:17 by peer          ########   odam.nl          #
+#    Updated: 2020/04/26 19:08:01 by peer          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC = 	minishell.c \
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))
 
+FLAGS = -Wall -Werror -Wextra
+
 all: $(NAME)
 
 $(NAME): $(FILES)
@@ -38,7 +40,7 @@ $(NAME): $(FILES)
 	@gcc $(FLAGS) -I ./include/ $(FILES) libft.a -o $(NAME)
 
 clean:
-	/bin/rm -f *.o *~ *,gch
+	/bin/rm -f *.o *~ *.gch
 
 fclean: clean
 	@make fclean -C ./libft

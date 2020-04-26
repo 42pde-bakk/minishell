@@ -18,6 +18,7 @@ int		print_export(char **args, t_vars *p)
 	char	**arr;
 
 	i = 0;
+	(void)args;
 	arr = bubble_sort(p->env1);
 	while (arr[i])
 	{
@@ -106,6 +107,7 @@ int		env(char **args, t_vars *p)
 	int	i;
 
 	i = 0;
+	(void)args;
 	while (p->env1[i])
 	{
 		ft_putstr_fd(p->env1[i], 1);

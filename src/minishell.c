@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/26 17:57:32 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/26 19:58:04 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ extern int errno;
 
 void	echo(char **args)
 {
-	int		i;
 	char	*new;
 
-	i = 0;
 	if (args[1] == NULL)
 		ft_putchar_fd('\n', 1);
 	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
@@ -54,7 +52,7 @@ void	redirect(char **args, t_vars *p, t_dup *redir)
 		if (ft_strncmp(args[i], ">", 2) == 0) //still need to do ">>"
 		{
 			args[i] = NULL;
-			ft_strlcpy(input, args[i + 1], ft_strlen(args[i + 1]));
+			ft_strlcpy(output, args[i + 1], ft_strlen(args[i + 1]) + 1);
 			out = 2;
 		}
 		i++;
@@ -76,28 +74,44 @@ void	redirect(char **args, t_vars *p, t_dup *redir)
 	if (out)
 	{
 		redir->outfilefd = open(output, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		dprintf(2, "outfilefd = %d\n", redir->outfilefd);
 		if (redir->outfilefd < 0)
 		{
 			ft_putstr_fd("couldnt open output file\n", 2);
 			exit(0);
 		}
-		else
-		{
-			fprintf(stderr, "fd1 = %d\n", redir->outfilefd);
-		}
+		// else
+		// {
+		// 	int writetest = write(redir->outfilefd, "blimp", sizeof("blimp"));
+		// 	dprintf(2, "writing blimp to fd=%d returns %d\n", redir->outfilefd, writetest);
+		// }
 		redir->savestdout = dup(1);
-		printf("savestdout = %d\n", redir->savestdout);
-		close(1);
+//		printf("savestdout = %d\n", redir->savestdout);
+		// close(1);
 		redir->duppedout = dup2(redir->outfilefd, 1);
-		dprintf(redir->savestdout, "dupout = %d\n", redir->duppedout);
-//		close(redir->outfilefd);
+//		dprintf(2, "calling dup2(%d, %d) gives %d\n", redir->outfilefd, 1, redir->duppedout);
+		close(redir->outfilefd);
 	}
 	argcheck(args, p);
 	int test0, test1;
 	if (in)
+	{
 		test0 = dup2(redir->savestdin, redir->duppedin);
+		if (test0 < 0)
+			{
+				dprintf(2, "ma che cazzo\n");
+				exit(0);
+			}
+	}
 	if (out)
+	{
 		test1 = dup2(redir->savestdout, redir->duppedout);
+		if (test1 < 0)
+			{
+				dprintf(2, "ma che cazzo\n");
+				exit(0);
+			}
+	}
 }
 
 void	argcheck(char **args, t_vars *p)
@@ -159,6 +173,8 @@ int		main(int argc, char **argv)
 
 	p.env1 = get_environment();
 	status = 1;
+	(void)argc;
+	(void)argv;
 	while (status)
 	{
 		i = 0;
