@@ -12,34 +12,34 @@
 
 #include "minishell.h"
 
-int		print_export(char **args, t_vars *p, int fd)
+int		print_export(char **args, t_vars *p)
 {
-	int	i;
-	char **arr;
+	int		i;
+	char	**arr;
 
 	i = 0;
 	arr = bubble_sort(p->env1);
 	while (arr[i])
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(arr[i], fd);
-		ft_putchar_fd('\n', fd);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(arr[i], 1);
+		ft_putchar_fd('\n', 1);
 		i++;
 	}
 	return (0);
 }
 
-int		export(char **args, t_vars *p, int fd)
+int		export(char **args, t_vars *p)
 {
 	int		i;
 	char	**var;
 	char	*inc;
 	int		found;
 	char	**env2;
-	int 	k;
+	int		k;
 
 	if (!args[1])
-		return (print_export(args, p, fd));
+		return (print_export(args, p));
 	var = ft_split(args[1], '=');
 	inc = ft_strjoin(var[0], "=");
 	if (!inc)
@@ -101,15 +101,15 @@ int		export(char **args, t_vars *p, int fd)
 	return (1);
 }
 
-int		env(char **args, t_vars *p, int fd)
+int		env(char **args, t_vars *p)
 {
 	int	i;
 
 	i = 0;
 	while (p->env1[i])
 	{
-		ft_putstr_fd(p->env1[i], fd);
-		ft_putchar_fd('\n', fd);
+		ft_putstr_fd(p->env1[i], 1);
+		ft_putchar_fd('\n', 1);
 		i++;
 	}
 	return (1);
