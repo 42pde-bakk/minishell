@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/26 19:08:01 by peer          ########   odam.nl          #
+#    Updated: 2020/04/28 14:59:28 by peer          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ PRINTF_DIR = ./ft_printf
 
 SRC = 	minishell.c \
 		directories.c \
+		redirections.c \
 		environment.c \
 		bubblesort.c \
 		utils.c \

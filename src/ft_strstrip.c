@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/17 14:35:27 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/20 23:32:20 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/28 15:48:40 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ char 		*ft_strstrip(char *str, char c)
 	}
 	// printf("new1: %s\n", new_str);
 	new_str[k] = 0;
-	free(str);
+	// free(str);
 	new_str = last_strip_slash(&new_str);
 	return (new_str);
 }

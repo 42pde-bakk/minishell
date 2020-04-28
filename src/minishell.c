@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/26 19:58:04 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/28 15:49:11 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,85 +33,12 @@ void	echo(char **args)
 		ft_putchar_fd('\n', 1);
 		free(new);
 	}
-}
-
-void	redirect(char **args, t_vars *p, t_dup *redir)
-{
-	int i, in = 0, out = 0;
-	char output[64], input[64];
-
-	i = 0;
-	while (args[i])
-	{
-		if (ft_strncmp(args[i], "<", 2) == 0)
-		{
-			args[i] = NULL; //makes it NULL to ensure that commands won't read it as input
-			ft_strlcpy(input, args[i + 1], ft_strlen(args[i + 1]));
-			in = 2;
-		}
-		if (ft_strncmp(args[i], ">", 2) == 0) //still need to do ">>"
-		{
-			args[i] = NULL;
-			ft_strlcpy(output, args[i + 1], ft_strlen(args[i + 1]) + 1);
-			out = 2;
-		}
-		i++;
-	}
-	if (in)
-	{
-		redir->infilefd = open(input, O_RDONLY, 0);
-		if (redir->infilefd < 0)
-		{
-			ft_putstr_fd("couldnt open input file\n", 2);
-			exit(0);
-		}
-		redir->savestdin = dup(0);
-		// dup2 copies content of fd0 in input of preceding file
-		redir->duppedin = dup2(redir->infilefd, 0);
-		printf("infilefd = %d, stdin saved at %d, duppedin = %d\n", redir->infilefd, redir->savestdin, redir->duppedin);
-		close(redir->infilefd); //Necessary apparently, all this: source=https://stackoverflow.com/questions/11515399/implementing-shell-in-c-and-need-help-handling-input-output-redirection
-	}
-	if (out)
-	{
-		redir->outfilefd = open(output, O_CREAT | O_TRUNC | O_RDWR, 0644);
-		dprintf(2, "outfilefd = %d\n", redir->outfilefd);
-		if (redir->outfilefd < 0)
-		{
-			ft_putstr_fd("couldnt open output file\n", 2);
-			exit(0);
-		}
-		// else
-		// {
-		// 	int writetest = write(redir->outfilefd, "blimp", sizeof("blimp"));
-		// 	dprintf(2, "writing blimp to fd=%d returns %d\n", redir->outfilefd, writetest);
-		// }
-		redir->savestdout = dup(1);
-//		printf("savestdout = %d\n", redir->savestdout);
-		// close(1);
-		redir->duppedout = dup2(redir->outfilefd, 1);
-//		dprintf(2, "calling dup2(%d, %d) gives %d\n", redir->outfilefd, 1, redir->duppedout);
-		close(redir->outfilefd);
-	}
-	argcheck(args, p);
-	int test0, test1;
-	if (in)
-	{
-		test0 = dup2(redir->savestdin, redir->duppedin);
-		if (test0 < 0)
-			{
-				dprintf(2, "ma che cazzo\n");
-				exit(0);
-			}
-	}
-	if (out)
-	{
-		test1 = dup2(redir->savestdout, redir->duppedout);
-		if (test1 < 0)
-			{
-				dprintf(2, "ma che cazzo\n");
-				exit(0);
-			}
-	}
+	// int i = 0;
+	// while (args[i])
+	// {
+	// 	dprintf(2, "echo test: args[%d] = %s\n", i, args[i]);
+	// 	i++;
+	// }
 }
 
 void	argcheck(char **args, t_vars *p)
@@ -187,8 +114,13 @@ int		main(int argc, char **argv)
 		while (cmds[i])
 		{
 			args = split_quotes(cmds[i]);
-//			argcheck(args, &p);
-			redirect(args, &p, &redir);
+			redir.stat = 1;
+			while (redirect(args, &redir))
+			{
+				argcheck(args, &p);
+				reset_redirect(&redir);
+			}
+//			redirect(args, &p, &redir);
 			i++;
 		}
 		if (cmds)
