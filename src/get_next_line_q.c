@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/26 19:10:16 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 14:54:20 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		check_line(char *line)
 		if (quote % 2 == 0 && single_quote % 2 == 0 && line[i] == '\n')
 			return (1);
 		if (line[i] == '\n' && line[i + 1] == 0)
-			ft_putstr_fd("dquote> ", 1);
+			ft_putstr_fd("> ", 1);
 		i++;
 	}
 	return (0);
