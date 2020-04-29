@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 15:26:00 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/29 15:41:33 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,20 @@ void	argcheck(char **args, t_vars *p)
 		return ;
 	if (ft_strncmp(args[0], "echo", 5) == 0)
 		echo(args);
-	if (ft_strncmp(args[0], "exit", 5) == 0)
+	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		exit(0);
-	if (ft_strncmp(args[0], "pwd", 4) == 0)
+	else if (ft_strncmp(args[0], "pwd", 4) == 0)
 		pwd();
-	if (ft_strncmp(args[0], "cd", 3) == 0)
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
 		cd(args);
-	if (ft_strncmp(args[0], "export", 7) == 0)
+	else if (ft_strncmp(args[0], "export", 7) == 0)
 		export(args, p);
-	if (ft_strncmp(args[0], "env", 4) == 0)
+	else if (ft_strncmp(args[0], "env", 4) == 0)
 		env(args, p);
-	if (ft_strncmp(args[0], "unset", 6) == 0)
+	else if (ft_strncmp(args[0], "unset", 6) == 0)
 		unset_new(args, p);
+	else 
+		ft_execute(args, p);
 }
 
 char 	**get_environment(void)

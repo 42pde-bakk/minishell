@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 14:07:01 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 15:57:54 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "libft.h"
+# include <errno.h>
+extern int errno;
 
 extern char **environ;
 
 typedef struct	s_vars
 {
 	char		**env1;
+	int			ret;
 }				t_vars;
 
 typedef struct	s_dup
@@ -55,5 +58,6 @@ char			**split_quotes(char *str);
 int				ft_strcmp_equal(char *str1, char *str2);
 char			*ft_strstrip(char *str, char c);
 int				get_next_line_q(int fd, char **line);
+void			ft_execute(char **args, t_vars *p);
 
 #endif
