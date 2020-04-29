@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/28 15:57:53 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 14:08:52 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	redirect(char **args, t_dup *redir)
 
 	i = 0;
 	redir_set_values(redir);
-	while (args[i] && redir->check[0] + redir->check[1] == 0)
+	while (args[i])
 	{
 		if (ft_strncmp(args[i], "<", 2) == 0)
 		{
-			args[i] = ""; //makes it NULL to ensure that commands won't read it as input
+			args[i] = NULL; //makes it NULL to ensure that commands won't read it as input
 			ft_strlcpy(input, args[i + 1], ft_strlen(args[i + 1]));
 			redir->check[0] = 2;
 		}
@@ -43,7 +43,7 @@ int	redirect(char **args, t_dup *redir)
 				redir->check[1] = 3;
 			else
 				redir->check[1] = 2;
-			args[i] = "";
+			args[i] = NULL;
 		}
 //		dprintf(2, "i = %d & args[i] = %s, args[i+1] = %s,  redir->check[] = %d, %d\n", i, args[i], args[i+1], redir->check[0], redir->check[1]);
 		i++;
@@ -77,8 +77,8 @@ int	redirect(char **args, t_dup *redir)
 		redir->duppedout = dup2(redir->outfilefd, 1);
 		close(redir->outfilefd);
 	}
-//	dprintf(2, "end of redirect(), returning %d + %d + %d = %d\n", redir->stat, redir->check[0], redir->check[1], redir->stat + redir->check[0] + redir->check[1]);
-	return (redir->stat + redir->check[0] + redir->check[1]);
+//	dprintf(2, "end of redirect(), returning %d + %d = %d\n", redir->check[0], redir->check[1], redir->stat + redir->check[0] + redir->check[1]);
+	return (redir->check[0] + redir->check[1]);
 }
 
 void	reset_redirect(t_dup *redir)
@@ -86,7 +86,6 @@ void	reset_redirect(t_dup *redir)
 	int test0;
 	int test1;
 
-	redir->stat = 0;
 //	dprintf(2, "reset: check[0]=%d, check[1]=%d\n", redir->check[0], redir->check[1]);
 	if (redir->check[0])
 	{

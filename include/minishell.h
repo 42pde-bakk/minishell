@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/28 15:28:00 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 14:07:01 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct	s_vars
 
 typedef struct	s_dup
 {
-	int			stat;
 	int			check[2];
 	int			savestdin;
 	int			savestdout;

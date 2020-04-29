@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/28 15:49:11 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 14:07:07 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,9 @@ int		main(int argc, char **argv)
 		while (cmds[i])
 		{
 			args = split_quotes(cmds[i]);
-			redir.stat = 1;
-			while (redirect(args, &redir))
-			{
-				argcheck(args, &p);
-				reset_redirect(&redir);
-			}
-//			redirect(args, &p, &redir);
+			redirect(args, &redir);
+			argcheck(args, &p);
+			reset_redirect(&redir);
 			i++;
 		}
 		if (cmds)
