@@ -3,7 +3,7 @@
 int     main(void)
 {
     int i;
-    char *str = "hello world\n";
+    char *str = "hello \n";
 
     i = 0;
     while (str[i])
@@ -11,5 +11,5 @@ int     main(void)
         write(1, &str[i], 1);
         i++;
     }
-    return (12);
+    return (42);
 }
