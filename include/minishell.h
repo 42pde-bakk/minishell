@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 15:57:54 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/29 16:58:07 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <errno.h>
+# include <sys/wait.h>
 extern int errno;
 
 extern char **environ;
