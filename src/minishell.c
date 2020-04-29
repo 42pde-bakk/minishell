@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 14:07:07 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/29 15:26:00 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char 	**get_environment(void)
 
 	k = 0;
 	i = 0;
+	write(1, "\e[1;1H\e[2J", 11);
 	while (environ[i])
 		i++;
 	env1 = malloc(sizeof(char *) * (i + 1));
