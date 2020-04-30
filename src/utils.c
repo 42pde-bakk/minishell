@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/30 12:04:48 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 14:43:59 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	remove_case(char **args)
 	int i;
 
 	i = 0;
-	while (args[0][i])
+	while ((*args)[i])
 	{
-		if (args[0][i] >= 'A' && args[0][i] <= 'Z')
-			args[0][i] += 32;
+		if ((*args)[i] >= 'A' && (*args)[i] <= 'Z')
+			(*args)[i] += 32;
 		i++;
 	}
 }

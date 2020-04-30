@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/26 16:46:22 by peer          ########   odam.nl         */
+/*   Updated: 2020/04/30 15:29:24 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		cd(char **args)
 	}
 	else
 		chdir(args[1]);
-	free(args[1]);
 	return (0);
 }
 

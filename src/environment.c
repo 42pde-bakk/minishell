@@ -99,7 +99,7 @@ int		export(char **args, t_vars *p)
 		free(p->env1);
 		p->env1 = env2;
 	}
-	return (1);
+	return (0);
 }
 
 int		env(char **args, t_vars *p)
@@ -114,5 +114,5 @@ int		env(char **args, t_vars *p)
 		ft_putchar_fd('\n', 1);
 		i++;
 	}
-	return (1);
+	return (0);
 }

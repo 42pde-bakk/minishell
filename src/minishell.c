@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/30 12:05:51 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 15:35:50 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <errno.h>
 extern int errno;
 
-void	echo(char **args, t_vars *p)
+int		echo(char **args, t_vars *p)
 {
 	char	*new;
 
@@ -22,56 +22,55 @@ void	echo(char **args, t_vars *p)
 		ft_putchar_fd('\n', 1);
 	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
 	{
+		if (args[2][0] == '$' && args[2][1] != '?')
+			return (print_env_var(args[2], p, 1));
 		new = ft_strstrip(args[2], '\"');
 		ft_putstr_fd_ret(new, 1, p);
-		ft_putchar_fd('\n', 1);
 		free(new);
 	}
 	else if (args[1])
 	{
-		new = ft_strstrip(args[1], '\"');
-		ft_putstr_fd_ret(new, 1, p);
+		if (args[1][0] == '$' && args[1][1] != '?')
+			print_env_var(args[1], p, 1);
+		else 
+		{
+			new = ft_strstrip(args[1], '\"');
+			ft_putstr_fd_ret(new, 1, p);
+			free(new);
+		}
 		ft_putchar_fd('\n', 1);
-		free(new);
 	}
-	// int i = 0;
-	// while (args[i])
-	// {
-	// 	dprintf(2, "echo test: args[%d] = %s\n", i, args[i]);
-	// 	i++;
-	// }
+	return (0);
 }
 
 void	argcheck(char **args, t_vars *p)
 {
-	int i;
-
-	remove_case(args);
-	if (fork() == 0)
-	{
+	remove_case(&args[0]);
+	// if (fork() == 0)
+	// {
 		if (args[0] == NULL)
 			return ;
 		else if (ft_strncmp(args[0], "echo", 5) == 0)
-			echo(args, p);
+			p->ret = echo(args, p);
 		else if (ft_strncmp(args[0], "exit", 5) == 0)
 			exit(0);
 		else if (ft_strncmp(args[0], "pwd", 4) == 0)
-			pwd();
+			p->ret = pwd();
 		else if (ft_strncmp(args[0], "cd", 3) == 0)
-			cd(args);
+			p->ret = cd(args);
 		else if (ft_strncmp(args[0], "export", 7) == 0)
-			export(args, p);
+			p->ret = export(args, p);
 		else if (ft_strncmp(args[0], "env", 4) == 0)
-			env(args, p);
+			p->ret = env(args, p);
 		else if (ft_strncmp(args[0], "unset", 6) == 0)
-			unset_new(args, p);
+			p->ret = unset_new(args, p);
 		else
-			ft_execute(args);
-		exit(0);
-	}
-	wait(&i);
-	if (WIFEXITED(i))
-		p->ret = WEXITSTATUS(i);
+			ft_execute(args, p);
+		// exit(0);
+	// }
+	// wait(&i);
+	// if (WIFEXITED(i))
+		// p->ret = WEXITSTATUS(i);
 }
 
 char 	**get_environment(t_vars *p)
@@ -87,16 +86,17 @@ char 	**get_environment(t_vars *p)
 	while (environ[i])
 		i++;
 	env1 = malloc(sizeof(char *) * (i + 1));
-	env1[i] = 0;
+	env1[i] = NULL;
 	i = 0;
 	while (environ[i])
 	{
-		env1[i] = malloc(ft_strlen(environ[i]));
+		env1[i] = malloc(ft_strlen(environ[i]) + 1);
 		while (environ[i][k])
 		{
 			env1[i][k] = environ[i][k];
 			k++;
 		}
+		env1[i][k] = 0;
 		k = 0;
 		i++;
 	}

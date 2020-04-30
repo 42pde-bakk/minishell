@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 15:43:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/16 16:57:40 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 15:34:09 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void            make_smaller_array(int found, int total_size, t_vars *p)
 	p->env1 = arr;
 }
 
-void            unset_new(char **args, t_vars *p)
+int            unset_new(char **args, t_vars *p)
 {
 	char    **var;
 	int     i;
@@ -69,7 +69,7 @@ void            unset_new(char **args, t_vars *p)
 	i = 0;
 	found = -1;
 	if (!args[1])
-		return ;
+		return (1);
 	var = ft_split(args[1], '=');
 	if (!var)
 		exit(0);
@@ -81,6 +81,7 @@ void            unset_new(char **args, t_vars *p)
 	}
 	if (found >= 0)
 		make_smaller_array(found, i, p);
+	return (0);
 	//printf("%s\n", var[0]);
 	//printf("found: %d\n", found);
 }
