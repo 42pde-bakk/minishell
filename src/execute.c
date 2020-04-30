@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/29 16:49:40 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 12:00:10 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,19 @@ char        *remove_start(char **args)
 	return (str);
 }
 
-void        ft_execute(char **args, t_vars *p)
+void        ft_execute(char **args)
 {
-	int i;
+	//int i;
 
-	i = p->ret;
 	args[0] = remove_start(args);
-	if (fork() == 0)
-	{
+	//if (fork() == 0)
+	//{
 		// stat(args[0],)
 		// p->ret = "./args[0]"
-		execve(args[0], args, NULL);
-	}
-	wait(0);
+	execve(args[0], args, NULL);
+	//}
+	//wait(&i);
+	//if (WIFEXITED(i))
+	//	p->ret = WEXITSTATUS(i);
 	// printf("ret: %d\n", p->ret);
 }

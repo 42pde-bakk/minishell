@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 15:41:33 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 12:05:51 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <errno.h>
 extern int errno;
 
-void	echo(char **args)
+void	echo(char **args, t_vars *p)
 {
 	char	*new;
 
@@ -23,13 +23,14 @@ void	echo(char **args)
 	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
 	{
 		new = ft_strstrip(args[2], '\"');
-		ft_putstr_fd(new, 1);
+		ft_putstr_fd_ret(new, 1, p);
+		ft_putchar_fd('\n', 1);
 		free(new);
 	}
 	else if (args[1])
 	{
 		new = ft_strstrip(args[1], '\"');
-		ft_putstr_fd(new, 1);
+		ft_putstr_fd_ret(new, 1, p);
 		ft_putchar_fd('\n', 1);
 		free(new);
 	}
@@ -43,27 +44,37 @@ void	echo(char **args)
 
 void	argcheck(char **args, t_vars *p)
 {
-	if (args[0] == NULL)
-		return ;
-	if (ft_strncmp(args[0], "echo", 5) == 0)
-		echo(args);
-	else if (ft_strncmp(args[0], "exit", 5) == 0)
+	int i;
+
+	remove_case(args);
+	if (fork() == 0)
+	{
+		if (args[0] == NULL)
+			return ;
+		else if (ft_strncmp(args[0], "echo", 5) == 0)
+			echo(args, p);
+		else if (ft_strncmp(args[0], "exit", 5) == 0)
+			exit(0);
+		else if (ft_strncmp(args[0], "pwd", 4) == 0)
+			pwd();
+		else if (ft_strncmp(args[0], "cd", 3) == 0)
+			cd(args);
+		else if (ft_strncmp(args[0], "export", 7) == 0)
+			export(args, p);
+		else if (ft_strncmp(args[0], "env", 4) == 0)
+			env(args, p);
+		else if (ft_strncmp(args[0], "unset", 6) == 0)
+			unset_new(args, p);
+		else
+			ft_execute(args);
 		exit(0);
-	else if (ft_strncmp(args[0], "pwd", 4) == 0)
-		pwd();
-	else if (ft_strncmp(args[0], "cd", 3) == 0)
-		cd(args);
-	else if (ft_strncmp(args[0], "export", 7) == 0)
-		export(args, p);
-	else if (ft_strncmp(args[0], "env", 4) == 0)
-		env(args, p);
-	else if (ft_strncmp(args[0], "unset", 6) == 0)
-		unset_new(args, p);
-	else 
-		ft_execute(args, p);
+	}
+	wait(&i);
+	if (WIFEXITED(i))
+		p->ret = WEXITSTATUS(i);
 }
 
-char 	**get_environment(void)
+char 	**get_environment(t_vars *p)
 {
 	int	i;
 	char **env1;
@@ -72,6 +83,7 @@ char 	**get_environment(void)
 	k = 0;
 	i = 0;
 	write(1, "\e[1;1H\e[2J", 11);
+	p->ret = 0;
 	while (environ[i])
 		i++;
 	env1 = malloc(sizeof(char *) * (i + 1));
@@ -101,7 +113,7 @@ int		main(int argc, char **argv)
 	t_vars	p;
 	t_dup	redir;
 
-	p.env1 = get_environment();
+	p.env1 = get_environment(&p);
 	status = 1;
 	(void)argc;
 	(void)argv;

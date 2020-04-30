@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 16:58:07 by Wester        ########   odam.nl         */
+/*   Updated: 2020/04/30 12:05:31 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ int				env(char **args, t_vars *p);
 char			**bubble_sort(char **arr);
 void			unset_new(char **args, t_vars *p);
 char			**split_quotes(char *str);
+void			ft_execute(char **args);
 
 //utils
 int				ft_strcmp_equal(char *str1, char *str2);
 char			*ft_strstrip(char *str, char c);
 int				get_next_line_q(int fd, char **line);
-void			ft_execute(char **args, t_vars *p);
+void			ft_putstr_fd_ret(char *str, int fd, t_vars *p);
+void			remove_case(char **args);
 
 #endif
