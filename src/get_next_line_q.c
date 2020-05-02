@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/29 14:54:20 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 12:28:13 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ int		get_next_line_q(int fd, char **line)
 	while (1)
 	{
 		ret = read(fd, buf, 1);
-		if (ret == -1)
-			return (-1);
-		*line = str_connect(line, buf[0]);
+		if (ret == -1 || (ret == 0 && (*line)[0] == 0))
+			return (ret);
+		if (ret != 0)
+			*line = str_connect(line, buf[0]);
 		if (!line)
 			return (-1);
 		if (buf[0] == '\n')

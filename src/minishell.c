@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/02 10:56:36 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 12:30:49 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,14 @@ int		main(int argc, char **argv)
 		args = (char**)NULL;
 		cmds = (char**)NULL;
 		ft_putstr_fd("peershell> ", 1);
-		status = get_next_line_q(0, &line);
 		signal(SIGINT, block_ctrl_c);
+		signal(SIGQUIT, block_ctrl_slash);
+		status = get_next_line_q(0, &line);
+		if (status == 0)
+		{
+			write(1, "logout\n", 7);
+			exit(0);
+		}
 		if (line)
 			cmds = ft_split(line, ';');
 		while (cmds[i])

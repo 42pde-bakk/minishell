@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 11:47:05 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 11:57:54 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ void	ft_putstr_fd_ret(char *str, int fd, t_vars *p)
 }
 
 void	block_ctrl_c(int sig)
+{
+	signal(sig, SIG_IGN);
+	kill(0, sig);
+}
+
+void	block_ctrl_slash(int sig)
 {
 	signal(sig, SIG_IGN);
 	kill(0, sig);

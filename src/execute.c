@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 11:46:47 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 11:59:21 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void        ft_execute(char **args, t_vars *p)
 		p->ret = WTERMSIG(i);
 		if (p->ret == 2)
 			p->ret = 130;
+		if (p->ret == 3)
+			p->ret = 131;
 	}
 }
