@@ -11,5 +11,6 @@ int     main(void)
         write(1, &str[i], 1);
         i++;
     }
+    while(1);
     return (42);
 }

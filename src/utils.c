@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/30 14:43:59 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 10:56:35 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	remove_case(char **args)
 			(*args)[i] += 32;
 		i++;
 	}
+	
 }
 
 void	ft_putstr_fd_ret(char *str, int fd, t_vars *p)
@@ -59,4 +60,10 @@ void	ft_putstr_fd_ret(char *str, int fd, t_vars *p)
 			i++;
 		}
 	}
+}
+
+void	block_ctrl_c(int sig)
+{
+	signal(sig, SIG_IGN);
+	kill(0, sig);
 }

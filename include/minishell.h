@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/30 15:35:09 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 10:01:07 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "libft.h"
 # include <errno.h>
 # include <sys/wait.h>
+# include <signal.h>
 extern int errno;
 
 extern char **environ;
@@ -28,6 +29,7 @@ typedef struct	s_vars
 {
 	char		**env1;
 	int			ret;
+	int			child_nr;
 }				t_vars;
 
 typedef struct	s_dup
@@ -63,5 +65,6 @@ char			*ft_strstrip(char *str, char c);
 int				get_next_line_q(int fd, char **line);
 void			ft_putstr_fd_ret(char *str, int fd, t_vars *p);
 void			remove_case(char **args);
+void			block_ctrl_c(int sig);
 
 #endif

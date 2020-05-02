@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/30 15:35:50 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 10:56:36 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		echo(char **args, t_vars *p)
 void	argcheck(char **args, t_vars *p)
 {
 	remove_case(&args[0]);
+	
 	// if (fork() == 0)
 	// {
 		if (args[0] == NULL)
@@ -113,6 +114,7 @@ int		main(int argc, char **argv)
 	t_vars	p;
 	t_dup	redir;
 
+	p.child_nr = 0;
 	p.env1 = get_environment(&p);
 	status = 1;
 	(void)argc;
@@ -124,13 +126,15 @@ int		main(int argc, char **argv)
 		cmds = (char**)NULL;
 		ft_putstr_fd("peershell> ", 1);
 		status = get_next_line_q(0, &line);
+		signal(SIGINT, block_ctrl_c);
 		if (line)
 			cmds = ft_split(line, ';');
 		while (cmds[i])
 		{
 			args = split_quotes(cmds[i]);
 			redirect(args, &redir);
-			argcheck(args, &p);
+			if (args[0])
+				argcheck(args, &p);
 			reset_redirect(&redir);
 			i++;
 		}
