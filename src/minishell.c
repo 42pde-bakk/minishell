@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/02 12:30:49 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/05 18:02:27 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,55 @@
 #include <errno.h>
 extern int errno;
 
-int		echo(char **args, t_vars *p)
+int		echo(char **args, t_vars *p, int fd)
 {
-	char	*new;
+	int i;
 
-	if (args[1] == NULL)
-		ft_putchar_fd('\n', 1);
-	else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
+	// if (args[1] == NULL)
+	// 	ft_putchar_fd('\n', 1);
+	// else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
+	// {
+	// 	// if (args[2][0] == '$' && args[2][1] != '?')
+	// 	// 	return (print_env_var(args[2], p, 1));
+	// 	new = ft_strstrip(args[i], '\"');
+	// 	ft_putstr_fd_ret(new, 1, p);
+	// 	free(new);
+	// }
+	i = 1;
+	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
+		i = 2;
+	while (args[i])
 	{
-		if (args[2][0] == '$' && args[2][1] != '?')
-			return (print_env_var(args[2], p, 1));
-		new = ft_strstrip(args[2], '\"');
-		ft_putstr_fd_ret(new, 1, p);
-		free(new);
+		// printf("arg[0]: %s\n", args[i]);
+		//print_echo(args[1]);
+		// if (args[1][0] == '$' && args[1][1] != '?')
+		// 	print_env_var(args[1], p, 1);
+		// else 
+		// {
+			write_instant(args[i], fd, p);
+			// new = ft_strstrip(new, '\"', p);
+			// ft_putstr_fd_ret(new, 1, p);
+			// free(new);
+		// }
+		i++;
+		if (args[i] != 0)
+			ft_putchar_fd(' ', fd);
 	}
-	else if (args[1])
-	{
-		if (args[1][0] == '$' && args[1][1] != '?')
-			print_env_var(args[1], p, 1);
-		else 
-		{
-			new = ft_strstrip(args[1], '\"');
-			ft_putstr_fd_ret(new, 1, p);
-			free(new);
-		}
-		ft_putchar_fd('\n', 1);
-	}
+	if (args[1] && ft_strncmp(args[1], "-n", 3) != 0)
+		ft_putchar_fd('\n', fd);
 	return (0);
 }
 
 void	argcheck(char **args, t_vars *p)
 {
 	remove_case(&args[0]);
-	
+	printf("arg: %s-", args[0]);
 	// if (fork() == 0)
 	// {
 		if (args[0] == NULL)
 			return ;
 		else if (ft_strncmp(args[0], "echo", 5) == 0)
-			p->ret = echo(args, p);
+			p->ret = echo(args, p, 1);
 		else if (ft_strncmp(args[0], "exit", 5) == 0)
 			exit(0);
 		else if (ft_strncmp(args[0], "pwd", 4) == 0)
@@ -133,7 +143,7 @@ int		main(int argc, char **argv)
 			write(1, "logout\n", 7);
 			exit(0);
 		}
-		if (line)
+		if (line) 
 			cmds = ft_split(line, ';');
 		while (cmds[i])
 		{

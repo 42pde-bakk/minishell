@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 11:57:54 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/02 15:14:02 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,22 @@ void	remove_case(char **args)
 			(*args)[i] += 32;
 		i++;
 	}
-	
+}
+
+int		check_single_quote(char *str, int i)
+{
+	int ret;
+
+	ret = 0;
+	printf("i: %d\n", i);
+	while (i >= 0)
+	{
+		if (str[i] == '\'')
+			ret++;
+		i--;
+	}
+	printf("ret: %d\n", ret);
+	return (ret % 2);
 }
 
 void	ft_putstr_fd_ret(char *str, int fd, t_vars *p)

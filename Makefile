@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/04/30 14:09:18 by Wester        ########   odam.nl          #
+#    Updated: 2020/05/05 15:23:21 by Wester        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC = 	minishell.c \
 		get_next_line_q.c \
 		ft_strstrip.c \
 		execute.c \
-		print_env_var.c
+		print_env_var.c \
+		write_instant.c
 		
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))

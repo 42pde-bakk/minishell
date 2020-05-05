@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/30 13:41:35 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/30 15:35:33 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/05 15:21:45 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,38 @@
 // 	}
 // }
 
-int		print_env_var(char *args, t_vars *p, int fd)
+/* int		check_end_path(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return 0;
+	if (c == 95)
+		return 0;
+	return (1);
+} */
+
+/* int		print_env_var(char *args, t_vars *p, int fd, int i)
 {
 	int k;
-	int i;
+	int l;
 
+	l = 0;
 	k = 0;
-	i = 0;
 	while (p->env1[k])
 	{
-		while (p->env1[k][i] == args[i + 1] && p->env1[k][i])
-			i++;
-		if (p->env1[k][i] == '=' && args[i + 1] == 0)
+		while (p->env1[k][l] == args[i + 1 + l] && p->env1[k][l])
+			l++;
+		if (p->env1[k][l] == '=' && check_end_path(args[i + 1 + l]))
 		{
-			i++;
-			while (p->env1[k][i])
+			l++;
+			while (p->env1[k][l])
 			{
-				write(fd, &p->env1[k][i], 1);
-				i++;
+				write(fd, &p->env1[k][l], 1);
+				l++;
 			}
 			return (0);
 		}
-		i = 0;
+		l = 0;
 		k++;
 	}
 	return (0);
-}
+} */
