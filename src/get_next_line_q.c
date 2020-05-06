@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 12:28:13 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/06 13:18:30 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,25 @@ int		check_line(char *line)
 	return (0);
 }
 
+char	*cut_line_break(char **line)
+{
+	char *new;
+	int i;
+
+	i = 0;
+	new = malloc(ft_strlen(*line));
+	if (new == NULL)
+		return (NULL);
+	while ((*line)[i] != '\n')
+	{
+		new[i] = (*line)[i];
+		i++;
+	}
+	new[i] = 0;
+	free(*line);
+	return (new);	
+}
+
 int		get_next_line_q(int fd, char **line)
 {
 	char	buf[1];
@@ -83,6 +102,11 @@ int		get_next_line_q(int fd, char **line)
 			return (-1);
 		if (buf[0] == '\n')
 			if (check_line(*line))
+			{
+				// *line = cut_line_break(line);
+				// if (!line)
+					// return (-1);
 				return (1);
+			}
 	}
 }

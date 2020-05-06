@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/05 15:22:57 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/06 13:14:46 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				export(char **args, t_vars *p);
 int				env(char **args, t_vars *p);
 char			**bubble_sort(char **arr);
 int				unset_new(char **args, t_vars *p);
-char			**split_quotes(char *str);
+char			**split_quotes2(char *str);
 void			ft_execute(char **args, t_vars *p);
 int				print_env_var(char *args, t_vars *p, int fd);
 void    		write_instant(char *str, int fd, t_vars *p);
