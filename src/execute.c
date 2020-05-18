@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 11:59:21 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/18 17:55:49 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,24 @@ void        ft_execute(char **args, t_vars *p)
 	if (fork() == 0)
 	{
 		test = execve(args[0], args, NULL);
-		// printf("test: %d\n", test);
+		p->is_child = 0;
 		exit(127);
 	}
 	wait(&i);
-	// printf("test - i: %d\n", i);
-	// p->child_nr = i;
 	if (WIFEXITED(i))
 		p->ret = WEXITSTATUS(i);
 	if (WIFSIGNALED(i))
 	{
 		p->ret = WTERMSIG(i);
 		if (p->ret == 2)
+		{
 			p->ret = 130;
+			p->is_child = 1;
+		}
 		if (p->ret == 3)
+		{
 			p->ret = 131;
+			p->is_child = 2;
+		}
 	}
 }

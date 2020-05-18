@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/02 15:14:02 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/18 18:26:03 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,83 @@ void	ft_putstr_fd_ret(char *str, int fd, t_vars *p)
 	}
 }
 
-void	block_ctrl_c(int sig)
+void		block_ctrl_c(int sig)
 {
-	signal(sig, SIG_IGN);
-	kill(0, sig);
+	//signal(sig, SIG_IGN);
+	//kill(0, sig);
+	ft_putstr_fd("\nminishell> ", 1);
+	sig = 0;
+	// exit(0);
 }
 
 void	block_ctrl_slash(int sig)
 {
-	signal(sig, SIG_IGN);
-	kill(0, sig);
+	// signal(sig, SIG_IGN);
+	//kill(0, sig);
+	sig = 0;
+	// ft_putstr_fd("Quit: 3\n", 1);
+}
+
+void	ft_putstr_fd_1(char *s, int fd)
+{
+	int i;
+	int once;
+
+	once = 0;
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		if (s[i] == '=' && once == 0)
+		{
+			once = 1;
+			write(fd, "\"", 1);
+		}
+		i++;
+	}
+	if (once == 1)
+		write(fd, "\"", 1);
+}
+
+int		find_equal(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strjoin_free(char *s1, char const *s2)
+{
+	int		i;
+	int		n;
+	char	*join;
+
+	i = 0;
+	n = 0;
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	join = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (join == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	while (s2[n])
+	{
+		join[i] = s2[n];
+		i++;
+		n++;
+	}
+	join[i] = '\0';
+	free(s1);
+	return (join);
 }

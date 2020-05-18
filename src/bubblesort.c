@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 16:24:27 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 22:41:34 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/15 20:01:35 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char    **make_cpy(char **env1)
     return (arr);
 }
 
-char    **bubble_sort(char **env1)
+int    bubble_sort(char **env1)
 {
     int i;
     char **arr;
@@ -88,6 +88,19 @@ char    **bubble_sort(char **env1)
         else 
             i++;
     }
-    return (arr);
+    i = 0;
+    while (arr[i])
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd_1(arr[i], 1);
+		ft_putchar_fd('\n', 1);
+		i++;
+	}
+	while (i > 0)
+	{
+		free(arr[i - 1]);
+		i--;
+	}
+	free(arr);
+    return (0);
 }
-

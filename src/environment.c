@@ -12,92 +12,30 @@
 
 #include "minishell.h"
 
-int		print_export(char **args, t_vars *p)
+int		check_valid_export(char *str)
 {
-	int		i;
-	char	**arr;
+	int i;
 
 	i = 0;
-	(void)args;
-	arr = bubble_sort(p->env1);
-	while (arr[i])
+	if (!(ft_isalpha(str[0]) || str[0] == '_'))
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(arr[i], 1);
-		ft_putchar_fd('\n', 1);
-		i++;
+		ft_putstr_fd("-bash: export: `", 1);
+		ft_putstr_fd(str, 1);
+		ft_putstr_fd("': not a valid identifier", 1);
+		write(1, "\n", 1);
+		return (1);
 	}
-	return (0);
-}
-
-int		export(char **args, t_vars *p)
-{
-	int		i;
-	char	**var;
-	char	*inc;
-	int		found;
-	char	**env2;
-	int		k;
-
-	if (!args[1])
-		return (print_export(args, p));
-	var = ft_split(args[1], '=');
-	inc = ft_strjoin(var[0], "=");
-	if (!inc)
-		exit(0);
-	i = 0;
-	k = 0;
-	found = 0;
-	while (p->env1[i])
+	while (str[i])
 	{
-		if (ft_strncmp(p->env1[i], inc, ft_strlen(inc)) == 0)
+		if (!ft_isalpha(str[i]) && str[i] != '_' && !ft_isdigit(str[i]))
 		{
-			// printf("env[%d]=%s, inc=%s, strlen=%ld\n", i, p->env1[i], inc, ft_strlen(inc));
-			// printf("found the same\n");
-			found = 1;
-			p->env1[i] = ft_strjoin(inc, var[1]);
-		}
+			ft_putstr_fd("-bash: export: `", 1);
+			ft_putstr_fd(str, 1);
+			ft_putstr_fd("': not a valid identifier", 1);
+			write(1, "\n", 1);
+			return (1);
+		}	
 		i++;
-	}
-	if (found == 0)
-	{
-		// printf("found=0\n");
-		env2 = malloc(sizeof(char*) * (i + 2));
-		i = 0;
-		while (p->env1[i])
-		{
-			env2[i] = malloc(ft_strlen(p->env1[i]) + 1);
-			while (p->env1[i][k])
-			{
-				env2[i][k] = p->env1[i][k];
-				k++;
-			}
-			env2[i][k] = 0;
-			k = 0; 
-			i++;
-		}
-		if (var[1] == NULL)
-		{
-			env2[i] = inc;
-			// printf("i=%d, inc=%s\n", i, inc);
-		}
-		else
-		{
-			env2[i] = ft_strjoin(inc, var[1]);
-			// printf("env2[%d]=%s\n", i, env2[i]);
-		}
-		env2[i + 1] = 0;
-		i = 0;
-		while (p->env1[i])
-		{
-			//printf("free: environ[%d]=%s\n", i, p->env1[i]);
-			free(p->env1[i]);
-			//p->env1[i] = env2[i];
-			i++;
-		}
-		//printf("freeing environ!\n");
-		free(p->env1);
-		p->env1 = env2;
 	}
 	return (0);
 }
@@ -110,9 +48,104 @@ int		env(char **args, t_vars *p)
 	(void)args;
 	while (p->env1[i])
 	{
-		ft_putstr_fd(p->env1[i], 1);
-		ft_putchar_fd('\n', 1);
+		if (find_equal(p->env1[i]))
+		{
+			ft_putstr_fd(p->env1[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
 		i++;
 	}
+	return (0);
+}
+
+char	*fill_var_one(char *str)
+{
+	int i;
+	char *temp;
+
+	i = 0;
+	while (str[i] != 0 && str[i] != '=')
+		i++;
+	temp = malloc(i + 1);
+	if (temp == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		temp[i] = str[i];
+		i++;
+	}
+	temp[i] = 0;
+	return (temp);
+}
+
+char	*fill_var_two(char *str, char **var)
+{
+	int i;
+	int k;
+	char *temp;
+
+	i = 0;
+	k = 0;
+	while (str[i] != '=' && str[i] != 0)
+		i++;
+	if (!str[i])
+		return (NULL);
+	temp = malloc(ft_strlen(str) - i);
+	if (temp == NULL)
+	{
+		free(var[0]);
+		free(var);
+		return (NULL);
+	}
+	while (str[k + 1 + i])
+	{
+		temp[k] = str[k + 1 + i];
+		k++;
+	}
+	temp[k] = 0;
+	return (temp);
+}
+
+char	**ft_split_equal(char *str)
+{
+	char 	**var;
+	int 	i;
+	int		j;
+	int 	k;
+
+	k = 0;
+	j = 0;
+	i = 0;
+	var = malloc(sizeof(char *) * 2);
+	if (var == NULL)
+		return (NULL);
+	var[0] = fill_var_one(str);
+	if (var[0] == NULL)
+	{
+		free(var);
+		return (NULL);
+	}
+	var[1] = fill_var_two(str, var);
+	if (var[0] == NULL)
+		return (NULL);
+	return (var);
+}
+
+int		find_match(char *env, char *new)
+{
+	int i;
+
+	i = 0;
+	if (!env || !new)
+		return (0);
+	while (new[i] == env[i] && new[i] && env[i])
+	{
+		if (new[i] != env[i])
+			return (0);
+		i++;
+	}
+	if (new[i] == 0 && (env[i] == 0 || env[i] == '='))
+		return (1);
 	return (0);
 }

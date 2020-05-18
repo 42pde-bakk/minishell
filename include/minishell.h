@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/06 13:14:46 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/18 15:50:14 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct	s_vars
 {
 	char		**env1;
 	int			ret;
-	int			child_nr;
+	//int			child_nr;
+	int			is_child;
 }				t_vars;
 
 typedef struct	s_dup
@@ -51,14 +52,15 @@ void			reset_redirect(t_dup *redir);
 
 void			argcheck(char **args, t_vars *p);
 
-int				export(char **args, t_vars *p);
+
 int				env(char **args, t_vars *p);
-char			**bubble_sort(char **arr);
+int				bubble_sort(char **arr);
 int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
 void			ft_execute(char **args, t_vars *p);
 int				print_env_var(char *args, t_vars *p, int fd);
 void    		write_instant(char *str, int fd, t_vars *p);
+int				main(void);
 
 //utils
 int				ft_strcmp_equal(char *str1, char *str2);
@@ -68,5 +70,14 @@ void			ft_putstr_fd_ret(char *str, int fd, t_vars *p);
 void			remove_case(char **args);
 void			block_ctrl_c(int sig);
 void			block_ctrl_slash(int sig);
+void			ft_putstr_fd_1(char *s, int fd);
+int				find_equal(char *str);
+char			*ft_strjoin_free(char *s1, char const *s2);
+//export
+int				check_valid_export(char *str);
+int				export(char **args, t_vars *p);
+char			**ft_split_equal(char *str);
+int				find_match(char *env, char *new);
+
 
 #endif

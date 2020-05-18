@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/06 13:18:30 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/18 19:21:26 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int		get_next_line_q(int fd, char **line)
 	while (1)
 	{
 		ret = read(fd, buf, 1);
+		// printf("line: %s\n", *line);
 		if (ret == -1 || (ret == 0 && (*line)[0] == 0))
 			return (ret);
 		if (ret != 0)
@@ -102,11 +103,11 @@ int		get_next_line_q(int fd, char **line)
 			return (-1);
 		if (buf[0] == '\n')
 			if (check_line(*line))
-			{
-				// *line = cut_line_break(line);
-				// if (!line)
-					// return (-1);
 				return (1);
-			}
+		if (ft_strlen(*line) > 1)
+		{
+			if ((*line)[ft_strlen(*line) - 2] == '^' && (*line)[ft_strlen(*line) - 1] == 'C')
+				return (1);
+		}
 	}
 }
