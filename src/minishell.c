@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/18 19:18:15 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/27 13:38:48 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int		main(void)
 	{
 		i = 0;
 		args = (char**)NULL;
-		cmds = (char**)NULL;
+	 	cmds = (char**)NULL;
 		if (p.is_child == 2)
 			ft_putstr_fd("Quit: 3\nminishell> ", 1);
 		if (p.is_child == 1 || p.is_child == 2)
@@ -197,10 +197,8 @@ int		main(void)
 				free(cmds[i]);
 			i--;
 		}
-		if (cmds)
-			free(cmds);
-		if (line)
-			free(line);
+		free(cmds);
+		free(line);
 	}
 	return (0);
 }

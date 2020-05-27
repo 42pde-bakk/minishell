@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/18 15:50:14 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/27 13:14:51 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <limits.h>
 extern int errno;
 
 extern char **environ;
@@ -64,7 +65,7 @@ int				main(void);
 
 //utils
 int				ft_strcmp_equal(char *str1, char *str2);
-char			*ft_strstrip(char *str, char c, t_vars *p);
+char			*ft_strstrip(char *str, char c);
 int				get_next_line_q(int fd, char **line);
 void			ft_putstr_fd_ret(char *str, int fd, t_vars *p);
 void			remove_case(char **args);
@@ -78,6 +79,7 @@ int				check_valid_export(char *str);
 int				export(char **args, t_vars *p);
 char			**ft_split_equal(char *str);
 int				find_match(char *env, char *new);
+void			free_var(char **var, int *s);
 
 
 #endif

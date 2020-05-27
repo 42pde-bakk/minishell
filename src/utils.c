@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/18 18:26:03 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/26 15:49:53 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		ft_strcmp_equal(char *str1, char *str2)
 			return (0);
 		i++;
 	}
-	if (str1[i] == '=')
+	if ((str1[i] == '=' && str2[i] == 0) || (str1[i] == 0 && str2[i] == 0))
 		return (1);
 	return (0);
 }

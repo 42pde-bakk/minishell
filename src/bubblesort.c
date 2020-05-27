@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 16:24:27 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/15 20:01:35 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/27 13:36:47 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char    **make_cpy(char **env1)
             arr[i][k] = env1[i][k];
             k++;
         }
+        arr[i][k] = 0;
         k = 0;
         i++;
     }

@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/18 17:55:49 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/26 13:32:33 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,25 @@ char        *remove_start(char **args)
 	return (str);
 }
 
+void		remove_quotes(char **args)
+{
+	int i;
+	
+	i = 0;
+	while (args[i])
+	{
+		args[i] = ft_strstrip(args[i], '\"');
+		i++;
+	}
+}
+
 void        ft_execute(char **args, t_vars *p)
 {
 	int i;
 	int test;
 
 	i = 0;
+	remove_quotes(args);
 	args[0] = remove_start(args);
 	if (fork() == 0)
 	{

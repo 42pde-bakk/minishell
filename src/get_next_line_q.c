@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/18 19:21:26 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/26 15:47:29 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		get_next_line_q(int fd, char **line)
 	int		ret;
 
 	*line = malloc(1);
-	if (!*line)
+	if (!(*line))
 		return (-1);
 	(*line)[0] = 0;
 	while (1)
@@ -99,7 +99,7 @@ int		get_next_line_q(int fd, char **line)
 			return (ret);
 		if (ret != 0)
 			*line = str_connect(line, buf[0]);
-		if (!line)
+		if (!(*line))
 			return (-1);
 		if (buf[0] == '\n')
 			if (check_line(*line))

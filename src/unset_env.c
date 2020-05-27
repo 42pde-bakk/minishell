@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 15:43:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/04/30 15:34:09 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/20 15:36:52 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ void            make_smaller_array(int found, int total_size, t_vars *p)
 		{
 			arr[i2] = malloc(ft_strlen(p->env1[i]) + 1);
 			if (!arr[i2])
-				exit(0);
+				exit(0); // malloc fail
+			printf("in: %s$\n", p->env1[i]);
 			while (p->env1[i][k])
 			{
 				arr[i2][k] = p->env1[i][k];
 				k++;
 			}
+			arr[i2][k] = 0;
+			printf("ot: %s$\n", arr[i2]);
 			k = 0;
 			i2++;
 		}
@@ -57,31 +60,39 @@ void            make_smaller_array(int found, int total_size, t_vars *p)
 	}
 	arr[i2] = 0;
 	free_old_arr(p);
+	i = 0;
+	while (arr[i])
+	{
+		p->env1[i] = arr[i];
+		i++;
+	}
+	p->env1[i] = 0;
 	p->env1 = arr;
 }
 
 int            unset_new(char **args, t_vars *p)
 {
-	char    **var;
 	int     i;
 	int		found;
+	int 	k;
 
-	i = 0;
-	found = -1;
+	k = 1;
 	if (!args[1])
-		return (1);
-	var = ft_split(args[1], '=');
-	if (!var)
-		exit(0);
-	while (p->env1[i])
+		return (0);
+	while (args[k])
 	{
-		if (ft_strcmp_equal(p->env1[i], var[0]))
-			found = i;
-		i++;
+		i = 0;
+		found = -1;
+		check_valid_export(args[k]);
+		while (p->env1[i])
+		{
+			if (ft_strcmp_equal(p->env1[i], args[k]))
+				found = i;
+			i++;
+		}
+		if (found >= 0)
+			make_smaller_array(found, i, p);
+		k++;
 	}
-	if (found >= 0)
-		make_smaller_array(found, i, p);
 	return (0);
-	//printf("%s\n", var[0]);
-	//printf("found: %d\n", found);
 }
