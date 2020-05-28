@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/03 17:57:26 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/15 12:49:46 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/28 13:39:16 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	create_two_spaces(char **str)
 		i++;
 	}
 	new[i + 2] = 0;
-	//free(*str);
+	// free(*str); //
 	*str = new;
 }
 
@@ -86,7 +86,7 @@ void	found_env_var(char *str, int *i, int fd, t_vars *p)
 void	double_quote(char *str, int *i, int fd, t_vars *p)
 {
 	(*i)++;
-	while (str[*i] != '\"')
+	while (!(str[*i] == '\"' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\'))))
 	{
  		if (str[*i] == '$' && is_alpha_num(str[*i + 1]) && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
 		{
@@ -99,8 +99,11 @@ void	double_quote(char *str, int *i, int fd, t_vars *p)
 				(*i)++;
 		}
 		else
-		{ 
-			write(fd, &str[*i], 1);
+		{
+			// if (*i < 10)
+				// printf("char : %c-- %d\n", str[*i], *i);
+			if (!(str[*i] == '\\' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\'))))
+				write(fd, &str[*i], 1);
 			(*i)++;
 		}
 	}
@@ -111,7 +114,9 @@ void    write_instant(char *str, int fd, t_vars *p)
 	int i;
 
 	i = 2;
+	// printf("line1: %s\n", str);
 	create_two_spaces(&str);
+	// printf("line2: %s\n", str);
 	// printf("\nstr: %s -- i: %d -- strlen_i %zu\n", str, i, ft_strlen(str));
 	while (str[i])
 	{
@@ -140,5 +145,6 @@ void    write_instant(char *str, int fd, t_vars *p)
 			i++;
 		// write(1, "-", 1);
 	}
+	// printf("line3: %s\n", str);
 	free(str);
 }

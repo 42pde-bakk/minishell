@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/27 13:14:51 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/27 15:13:57 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include <limits.h>
+# include <errno.h>
 extern int errno;
 
 extern char **environ;
@@ -74,6 +74,8 @@ void			block_ctrl_slash(int sig);
 void			ft_putstr_fd_1(char *s, int fd);
 int				find_equal(char *str);
 char			*ft_strjoin_free(char *s1, char const *s2);
+void			create_two_spaces(char **str);
+
 //export
 int				check_valid_export(char *str);
 int				export(char **args, t_vars *p);
@@ -81,5 +83,8 @@ char			**ft_split_equal(char *str);
 int				find_match(char *env, char *new);
 void			free_var(char **var, int *s);
 
+//free_functions
+void			free_args(char **args);
+void			free_line_cmds(char **cmds, char *line, int i);
 
 #endif

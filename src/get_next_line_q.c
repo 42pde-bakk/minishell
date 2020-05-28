@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/26 15:47:29 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/28 13:41:13 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ int		check_line(char *line)
 
 	single_quote = 0;
 	quote = 0;
-	i = 0;
+	create_two_spaces(&line);
+	i = 2;
 	while (line[i])
 	{
 		if (i > 0)
 		{
-			if (line[i] == '\"' && line[i - 1] != '\\' && single_quote % 2 == 0)
+			if (line[i] == '\"' && single_quote % 2 == 0 && (line[i - 1] != '\\' || (line[i - 1] == '\\' && line[i - 2] == '\\')))
 				quote++;
-			else if (line[i] == '\'' && line[i - 1] != '\\' && quote % 2 == 0)
+			else if (line[i] == '\'' && quote % 2 == 0 && (line[i - 1] != '\\' || single_quote == 1))
 				single_quote++;
 		}
 		else if (line[i] == '\"' && single_quote % 2 == 0)
@@ -55,11 +56,15 @@ int		check_line(char *line)
 		else if (line[i] == '\'' && quote % 2 == 0)
 			single_quote++;
 		if (quote % 2 == 0 && single_quote % 2 == 0 && line[i] == '\n')
+		{
+			free(line);
 			return (1);
+		}
 		if (line[i] == '\n' && line[i + 1] == 0)
 			ft_putstr_fd("> ", 1);
 		i++;
 	}
+	free(line);
 	return (0);
 }
 

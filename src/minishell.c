@@ -6,12 +6,11 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/27 13:38:48 by Wester        ########   odam.nl         */
+/*   Updated: 2020/05/28 13:41:39 by Wester        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
 extern int errno;
 
 int		echo(char **args, t_vars *p, int fd)
@@ -127,19 +126,6 @@ char 	**get_environment(t_vars *p)
 	return (env1);
 }
 
-void	free_args(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}
-
 int		main(void)
 {
 	int		status;
@@ -177,10 +163,12 @@ int		main(void)
 			write(1, "logout\n", 7);
 			exit(0);
 		}
-		if (line) 
+		if (line)
 			cmds = ft_split(line, ';');
+		// printf("line: %s\n", line);
 		while (cmds[i])
 		{
+			// printf("line(0): %s\n", line);
 			args = split_quotes2(cmds[i]);
 			redirect(args, &redir);
 			if (args[0])
@@ -191,14 +179,7 @@ int		main(void)
 			reset_redirect(&redir);
 			i++;
 		}
-		while (i >= 0)
-		{
-			if (cmds[i])
-				free(cmds[i]);
-			i--;
-		}
-		free(cmds);
-		free(line);
+		free_line_cmds(cmds, line, i);
 	}
 	return (0);
 }
