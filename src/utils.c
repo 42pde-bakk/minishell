@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/26 15:49:53 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/02 13:03:30 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,37 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 		join[i] = s1[i];
 		i++;
 	}
+	while (s2[n])
+	{
+		join[i] = s2[n];
+		i++;
+		n++;
+	}
+	join[i] = '\0';
+	free(s1);
+	return (join);
+}
+
+char	*ft_strjoin_free_slash(char *s1, char const *s2)
+{
+	int		i;
+	int		n;
+	char	*join;
+
+	i = 0;
+	n = 0;
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	join = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
+	if (join == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	join[i] = '/';
+	i++;
 	while (s2[n])
 	{
 		join[i] = s2[n];

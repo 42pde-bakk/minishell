@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/27 15:13:57 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/02 15:43:20 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct	s_vars
 {
 	char		**env1;
 	int			ret;
-	//int			child_nr;
 	int			is_child;
+	char		**paths;
 }				t_vars;
 
 typedef struct	s_dup
@@ -75,6 +75,7 @@ void			ft_putstr_fd_1(char *s, int fd);
 int				find_equal(char *str);
 char			*ft_strjoin_free(char *s1, char const *s2);
 void			create_two_spaces(char **str);
+char			*ft_strjoin_free_slash(char *s1, char const *s2);
 
 //export
 int				check_valid_export(char *str);

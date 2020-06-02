@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/30 16:19:45 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/02 15:52:23 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		cd(char **args)
 	char	*new;
 	int i;
 
+	if (!args[1])
+		return (0);
 	if (args[1][0] == '~')
 	{
 		new = args[1];

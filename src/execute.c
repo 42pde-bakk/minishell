@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/26 13:32:33 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/02 16:41:56 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,60 @@ void		remove_quotes(char **args)
 	}
 }
 
+void		fill_paths(char *str, char *args, int k, t_vars *p)
+{
+	int i;
+	
+	i = 0;
+	p->paths = ft_split(str + k, ':');
+	while (p->paths[i])
+	{
+		p->paths[i] = ft_strjoin_free_slash(p->paths[i], args);
+		i++;
+	}
+}
+
+void		get_paths(char *args, t_vars *p)
+{
+	int i;
+	int k;
+	
+	k = 0;
+	i = 0;
+	while (p->env1[i])
+	{
+		if (ft_strcmp_equal(p->env1[i], "PATH"))
+		{
+			while (p->env1[i][k] && p->env1[i][k - 1] != '=')
+				k++;
+			if (p->env1[i][k])
+				fill_paths(p->env1[i], args, k, p);
+			break ;
+		}
+		i++;
+	}
+}
+
 void        ft_execute(char **args, t_vars *p)
 {
 	int i;
-	int test;
+	int k;
+	//int test; // wordt niet gebruikt: nog niet..
 
+	k = 0;
 	i = 0;
 	remove_quotes(args);
 	args[0] = remove_start(args);
 	if (fork() == 0)
 	{
-		test = execve(args[0], args, NULL);
+		execve(args[0], args, NULL); // test = ...
+		get_paths(args[0], p);
+		while (p->paths[k])
+		{
+			execve(p->paths[k], args, NULL);
+			k++;
+		}
+		free_args(p->paths);
 		p->is_child = 0;
 		exit(127);
 	}
