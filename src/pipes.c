@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 18:32:11 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/03 21:16:50 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/ioctl.h>
 
 int	getpipes(char **args)
 {
@@ -45,11 +46,13 @@ char	**getchildargs(char **args)
 			childstart = i + 1;
 		i++;
 	}
-	childargs = malloc(sizeof(char**) * i - childstart + 2);
+	childargs = malloc(sizeof(char*) * i - childstart + 2);
 	i = 0;
-	while (args[childstart])
+	while (args[childstart + i])
 	{
+		childargs[i] = malloc(sizeof(char) * ft_strlen(args[i + childstart] + 1));
 		childargs[i] = ft_strdup(args[i + childstart]);
+		dprintf(2, "childargs[%i]: %s\n", i, childargs[i]);
 		i++;
 	}
 	return (childargs);
@@ -85,6 +88,9 @@ int	minipipe(char **args, t_vars *p)
 	int		childpid;
 	char	**childargs;
 
+	(void)p;
+	(void)args;
+	(void)childargs;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe failed");
@@ -99,24 +105,32 @@ int	minipipe(char **args, t_vars *p)
 	}
 	else if (childpid == 0) //Child process
 	{
-		dup2(fd[0], 0);
+        // child side
+        // close write side. don't need it.
+		char buf[20];
+		read(fd[0], buf, 19);
+		char buf2[20];
+		read(fd[1], buf2, 19);
+		fprintf(stderr, "fd[0]: %s\nfd[1]: %s\n", buf, buf2);
+        close(fd[1]);
+
 		childargs = getchildargs(args);
 		argcheck(childargs, p);
+		close(fd[0]);
 		freechildargs(childargs);
-    //   read(fd[0], readmessage, sizeof(readmessage));
-    //   printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-    //   read(fd[0], readmessage, sizeof(readmessage));
-    //   printf("Child Process - Reading from pipe – Message 2 is %s\n", readmessage);
-   } else { //Parent process
-		int	stdoutbak = dup(1);
-		dup2(fd[1], 1);
-		wait(NULL);
+		fprintf(stdout, "Child: shutting down.\n");	
+	}
+	else
+	{
+		// close read size. don't need it.
+        close(fd[0]);
+		int backup = dup(1);
+		dup2(fd[1], 1); //now all my args will write to fd[1] instead ouf stdout
+
+        sleep(5); // simulate process wait
 		argcheck(args, p);
-		dup2(stdoutbak, 1);
-    //   printf("Parent Process - Writing to pipe - Message 1 is %s\n", writemessages[0]);
-    //   write(fd[1], writemessages[0], sizeof(writemessages[0]));
-    //   printf("Parent Process - Writing to pipe - Message 2 is %s\n", writemessages[1]);
-    //   write(fd[1], writemessages[1], sizeof(writemessages[1]));
+		dup2(backup, 1); //resetting stdout stream
+        close(fd[1]);
 	}
 	return (1);
 }
