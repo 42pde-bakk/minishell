@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/02 15:43:20 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 13:31:22 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char			**split_quotes2(char *str);
 void			ft_execute(char **args, t_vars *p);
 int				print_env_var(char *args, t_vars *p, int fd);
 void    		write_instant(char *str, int fd, t_vars *p);
+char			**ft_split_q(char *s, char c);
 int				main(void);
 
 //utils
@@ -76,6 +77,7 @@ int				find_equal(char *str);
 char			*ft_strjoin_free(char *s1, char const *s2);
 void			create_two_spaces(char **str);
 char			*ft_strjoin_free_slash(char *s1, char const *s2);
+void			find_char(char *str, int *i, char d);
 
 //export
 int				check_valid_export(char *str);

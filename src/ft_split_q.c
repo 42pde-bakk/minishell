@@ -1,0 +1,130 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_split_q.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2019/11/03 15:55:21 by pde-bakk      #+#    #+#                 */
+/*   Updated: 2020/06/03 13:31:57 by wbarendr      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static int		ft_countwords(char *s, char c)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (c == '\0')
+		return (1);
+	while (s[i] && s[i] != 10)
+	{
+		while (s[i] == c)
+			i++;
+		if (s[i] != 10 && s[i] != c && s[i] != 10)
+		{
+			count++;
+			while ((s[i]) && (s[i] != c) && s[i] != 10)
+			{
+				if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+					find_char(s, &i, '\'');
+				if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+					find_char(s, &i, '\"');
+				i++;
+			}
+		}
+	}
+	// printf("count: %d\n", count);
+	return (count);
+}
+
+static int		ft_wordlength(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while ((s[i]) && (s[i] != c))
+	{
+		if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+			find_char(s, &i, '\'');
+		if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+			find_char(s, &i, '\"');
+		i++;
+	}
+	return (i);
+}
+
+static void		*ft_free_array(char **arr)
+{
+	unsigned int i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	return (NULL);
+}
+
+static char		*ft_mallocword(char *s, char c)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (s[i] && s[i] != c && s[i] != 10)
+	{
+		if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+			find_char(s, &i, '\'');
+		if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && s[i - 2] == '\\')))
+			find_char(s, &i, '\"');
+		i++;
+	}
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (word == NULL)
+		return (NULL);
+	word[i] = '\0';
+	while (i > 0)
+	{
+		i--;
+		word[i] = s[i];
+	}
+	return (word);
+}
+
+char			**ft_split_q(char *s, char c)
+{
+	int		i;
+	int		n;
+	char	**arr;
+
+	if (s == 0)
+		return (0);
+	i = 0;
+	n = 0;
+	arr = malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
+	if (arr == NULL)
+		return (NULL);
+	while (s[i] && s[i] != 10)
+	{
+		if (s[i] != c)
+		{
+			arr[n] = ft_mallocword(s + i, c);
+			if (arr[n] == NULL)
+				return (ft_free_array(arr));
+			i = i + ft_wordlength(s + i, c);
+			n++;
+		}
+		while (s[i] == c)
+			i++;
+	}
+	// printf("n: %d\n", n);
+	arr[n] = 0;
+	return (arr);
+}

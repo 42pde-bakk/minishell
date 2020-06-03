@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/05/27 14:00:23 by Wester        ########   odam.nl          #
+#    Updated: 2020/06/02 18:09:58 by wbarendr      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ SRC = 	minishell.c \
 		execute.c \
 		write_instant.c \
 		export.c \
-		free_functions.c
-		
+		free_functions.c \
+		ft_split_q.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))

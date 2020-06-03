@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/02 13:03:30 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 11:46:40 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int		check_single_quote(char *str, int i)
 	int ret;
 
 	ret = 0;
-	printf("i: %d\n", i);
+	// printf("i: %d\n", i);
 	while (i >= 0)
 	{
 		if (str[i] == '\'')
 			ret++;
 		i--;
 	}
-	printf("ret: %d\n", ret);
+	// printf("ret: %d\n", ret);
 	return (ret % 2);
 }
 
@@ -187,4 +187,11 @@ char	*ft_strjoin_free_slash(char *s1, char const *s2)
 	join[i] = '\0';
 	free(s1);
 	return (join);
+}
+
+void	find_char1(const char *str, int *i, char c)
+{
+	(*i)++;
+	while (str[*i] && str[*i] != c)
+		(*i)++;
 }

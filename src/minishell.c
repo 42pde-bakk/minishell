@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/05/28 13:41:39 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 13:16:37 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,11 @@ int		main(void)
 			exit(0);
 		}
 		if (line)
-			cmds = ft_split(line, ';');
+			cmds = ft_split_q(line, ';');
 		// printf("line: %s\n", line);
 		while (cmds[i])
 		{
-			// printf("line(0): %s\n", line);
+			// printf("cmds: %s\n", cmds[i]);
 			args = split_quotes2(cmds[i]);
 			redirect(args, &redir);
 			if (args[0])

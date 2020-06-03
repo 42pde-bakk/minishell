@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/27 13:56:51 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/27 13:59:56 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 13:17:24 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_args(char **args)
 	i = 0;
 	while (args[i])
 	{
+		// printf("args: %s\n", args[i]);
 		free(args[i]);
 		i++;
 	}

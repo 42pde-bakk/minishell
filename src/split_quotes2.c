@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/06 10:30:06 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/28 13:42:16 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 13:12:10 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int			ft_words(char *str, char c, char e, int i)
 		words++;
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == c && (str[i - 1] != '\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
 			find_char(str, &i, c);
-		else if (str[i] == e)
+		else if (str[i] == e && (str[i - 1] != '\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
 			find_char(str, &i, e);
 		else if (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && str[i] != 0)
 			i++;
@@ -105,11 +105,11 @@ void		fill_word(char **new, char *str, int i)
 	int n;
 
 	n = 0;
-	while (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+	while (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && str[i])
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && (str[i - 1] != '\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
 			fill_char_c(str, new, &i, &n);
-		else if (str[i] == '\"')
+		else if (str[i] == '\"' && (str[i - 1] != '\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
 			fill_char_e(str, new, &i, &n);
 		else
 		{
@@ -127,11 +127,11 @@ char		*find_word_quote(char *str, int *i, char c, char e)
 	char	*new_word;
 
 	save_index = *i;
-	while (!(str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13)))
+	while (!(str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13)) && str[*i])
 	{
-		if (str[*i] == c)
+		if (str[*i] == c && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
 			find_char(str, i, c);
-		else if (str[*i] == e)
+		else if (str[*i] == e && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
 			find_char(str, i, e);
 		else
 			(*i)++;
