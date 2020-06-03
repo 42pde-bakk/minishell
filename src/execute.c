@@ -6,16 +6,16 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/02 16:41:56 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 19:18:38 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char        *remove_start(char **args)
+char		*remove_start(char **args)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = 0;
 	if (!(args[0][0] == '.' && args[0][1] == '/'))
@@ -33,27 +33,15 @@ char        *remove_start(char **args)
 	return (str);
 }
 
-void		remove_quotes(char **args)
-{
-	int i;
-	
-	i = 0;
-	while (args[i])
-	{
-		args[i] = ft_strstrip(args[i], '\"');
-		i++;
-	}
-}
-
 void		fill_paths(char *str, char *args, int k, t_vars *p)
 {
 	int i;
-	
+
 	i = 0;
 	p->paths = ft_split(str + k, ':');
 	while (p->paths[i])
 	{
-		p->paths[i] = ft_strjoin_free_slash(p->paths[i], args);
+		p->paths[i] = ft_strjoin_free_slash(p->paths[i], args, 0);
 		i++;
 	}
 }
@@ -62,7 +50,7 @@ void		get_paths(char *args, t_vars *p)
 {
 	int i;
 	int k;
-	
+
 	k = 0;
 	i = 0;
 	while (p->env1[i])
@@ -79,30 +67,8 @@ void		get_paths(char *args, t_vars *p)
 	}
 }
 
-void        ft_execute(char **args, t_vars *p)
+void		return_values(int i, t_vars *p)
 {
-	int i;
-	int k;
-	//int test; // wordt niet gebruikt: nog niet..
-
-	k = 0;
-	i = 0;
-	remove_quotes(args);
-	args[0] = remove_start(args);
-	if (fork() == 0)
-	{
-		execve(args[0], args, NULL); // test = ...
-		get_paths(args[0], p);
-		while (p->paths[k])
-		{
-			execve(p->paths[k], args, NULL);
-			k++;
-		}
-		free_args(p->paths);
-		p->is_child = 0;
-		exit(127);
-	}
-	wait(&i);
 	if (WIFEXITED(i))
 		p->ret = WEXITSTATUS(i);
 	if (WIFSIGNALED(i))
@@ -119,4 +85,30 @@ void        ft_execute(char **args, t_vars *p)
 			p->is_child = 2;
 		}
 	}
+}
+
+void		ft_execute(char **args, t_vars *p)
+{
+	int i;
+	int k;
+
+	k = 0;
+	i = 0;
+	remove_quotes(args);
+	args[0] = remove_start(args);
+	if (fork() == 0)
+	{
+		execve(args[0], args, NULL);
+		get_paths(args[0], p);
+		while (p->paths[k])
+		{
+			execve(p->paths[k], args, NULL);
+			k++;
+		}
+		free_args(p->paths);
+		p->is_child = 0;
+		exit(127);
+	}
+	wait(&i);
+	return_values(i, p);
 }

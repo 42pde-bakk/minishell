@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/27 13:56:51 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 13:17:24 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 17:53:00 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	free_args(char **args)
 	i = 0;
 	while (args[i])
 	{
-		// printf("args: %s\n", args[i]);
 		free(args[i]);
 		i++;
 	}
@@ -36,4 +35,35 @@ void	free_line_cmds(char **cmds, char *line, int i)
 	}
 	free(cmds);
 	free(line);
+}
+
+void	free_arr_top_down(char **arr, int *i)
+{
+	while (*i > 0)
+	{
+		free(arr[*i - 1]);
+		(*i)--;
+	}
+	free(arr);
+}
+
+void	*ft_free_array(char **arr)
+{
+	unsigned int i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	return (NULL);
+}
+
+int		free_var_ret(char **var)
+{
+	free(var[0]);
+	free(var);
+	return (0);
 }

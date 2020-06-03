@@ -6,60 +6,24 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 15:43:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/20 15:36:52 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 17:30:25 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void            free_old_arr(t_vars *p)
+void		free_old_arr(t_vars *p, char **arr, int i2)
 {
 	int i;
 
 	i = 0;
+	arr[i2] = 0;
 	while (p->env1[i])
 	{
 		free(p->env1[i]);
 		i++;
 	}
 	free(p->env1);
-}
-
-void            make_smaller_array(int found, int total_size, t_vars *p)
-{
-	int		i;
-	int		i2;
-	char	**arr;
-	int		k;
-
-	i = 0;
-	i2 = 0;
-	k = 0;
-	arr = malloc(sizeof(char *) * total_size);
-	if (!arr)
-		exit(0);
-	while (p->env1[i])
-	{
-		if (i != found)
-		{
-			arr[i2] = malloc(ft_strlen(p->env1[i]) + 1);
-			if (!arr[i2])
-				exit(0); // malloc fail
-			printf("in: %s$\n", p->env1[i]);
-			while (p->env1[i][k])
-			{
-				arr[i2][k] = p->env1[i][k];
-				k++;
-			}
-			arr[i2][k] = 0;
-			printf("ot: %s$\n", arr[i2]);
-			k = 0;
-			i2++;
-		}
-		i++;
-	}
-	arr[i2] = 0;
-	free_old_arr(p);
 	i = 0;
 	while (arr[i])
 	{
@@ -70,15 +34,42 @@ void            make_smaller_array(int found, int total_size, t_vars *p)
 	p->env1 = arr;
 }
 
-int            unset_new(char **args, t_vars *p)
+void		make_smaller_array(int found, t_vars *p, char **arr, int k)
 {
-	int     i;
+	int		i;
+	int		i2;
+
+	i = 0;
+	i2 = 0;
+	while (p->env1[i])
+	{
+		if (i != found)
+		{
+			arr[i2] = malloc(ft_strlen(p->env1[i]) + 1);
+			if (!arr[i2])
+				exit(0);
+			while (p->env1[i][k])
+			{
+				arr[i2][k] = p->env1[i][k];
+				k++;
+			}
+			arr[i2][k] = 0;
+			k = 0;
+			i2++;
+		}
+		i++;
+	}
+	free_old_arr(p, arr, i2);
+}
+
+int			unset_new(char **args, t_vars *p)
+{
+	int		i;
 	int		found;
-	int 	k;
+	int		k;
+	char	**arr;
 
 	k = 1;
-	if (!args[1])
-		return (0);
 	while (args[k])
 	{
 		i = 0;
@@ -90,8 +81,11 @@ int            unset_new(char **args, t_vars *p)
 				found = i;
 			i++;
 		}
+		arr = malloc(sizeof(char *) * i);
+		if (!arr)
+			exit(0);
 		if (found >= 0)
-			make_smaller_array(found, i, p);
+			make_smaller_array(found, p, arr, 0);
 		k++;
 	}
 	return (0);

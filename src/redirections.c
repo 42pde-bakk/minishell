@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/29 14:08:52 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/03 19:08:53 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	redirect(char **args, t_dup *redir)
 		redir->infilefd = open(input, O_RDONLY, 0);
 		if (redir->infilefd < 0)
 		{
-			ft_putstr_fd("couldnt open input file\n", 2);
+			ft_putstr_fd("couldn't open input file\n", 2);
 			exit(0);
 		}
 		redir->savestdin = dup(0);

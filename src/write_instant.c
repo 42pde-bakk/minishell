@@ -6,30 +6,11 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/03 17:57:26 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/28 13:39:16 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 14:27:02 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	create_two_spaces(char **str)
-{
-	int		i;
-	char	*new;
-	
-	i = 0;
-	new = malloc(ft_strlen(*str) + 3);
-	new[0] = ' ';
-	new[1] = ' ';
-	while ((*str)[i])
-	{
-		new[i + 2] = (*str)[i];
-		i++;
-	}
-	new[i + 2] = 0;
-	// free(*str); //
-	*str = new;
-}
 
 void	single_quote(char *str, int *i, int fd)
 {
@@ -41,26 +22,11 @@ void	single_quote(char *str, int *i, int fd)
 	}
 }
 
-int			is_alpha_num(char c)
-{
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	if (c == '?' || c == '!' || c == '@' || c == '#' || c == '*' || c == '$')
-		return (1);
-	if (c == '_')
-		return (1);
-	return (0);
-}
-
 void	found_env_var(char *str, int *i, int fd, t_vars *p)
 {
 	int k;
 	int l;
-	
+
 	l = 0;
 	k = 0;
 	while (p->env1[k])
@@ -73,7 +39,6 @@ void	found_env_var(char *str, int *i, int fd, t_vars *p)
 			while (p->env1[k][l])
 			{
 				write(fd, &p->env1[k][l], 1);
-				//write(fd, "-", 1);
 				l++;
 			}
 			return ;
@@ -86,9 +51,11 @@ void	found_env_var(char *str, int *i, int fd, t_vars *p)
 void	double_quote(char *str, int *i, int fd, t_vars *p)
 {
 	(*i)++;
-	while (!(str[*i] == '\"' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\'))))
+	while (!(str[*i] == '\"' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' &&
+	str[*i - 2] == '\\'))))
 	{
- 		if (str[*i] == '$' && is_alpha_num(str[*i + 1]) && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
+		if (str[*i] == '$' && is_alpha_num(str[*i + 1]) && (str[*i - 1] != '\\'
+		|| (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
 		{
 			(*i)++;
 			if (str[*i] == '?')
@@ -100,24 +67,31 @@ void	double_quote(char *str, int *i, int fd, t_vars *p)
 		}
 		else
 		{
-			// if (*i < 10)
-				// printf("char : %c-- %d\n", str[*i], *i);
-			if (!(str[*i] == '\\' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' && str[*i - 2] == '\\'))))
+			if (!(str[*i] == '\\' && (str[*i - 1] != '\\' || (str[*i - 1] ==
+			'\\' && str[*i - 2] == '\\'))))
 				write(fd, &str[*i], 1);
 			(*i)++;
 		}
 	}
 }
 
-void    write_instant(char *str, int fd, t_vars *p)
+void	found_env(char *str, int fd, t_vars *p, int *i)
+{
+	(*i)++;
+	if (str[*i] == '?')
+		ft_putnbr_fd(p->ret, fd);
+	else
+		found_env_var(str, i, fd, p);
+	while (is_alpha_num(str[*i]))
+		(*i)++;
+}
+
+void	write_instant(char *str, int fd, t_vars *p)
 {
 	int i;
 
 	i = 2;
-	// printf("line1: %s\n", str);
 	create_two_spaces(&str);
-	// printf("line2: %s\n", str);
-	// printf("\nstr: %s -- i: %d -- strlen_i %zu\n", str, i, ft_strlen(str));
 	while (str[i])
 	{
 		if (str[i] == '\'' && (str[i - 1] != '\\' || (str[i - 1] == '\\' &&
@@ -126,25 +100,14 @@ void    write_instant(char *str, int fd, t_vars *p)
 		else if (str[i] == '\"' && (str[i - 1] != '\\' || (str[i - 1] == '\\'
 		&& str[i - 2] == '\\')))
 			double_quote(str, &i, fd, p);
-		else if (str[i] == '$' && is_alpha_num(str[i + 1]) && (str[i - 1] != '\\' || (str[i - 1] == '\\'
-		&& str[i - 2] == '\\')))
-		{
-			i++;
-			if (str[i] == '?')
-				ft_putnbr_fd(p->ret, fd);
-			else
-				found_env_var(str, &i, fd, p);
-			while (is_alpha_num(str[i]))
-				i++;
-		}
+		else if (str[i] == '$' && is_alpha_num(str[i + 1]) && (str[i - 1] !=
+		'\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
+			found_env(str, fd, p, &i);
 		else if (str[i] != '\\' || (str[i] == '\\' && str[i - 1] == '\\' &&
 		str[i - 2] != '\\'))
 			write(fd, &str[i], 1);
-		// printf("\nstr: %s -- i: %d -- strlen_i %zu\n", str, i, ft_strlen(str));
 		if (str[i] != 0)
 			i++;
-		// write(1, "-", 1);
 	}
-	// printf("line3: %s\n", str);
 	free(str);
 }

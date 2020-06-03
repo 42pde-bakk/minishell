@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/02 18:09:58 by wbarendr      ########   odam.nl          #
+#    Updated: 2020/06/03 19:22:51 by wbarendr      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,10 @@ SRC = 	minishell.c \
 		environment.c \
 		bubblesort.c \
 		utils.c \
+		utils2.c \
+		utils3.c \
 		unset_env.c \
+		split_quotes1.c \
 		split_quotes2.c \
 		get_next_line_q.c \
 		ft_strstrip.c \

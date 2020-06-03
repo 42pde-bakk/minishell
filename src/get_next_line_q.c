@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/28 13:41:13 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 16:40:40 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*str_connect(char **line, char c)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	tmp = malloc(ft_strlen(*line) + 2);
@@ -32,29 +32,20 @@ char	*str_connect(char **line, char c)
 	return (tmp);
 }
 
-int		check_line(char *line)
+int		check_line(char *line, int i, int quote, int single_quote)
 {
-	int i;
-	int quote;
-	int single_quote;
-
-	single_quote = 0;
-	quote = 0;
 	create_two_spaces(&line);
-	i = 2;
 	while (line[i])
 	{
 		if (i > 0)
 		{
-			if (line[i] == '\"' && single_quote % 2 == 0 && (line[i - 1] != '\\' || (line[i - 1] == '\\' && line[i - 2] == '\\')))
+			if (line[i] == '\"' && single_quote % 2 == 0 && (line[i - 1] !=
+			'\\' || (line[i - 1] == '\\' && line[i - 2] == '\\')))
 				quote++;
-			else if (line[i] == '\'' && quote % 2 == 0 && (line[i - 1] != '\\' || single_quote == 1))
+			else if (line[i] == '\'' && quote % 2 == 0 && (line[i - 1] != '\\'
+			|| single_quote == 1))
 				single_quote++;
 		}
-		else if (line[i] == '\"' && single_quote % 2 == 0)
-			quote++;
-		else if (line[i] == '\'' && quote % 2 == 0)
-			single_quote++;
 		if (quote % 2 == 0 && single_quote % 2 == 0 && line[i] == '\n')
 		{
 			free(line);
@@ -70,8 +61,8 @@ int		check_line(char *line)
 
 char	*cut_line_break(char **line)
 {
-	char *new;
-	int i;
+	char	*new;
+	int		i;
 
 	i = 0;
 	new = malloc(ft_strlen(*line));
@@ -84,7 +75,7 @@ char	*cut_line_break(char **line)
 	}
 	new[i] = 0;
 	free(*line);
-	return (new);	
+	return (new);
 }
 
 int		get_next_line_q(int fd, char **line)
@@ -99,7 +90,6 @@ int		get_next_line_q(int fd, char **line)
 	while (1)
 	{
 		ret = read(fd, buf, 1);
-		// printf("line: %s\n", *line);
 		if (ret == -1 || (ret == 0 && (*line)[0] == 0))
 			return (ret);
 		if (ret != 0)
@@ -107,12 +97,7 @@ int		get_next_line_q(int fd, char **line)
 		if (!(*line))
 			return (-1);
 		if (buf[0] == '\n')
-			if (check_line(*line))
+			if (check_line(*line, 2, 0, 0))
 				return (1);
-		if (ft_strlen(*line) > 1)
-		{
-			if ((*line)[ft_strlen(*line) - 2] == '^' && (*line)[ft_strlen(*line) - 1] == 'C')
-				return (1);
-		}
 	}
 }

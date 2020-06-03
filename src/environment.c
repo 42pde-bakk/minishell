@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   environment.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: peer <peer@student.codam.nl>                 +#+                     */
+/*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/04/14 15:21:02 by peer          #+#    #+#                 */
-/*   Updated: 2020/04/14 18:03:221 by peer          ########   odam.nl         */
+/*   Created: 2020/06/03 14:44:12 by wbarendr      #+#    #+#                 */
+/*   Updated: 2020/06/03 14:48:09 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ int		check_valid_export(char *str)
 			ft_putstr_fd("': not a valid identifier", 1);
 			write(1, "\n", 1);
 			return (1);
-		}	
-		i++;
-	}
-	return (0);
-}
-
-int		env(char **args, t_vars *p)
-{
-	int	i;
-
-	i = 0;
-	(void)args;
-	while (p->env1[i])
-	{
-		if (find_equal(p->env1[i]))
-		{
-			ft_putstr_fd(p->env1[i], 1);
-			ft_putchar_fd('\n', 1);
 		}
 		i++;
 	}
@@ -60,8 +42,8 @@ int		env(char **args, t_vars *p)
 
 char	*fill_var_one(char *str)
 {
-	int i;
-	char *temp;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	while (str[i] != 0 && str[i] != '=')
@@ -81,9 +63,9 @@ char	*fill_var_one(char *str)
 
 char	*fill_var_two(char *str, char **var)
 {
-	int i;
-	int k;
-	char *temp;
+	int		i;
+	int		k;
+	char	*temp;
 
 	i = 0;
 	k = 0;
@@ -109,10 +91,10 @@ char	*fill_var_two(char *str, char **var)
 
 char	**ft_split_equal(char *str)
 {
-	char 	**var;
-	int 	i;
+	char	**var;
+	int		i;
 	int		j;
-	int 	k;
+	int		k;
 
 	k = 0;
 	j = 0;

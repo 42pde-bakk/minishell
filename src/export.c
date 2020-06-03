@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/15 19:58:50 by Wester        #+#    #+#                 */
-/*   Updated: 2020/05/27 13:59:00 by Wester        ########   odam.nl         */
+/*   Updated: 2020/06/03 19:24:15 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 int		look_for_match(char **var, char *args, t_vars *p, int *i)
 {
-	int ret;
-
-	ret = 1;
 	while (p->env1[*i])
 	{
 		if (find_match(p->env1[*i], var[0]))
 		{
-			ret = 0;
+			if (!(find_equal(args)))
+				return (free_var_ret(var));
 			if (find_equal(args) || find_equal(p->env1[*i]))
 				var[0] = ft_strjoin_free(var[0], "=");
 			free(p->env1[*i]);
@@ -34,30 +32,29 @@ int		look_for_match(char **var, char *args, t_vars *p, int *i)
 			}
 			free(var[0]);
 			free(var);
+			return (0);
 		}
 		(*i)++;
 	}
-	return (ret);
+	return (1);
 }
 
 void	free_var(char **var, int *s)
 {
-
-		free(var[0]);
-		if (var[1])
-		    free(var[1]);
-		free(var[2]);
-		free(var);
-		(*s)++;
+	free(var[0]);
+	if (var[1])
+		free(var[1]);
+	free(var);
+	(*s)++;
 }
 
-void 	create_new_var2(char **var, char **env2, t_vars *p, int i)
+void	create_new_var2(char **var, char **env2, t_vars *p, int i)
 {
 	if (var[1] == NULL)
 		env2[i] = ft_strdup(var[0]);
 	else
 	{
-		env2[i] = ft_strjoin(var[0], var[1]);			
+		env2[i] = ft_strjoin(var[0], var[1]);
 		free(var[1]);
 	}
 	env2[i + 1] = NULL;
@@ -74,10 +71,10 @@ void 	create_new_var2(char **var, char **env2, t_vars *p, int i)
 	p->env1 = env2;
 }
 
-void 	create_new_var(char **var, char *args, t_vars *p, int i)
+void	create_new_var(char **var, char *args, t_vars *p, int i)
 {
-	int k;
-	char **env2;
+	int		k;
+	char	**env2;
 
 	k = 0;
 	if (find_equal(args))
@@ -93,7 +90,7 @@ void 	create_new_var(char **var, char *args, t_vars *p, int i)
 			k++;
 		}
 		env2[i][k] = 0;
-		k = 0; 
+		k = 0;
 		i++;
 	}
 	create_new_var2(var, env2, p, i);
@@ -112,7 +109,7 @@ int		export(char **args, t_vars *p)
 	{
 		var = ft_split_equal(args[s]);
 		if (!var[0])
-			exit(0); // malloc fail kan in ft_split_equal al geschreven worden, geld ook voor andere malloc checks die nog gedaan moeten worden!
+			exit(0); // malloc fail externo ding installere ook in de rest
 		if (check_valid_export(var[0]))
 		{
 			free_var(var, &s);

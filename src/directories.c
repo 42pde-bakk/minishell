@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/02 15:52:23 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 14:43:53 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		cd(char **args)
 {
 	char	*new;
-	int i;
+	int		i;
 
 	if (!args[1])
 		return (0);
@@ -41,5 +41,23 @@ int		pwd(void)
 		return (1);
 	ft_putstr_fd(ptr, 1);
 	ft_putchar_fd('\n', 1);
+	return (0);
+}
+
+int		env(char **args, t_vars *p)
+{
+	int	i;
+
+	i = 0;
+	(void)args;
+	while (p->env1[i])
+	{
+		if (find_equal(p->env1[i]))
+		{
+			ft_putstr_fd(p->env1[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
+		i++;
+	}
 	return (0);
 }

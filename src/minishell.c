@@ -3,47 +3,25 @@
 /*                                                        ::::::::            */
 /*   minishell.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: peer <peer@student.codam.nl>                 +#+                     */
+/*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 13:16:37 by wbarendr      ########   odam.nl         */
+/*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
+/*   Updated: 2020/06/03 17:22:51 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-extern int errno;
 
 int		echo(char **args, t_vars *p, int fd)
 {
 	int i;
 
-	// if (args[1] == NULL)
-	// 	ft_putchar_fd('\n', 1);
-	// else if (ft_strncmp(args[1], "-n", 3) == 0 && args[2])
-	// {
-	// 	// if (args[2][0] == '$' && args[2][1] != '?')
-	// 	// 	return (print_env_var(args[2], p, 1));
-	// 	new = ft_strstrip(args[i], '\"');
-	// 	ft_putstr_fd_ret(new, 1, p);
-	// 	free(new);
-	// }
 	i = 1;
 	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
 		i = 2;
 	while (args[i])
 	{
-		// printf("arg[0]: %s\n", args[i]);
-		//print_echo(args[1]);
-		//if (args[1][0] == '$' && args[1][1] != '?')
-		 	//print_env_var(args[1], p, 1);
-		// else 
-		// {
-			//p->ret = 10; /// delete
-			write_instant(args[i], fd, p);
-			// new = ft_strstrip(new, '\"', p);
-			// ft_putstr_fd_ret(new, 1, p);
-			// free(new);
-		// }
+		write_instant(args[i], fd, p);
 		i++;
 		if (args[i] != 0)
 			ft_putchar_fd(' ', fd);
@@ -59,53 +37,35 @@ void	argcheck(char **args, t_vars *p)
 
 	i = 0;
 	remove_case(&args[0]);
-	// printf("arg: %s-", args[0]);
-	// if (fork() == 0)
-	// {
-		if (args[0] == NULL)
-			return ;
-		else if (ft_strncmp(args[0], "echo", 5) == 0)
-			p->ret = echo(args, p, 1);
-		else if (ft_strncmp(args[0], "exit", 5) == 0)
-			exit(0);
-		else if (ft_strncmp(args[0], "pwd", 4) == 0)
-			p->ret = pwd();
-		else if (ft_strncmp(args[0], "cd", 3) == 0)
-			p->ret = cd(args);
-		else if (ft_strncmp(args[0], "export", 7) == 0)
-			p->ret = export(args, p);
-		else if (ft_strncmp(args[0], "env", 4) == 0)
-			p->ret = env(args, p);
-		else if (ft_strncmp(args[0], "unset", 6) == 0)
-			p->ret = unset_new(args, p);
-		else
-			ft_execute(args, p);
-
-	// while (args[i] != NULL)
-	// {
-	// 	if (args[i])
-	// 		free(args[i]);
-	// 	i++;
-	// }
-	// if (args)
-	// 	free(args);
-	// exit(0);
-	// }
-	// wait(&i);
-	// if (WIFEXITED(i))
-		// p->ret = WEXITSTATUS(i);
+	if (args[0] == NULL)
+		return ;
+	else if (ft_strncmp(args[0], "echo", 5) == 0)
+		p->ret = echo(args, p, 1);
+	else if (ft_strncmp(args[0], "exit", 5) == 0)
+		exit(0);
+	else if (ft_strncmp(args[0], "pwd", 4) == 0)
+		p->ret = pwd();
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+		p->ret = cd(args);
+	else if (ft_strncmp(args[0], "export", 7) == 0)
+		p->ret = export(args, p);
+	else if (ft_strncmp(args[0], "env", 4) == 0)
+		p->ret = env(args, p);
+	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
+		p->ret = unset_new(args, p);
+	else
+		ft_execute(args, p);
 }
 
-char 	**get_environment(t_vars *p)
+char	**get_environment(t_vars *p, int i)
 {
-	int	i;
-	char **env1;
-	int k;
+	char	**env1;
+	int		k;
 
 	k = 0;
-	i = 0;
 	write(1, "\e[1;1H\e[2J", 11);
 	p->ret = 0;
+	p->is_child = 0;
 	while (environ[i])
 		i++;
 	env1 = malloc(sizeof(char *) * (i + 1));
@@ -126,60 +86,55 @@ char 	**get_environment(t_vars *p)
 	return (env1);
 }
 
-int		main(void)
+void	main_loop2(char *line, t_vars *p)
 {
-	int		status;
-	char	*line;
 	char	**args;
 	char	**cmds;
 	int		i;
-	t_vars	p;
 	t_dup	redir;
 
-	//p.child_nr = 0;
-	p.is_child = 0;
-	p.env1 = get_environment(&p);
-	status = 1;
-	// (void)argc;
-	// (void)argv;
-	while (status)
+	i = 0;
+	args = (char**)NULL;
+	cmds = (char**)NULL;
+	if (line)
+		cmds = ft_split_q(line, ';');
+	while (cmds[i])
 	{
-		i = 0;
-		args = (char**)NULL;
-	 	cmds = (char**)NULL;
+		args = split_quotes2(cmds[i]);
+		redirect(args, &redir);
+		if (args[0])
+		{
+			argcheck(args, p);
+			free_args(args);
+		}
+		reset_redirect(&redir);
+		i++;
+	}
+	free_line_cmds(cmds, line, i);
+}
+
+int		main(void)
+{
+	char	*line;
+	t_vars	p;
+
+	p.env1 = get_environment(&p, 0);
+	while (1)
+	{
 		if (p.is_child == 2)
 			ft_putstr_fd("Quit: 3\nminishell> ", 1);
 		if (p.is_child == 1 || p.is_child == 2)
 			p.is_child = 0;
-		else 
+		else
 			ft_putstr_fd("minishell> ", 1);
 		signal(SIGINT, block_ctrl_c);
-		// if (fork() == 0)
 		signal(SIGQUIT, block_ctrl_slash);
-		// wait(&i);
-		status = get_next_line_q(0, &line);
-		if (status == 0)
+		if (!(get_next_line_q(0, &line)))
 		{
 			write(1, "logout\n", 7);
 			exit(0);
 		}
-		if (line)
-			cmds = ft_split_q(line, ';');
-		// printf("line: %s\n", line);
-		while (cmds[i])
-		{
-			// printf("cmds: %s\n", cmds[i]);
-			args = split_quotes2(cmds[i]);
-			redirect(args, &redir);
-			if (args[0])
-			{
-				argcheck(args, &p);
-				free_args(args);
-			}
-			reset_redirect(&redir);
-			i++;
-		}
-		free_line_cmds(cmds, line, i);
+		main_loop2(line, &p);
 	}
 	return (0);
 }
