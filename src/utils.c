@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: Wester <Wester@student.codam.nl>             +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 11:46:40 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 18:27:02 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		block_ctrl_c(int sig)
 	//signal(sig, SIG_IGN);
 	//kill(0, sig);
 	ft_putstr_fd("\nminishell> ", 1);
-	sig = 0;
+	(void)sig;
 	// exit(0);
 }
 
@@ -90,7 +90,7 @@ void	block_ctrl_slash(int sig)
 {
 	// signal(sig, SIG_IGN);
 	//kill(0, sig);
-	sig = 0;
+	(void)sig;
 	// ft_putstr_fd("Quit: 3\n", 1);
 }
 

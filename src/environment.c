@@ -110,13 +110,7 @@ char	*fill_var_two(char *str, char **var)
 char	**ft_split_equal(char *str)
 {
 	char 	**var;
-	int 	i;
-	int		j;
-	int 	k;
 
-	k = 0;
-	j = 0;
-	i = 0;
 	var = malloc(sizeof(char *) * 2);
 	if (var == NULL)
 		return (NULL);

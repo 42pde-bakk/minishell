@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: peer <peer@student.codam.nl>                 +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 13:31:22 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 18:26:32 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int				pwd();
 
 int				redirect(char **args, t_dup *redir);
 void			reset_redirect(t_dup *redir);
+
+//pipes
+int				getpipes(char **args);
+int				minipipe(char **args, t_vars *p);
 
 void			argcheck(char **args, t_vars *p);
 

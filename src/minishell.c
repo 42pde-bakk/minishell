@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: peer <peer@student.codam.nl>                 +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 13:16:37 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/03 18:25:43 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ int		echo(char **args, t_vars *p, int fd)
 
 void	argcheck(char **args, t_vars *p)
 {
-	int i;
-
-	i = 0;
 	remove_case(&args[0]);
 	// printf("arg: %s-", args[0]);
 	// if (fork() == 0)
@@ -171,7 +168,9 @@ int		main(void)
 			// printf("cmds: %s\n", cmds[i]);
 			args = split_quotes2(cmds[i]);
 			redirect(args, &redir);
-			if (args[0])
+			if (getpipes(args) >= 0)
+				minipipe(args, &p);
+			else if (args[0])
 			{
 				argcheck(args, &p);
 				free_args(args);
