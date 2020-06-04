@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 19:18:38 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 15:57:59 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void		ft_execute(char **args, t_vars *p)
 		}
 		free_args(p->paths);
 		p->is_child = 0;
+		not_found(args[0]);
 		exit(127);
 	}
 	wait(&i);

@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 12:21:20 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 15:57:45 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			count_char2(int *i, int *co);
 void			fill_char_c(char *str, char **new, int *i, int *n);
 void			fill_char_e(char *str, char **new, int *i, int *n);
 int				run_back_slash(char *str, int *index);
+void			not_found(char *str);
 
 //export
 int				check_valid_export(char *str);

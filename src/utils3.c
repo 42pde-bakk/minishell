@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:14:18 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/04 14:37:22 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 15:58:41 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ int			run_back_slash(char *str, int *index)
 		i--;
 	}
 	return (ret % 2);
+}
+
+void		not_found(char *str)
+{
+	int i;
+
+	i = 0;
+	ft_putstr_fd("bash: ", 1);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd(": command not found\n", 1);
 }
