@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/04 15:53:27 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 16:46:26 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,33 +86,6 @@ char	**get_environment(t_vars *p, int i)
 	return (env1);
 }
 
-void	main_loop2(char *line, t_vars *p)
-{
-	char	**args;
-	char	**cmds;
-	int		i;
-	t_dup	redir;
-
-	i = 0;
-	args = (char**)NULL;
-	cmds = (char**)NULL;
-	if (line)
-		cmds = ft_split_q(line, ';');
-	while (cmds[i])
-	{
-		args = split_quotes2(cmds[i]);
-		redirect(args, &redir);
-		if (args[0])
-		{
-			argcheck(args, p);
-			free_args(args);
-		}
-		reset_redirect(&redir);
-		i++;
-	}
-	free_line_cmds(cmds, line, i);
-}
-
 int		main(void)
 {
 	char	*line;
@@ -134,7 +107,7 @@ int		main(void)
 			write(1, "logout\n", 7);
 			exit(0);
 		}
-		main_loop2(line, &p);
+		gameloop(&p, line);
 	}
 	return (0);
 }

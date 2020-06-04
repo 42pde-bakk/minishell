@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 15:57:45 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 16:46:56 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,13 @@ void			free_line_cmds(char **cmds, char *line, int i);
 void			free_arr_top_down(char **arr, int *i);
 void			*ft_free_array(char **arr);
 int				free_var_ret(char **var);
+
+//gameloop
+int				do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p);
+int				gameloop(t_vars *p, char *line);
+
+//pipes
+int				getpipes(char **args);
+int				minipipe(char **pipesplitcmds, int n, t_vars *p);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/03 19:22:51 by wbarendr      ########   odam.nl          #
+#    Updated: 2020/06/04 16:43:55 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRC = 	minishell.c \
 		write_instant.c \
 		export.c \
 		free_functions.c \
-		ft_split_q.c
+		ft_split_q.c \
+		gameloop.c \
+		pipes.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))
@@ -49,6 +51,7 @@ $(NAME): $(FILES)
 
 clean:
 	/bin/rm -f *.o *~ *.gch
+	@make clean -C ./libft
 
 fclean: clean
 	@make fclean -C ./libft
