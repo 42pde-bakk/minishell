@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 15:14:59 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/04 16:23:25 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	minipipe(char **pipesplitcmds, int n, t_vars *p)
 		dup2(fd[0], 0);
 		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
 		close(fd[0]);
-		fprintf(stdout, "Child: shutting down.\n");	
+		exit(0); // random getal
 	}
 	else //Parent process
 	{
@@ -64,17 +64,14 @@ int	minipipe(char **pipesplitcmds, int n, t_vars *p)
 
 		args = split_quotes2(pipesplitcmds[n]);
 		argcheck(args, p);
-		dprintf(2, "argcheck for parent done\n");
-		dprintf(2, "parent done waiting\n");
 		close(fd[1]);
 		if (dup2(stdoutbackup, 1) < 0)
 		{
-			dprintf(2, "resetting stdout failed\n");
 			return (-1);
 		}
-		dprintf(2, "Parent: shutting down.\n");
-		printf("stdout test\n");
+		free_args(args);
 		waitpid(0, NULL, 0); // simulate process wait
+		// dprintf(2, "parent done waiting\n");
 	}
 	return (1);
 }
