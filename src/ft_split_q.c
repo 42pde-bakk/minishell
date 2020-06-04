@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:45:02 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/03 15:42:11 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 14:36:57 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ static int		ft_countwords(char *s, char c, int count)
 			count++;
 			while ((s[i]) && (s[i] != c) && s[i] != 10)
 			{
-				if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' &&
-				s[i - 2] == '\\')))
+				if (s[i] == '\'' && !run_back_slash(s, &i))
 					find_char(s, &i, '\'');
-				if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\' &&
-				s[i - 2] == '\\')))
+				else if (s[i] == '\"' && !run_back_slash(s, &i))
 					find_char(s, &i, '\"');
-				i++;
+				else
+					i++;
 			}
 		}
 	}
@@ -46,15 +45,14 @@ static int		ft_wordlength(char *s, char c)
 	int	i;
 
 	i = 0;
-	while ((s[i]) && (s[i] != c))
+	while ((s[i]) && (s[i] != c) && s[i] != 10)
 	{
-		if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\'
-		&& s[i - 2] == '\\')))
+		if (s[i] == '\'' && !run_back_slash(s, &i))
 			find_char(s, &i, '\'');
-		if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\'
-		&& s[i - 2] == '\\')))
+		else if (s[i] == '\"' && !run_back_slash(s, &i))
 			find_char(s, &i, '\"');
-		i++;
+		else
+			i++;
 	}
 	return (i);
 }
@@ -67,13 +65,12 @@ static char		*ft_mallocword(char *s, char c)
 	i = 0;
 	while (s[i] && s[i] != c && s[i] != 10)
 	{
-		if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\'
-		&& s[i - 2] == '\\')))
+		if (s[i] == '\'' && !run_back_slash(s, &i))
 			find_char(s, &i, '\'');
-		if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\'
-		&& s[i - 2] == '\\')))
+		else if (s[i] == '\"' && !run_back_slash(s, &i))
 			find_char(s, &i, '\"');
-		i++;
+		else
+			i++;
 	}
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	if (word == NULL)

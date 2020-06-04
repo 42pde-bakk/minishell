@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 19:19:23 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 12:21:20 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void			remove_quotes(char **args);
 void			count_char2(int *i, int *co);
 void			fill_char_c(char *str, char **new, int *i, int *n);
 void			fill_char_e(char *str, char **new, int *i, int *n);
+int				run_back_slash(char *str, int *index);
 
 //export
 int				check_valid_export(char *str);

@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/03 17:57:26 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 14:27:02 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 14:35:57 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ void	found_env_var(char *str, int *i, int fd, t_vars *p)
 void	double_quote(char *str, int *i, int fd, t_vars *p)
 {
 	(*i)++;
-	while (!(str[*i] == '\"' && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' &&
-	str[*i - 2] == '\\'))))
+	while (!(str[*i] == '\"' && !run_back_slash(str, i)) && str[*i] != 0)
 	{
-		if (str[*i] == '$' && is_alpha_num(str[*i + 1]) && (str[*i - 1] != '\\'
-		|| (str[*i - 1] == '\\' && str[*i - 2] == '\\')))
+		if (str[*i] == '$' && is_alpha_num(str[*i + 1]) &&
+		!run_back_slash(str, i))
 		{
 			(*i)++;
 			if (str[*i] == '?')
@@ -67,8 +66,8 @@ void	double_quote(char *str, int *i, int fd, t_vars *p)
 		}
 		else
 		{
-			if (!(str[*i] == '\\' && (str[*i - 1] != '\\' || (str[*i - 1] ==
-			'\\' && str[*i - 2] == '\\'))))
+			if (!(str[*i] == '\\' && !run_back_slash(str, i) && (str[*i + 1]
+			== '\"' || str[*i + 1] == '\\')))
 				write(fd, &str[*i], 1);
 			(*i)++;
 		}
@@ -94,17 +93,15 @@ void	write_instant(char *str, int fd, t_vars *p)
 	create_two_spaces(&str);
 	while (str[i])
 	{
-		if (str[i] == '\'' && (str[i - 1] != '\\' || (str[i - 1] == '\\' &&
-		str[i - 2] == '\\')))
+		if (str[i] == '\'' && !run_back_slash(str, &i))
 			single_quote(str, &i, fd);
-		else if (str[i] == '\"' && (str[i - 1] != '\\' || (str[i - 1] == '\\'
-		&& str[i - 2] == '\\')))
+		else if (str[i] == '\"' && !run_back_slash(str, &i))
 			double_quote(str, &i, fd, p);
-		else if (str[i] == '$' && is_alpha_num(str[i + 1]) && (str[i - 1] !=
-		'\\' || (str[i - 1] == '\\' && str[i - 2] == '\\')))
+		else if (str[i] == '$' && is_alpha_num(str[i + 1]) &&
+		!run_back_slash(str, &i))
 			found_env(str, fd, p, &i);
-		else if (str[i] != '\\' || (str[i] == '\\' && str[i - 1] == '\\' &&
-		str[i - 2] != '\\'))
+		else if (!(str[i] == '\\' && !run_back_slash(str, &i) && (str[i + 1]
+		== '\"' || str[i + 1] == '\\' || str[i + 1] == '\'')))
 			write(fd, &str[i], 1);
 		if (str[i] != 0)
 			i++;

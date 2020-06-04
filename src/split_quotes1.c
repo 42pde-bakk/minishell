@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:02:07 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/03 19:06:32 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 14:37:40 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void		find_char(char *str, int *i, char d)
 	(*i)++;
 	if (d == '\"')
 	{
-		while (str[*i] && (!(str[*i] == d && (str[*i - 1] != '\\' ||
-		(str[*i - 1] == '\\' && str[*i - 2] == '\\')))))
+		while (!(str[*i] == d && !run_back_slash(str, i)) && str[*i] != 0)
 			(*i)++;
 		(*i)++;
 		return ;
@@ -34,13 +33,11 @@ int			ft_words(char *s, int words, int i)
 		i++;
 	if (s[i])
 		words++;
-	while (s[i])
+	while (s[i] && s[i] != 10)
 	{
-		if (s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' &&
-		s[i - 2] == '\\')))
+		if (s[i] == '\'' && !run_back_slash(s, &i))
 			find_char(s, &i, '\'');
-		else if (s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\'
-		&& s[i - 2] == '\\')))
+		else if (s[i] == '\"' && !run_back_slash(s, &i))
 			find_char(s, &i, '\"');
 		else if (!(s[i] == ' ' || (s[i] >= 9 && s[i] <= 13)) && s[i] != 0)
 			i++;
@@ -62,11 +59,9 @@ void		fill_word(char **new, char *str, int i)
 	n = 0;
 	while (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && str[i])
 	{
-		if (str[i] == '\'' && (str[i - 1] != '\\' || (str[i - 1] == '\\'
-		&& str[i - 2] == '\\')))
+		if (str[i] == '\'' && !run_back_slash(str, &i))
 			fill_char_c(str, new, &i, &n);
-		else if (str[i] == '\"' && (str[i - 1] != '\\' || (str[i - 1] ==
-		'\\' && str[i - 2] == '\\')))
+		else if (str[i] == '\"' && !run_back_slash(str, &i))
 			fill_char_e(str, new, &i, &n);
 		else
 		{
@@ -86,11 +81,9 @@ char		*find_word_quote(char *str, int *i, char c, char e)
 	save_index = *i;
 	while (!(str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13)) && str[*i])
 	{
-		if (str[*i] == c && (str[*i - 1] != '\\' || (str[*i - 1] == '\\' &&
-		str[*i - 2] == '\\')))
+		if (str[*i] == c && !run_back_slash(str, i))
 			find_char(str, i, c);
-		else if (str[*i] == e && (str[*i - 1] != '\\' || (str[*i - 1] == '\\'
-		&& str[*i - 2] == '\\')))
+		else if (str[*i] == e && !run_back_slash(str, i))
 			find_char(str, i, e);
 		else
 			(*i)++;

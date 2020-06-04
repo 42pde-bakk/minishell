@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/20 13:18:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 16:40:40 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 14:11:25 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int		check_line(char *line, int i, int quote, int single_quote)
 	{
 		if (i > 0)
 		{
-			if (line[i] == '\"' && single_quote % 2 == 0 && (line[i - 1] !=
-			'\\' || (line[i - 1] == '\\' && line[i - 2] == '\\')))
+			if (line[i] == '\"' && single_quote % 2 == 0 &&
+			!run_back_slash(line, &i))
 				quote++;
-			else if (line[i] == '\'' && quote % 2 == 0 && (line[i - 1] != '\\'
-			|| single_quote == 1))
+			else if (line[i] == '\'' && quote % 2 == 0 &&
+			(!run_back_slash(line, &i) || single_quote == 1))
 				single_quote++;
 		}
 		if (quote % 2 == 0 && single_quote % 2 == 0 && line[i] == '\n')

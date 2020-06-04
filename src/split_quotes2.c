@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/06 10:30:06 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 19:02:41 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/04 12:20:53 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void		fill_char_e(char *str, char **new, int *i, int *n)
 	(*new)[*n] = str[*i];
 	(*n)++;
 	(*i)++;
-	while (str[*i] && (!(str[*i] == '\"' && (str[*i - 1] != '\\' ||
-		(str[*i - 1] == '\\' && str[*i - 2] == '\\')))))
+	while (!(str[*i] == '\"' && !run_back_slash(str, i)) && str[*i] != 0)
 	{
 		(*new)[*n] = str[*i];
 		(*n)++;
