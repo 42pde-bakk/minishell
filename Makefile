@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/03 18:25:14 by Peer          ########   odam.nl          #
+#    Updated: 2020/06/04 14:56:17 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC = 	minishell.c \
 		export.c \
 		free_functions.c \
 		ft_split_q.c \
-		pipes.c
+		pipes.c \
+		gameloop.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))

@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:13:16 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 18:25:43 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/04 15:12:15 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,24 @@ int		echo(char **args, t_vars *p, int fd)
 void	argcheck(char **args, t_vars *p)
 {
 	remove_case(&args[0]);
-	// printf("arg: %s-", args[0]);
-	// if (fork() == 0)
-	// {
-		if (args[0] == NULL)
-			return ;
-		else if (ft_strncmp(args[0], "echo", 5) == 0)
-			p->ret = echo(args, p, 1);
-		else if (ft_strncmp(args[0], "exit", 5) == 0)
-			exit(0);
-		else if (ft_strncmp(args[0], "pwd", 4) == 0)
-			p->ret = pwd();
-		else if (ft_strncmp(args[0], "cd", 3) == 0)
-			p->ret = cd(args);
-		else if (ft_strncmp(args[0], "export", 7) == 0)
-			p->ret = export(args, p);
-		else if (ft_strncmp(args[0], "env", 4) == 0)
-			p->ret = env(args, p);
-		else if (ft_strncmp(args[0], "unset", 6) == 0)
-			p->ret = unset_new(args, p);
-		else
-			ft_execute(args, p);
-
-	// while (args[i] != NULL)
-	// {
-	// 	if (args[i])
-	// 		free(args[i]);
-	// 	i++;
-	// }
-	// if (args)
-	// 	free(args);
-	// exit(0);
-	// }
-	// wait(&i);
-	// if (WIFEXITED(i))
-		// p->ret = WEXITSTATUS(i);
+	if (args[0] == NULL)
+		return ;
+	else if (ft_strncmp(args[0], "echo", 5) == 0)
+		p->ret = echo(args, p, 1);
+	else if (ft_strncmp(args[0], "exit", 5) == 0)
+		exit(0);
+	else if (ft_strncmp(args[0], "pwd", 4) == 0)
+		p->ret = pwd();
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+		p->ret = cd(args);
+	else if (ft_strncmp(args[0], "export", 7) == 0)
+		p->ret = export(args, p);
+	else if (ft_strncmp(args[0], "env", 4) == 0)
+		p->ret = env(args, p);
+	else if (ft_strncmp(args[0], "unset", 6) == 0)
+		p->ret = unset_new(args, p);
+	else
+		ft_execute(args, p);
 }
 
 char 	**get_environment(t_vars *p)
@@ -127,22 +110,15 @@ int		main(void)
 {
 	int		status;
 	char	*line;
-	char	**args;
 	char	**cmds;
-	int		i;
 	t_vars	p;
-	t_dup	redir;
 
 	//p.child_nr = 0;
 	p.is_child = 0;
 	p.env1 = get_environment(&p);
 	status = 1;
-	// (void)argc;
-	// (void)argv;
 	while (status)
 	{
-		i = 0;
-		args = (char**)NULL;
 	 	cmds = (char**)NULL;
 		if (p.is_child == 2)
 			ft_putstr_fd("Quit: 3\nminishell> ", 1);
@@ -163,22 +139,7 @@ int		main(void)
 		if (line)
 			cmds = ft_split_q(line, ';');
 		// printf("line: %s\n", line);
-		while (cmds[i])
-		{
-			// printf("cmds: %s\n", cmds[i]);
-			args = split_quotes2(cmds[i]);
-			redirect(args, &redir);
-			if (getpipes(args) >= 0)
-				minipipe(args, &p);
-			else if (args[0])
-			{
-				argcheck(args, &p);
-				free_args(args);
-			}
-			reset_redirect(&redir);
-			i++;
-		}
-		free_line_cmds(cmds, line, i);
+		gameloop(cmds, &p, line);
 	}
 	return (0);
 }
