@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 16:33:52 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/04 18:32:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/ioctl.h>
+
+static void	parent(char **pipesplitcmds, int n, t_vars *p, int fd[2])
+{
+	char	**args;
+	int		stdoutbackup;
+
+	stdoutbackup = dup(1);
+	close(fd[0]);
+	if (dup2(fd[1], 1) == -1)
+		exit(0);
+	args = split_quotes2(pipesplitcmds[n]);
+	argcheck(args, p);
+	close(fd[1]);
+	if (dup2(stdoutbackup, 1) < 0)
+		exit(0);
+	free_args(args);
+	waitpid(0, NULL, 0);
+}
 
 /*
 **                     	   p = fork();
@@ -27,11 +45,10 @@
 **         ...                       |               ...
 */
 
-int	minipipe(char **pipesplitcmds, int n, t_vars *p)
+int			minipipe(char **pipesplitcmds, int n, t_vars *p)
 {
 	int		fd[2];
 	int		childpid;
-	char	**args; 
 
 	if (pipe(fd) == -1)
 	{
@@ -44,34 +61,15 @@ int	minipipe(char **pipesplitcmds, int n, t_vars *p)
 		perror("fork failed");
 		return (-1);
 	}
-	else if (childpid == 0) //Child process
+	else if (childpid == 0)
 	{
-        // child side
-        // close writing end of the pipe. don't need it.
-        close(fd[1]);
-
+		close(fd[1]);
 		dup2(fd[0], 0);
 		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
 		close(fd[0]);
-		exit(0); // random getal
+		exit(0);
 	}
-	else //Parent process
-	{
-		// close reading end of the pipe. don't need it.
-		int stdoutbackup = dup(1);
-		close(fd[0]);
-		dup2(fd[1], 1); //now all my args will write to fd[1] instead ouf stdout
-
-		args = split_quotes2(pipesplitcmds[n]);
-		argcheck(args, p);
-		close(fd[1]);
-		if (dup2(stdoutbackup, 1) < 0)
-		{
-			return (-1);
-		}
-		free_args(args);
-		waitpid(0, NULL, 0); // simulate process wait
-		// dprintf(2, "parent done waiting\n");
-	}
+	else
+		parent(pipesplitcmds, n, p, fd);
 	return (1);
 }
