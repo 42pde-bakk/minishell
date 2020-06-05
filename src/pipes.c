@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 18:32:44 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 16:02:11 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	parent(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 	int		stdoutbackup;
 
 	stdoutbackup = dup(1);
+	// dprintf(2, "entered parent ew\n");
 	close(fd[0]);
 	if (dup2(fd[1], 1) == -1)
 		exit(0);
@@ -32,6 +33,7 @@ static void	parent(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 		exit(0);
 	free_args(args);
 	waitpid(0, NULL, 0);
+	// dprintf(2, "parent out\n");
 }
 
 /*
@@ -63,10 +65,12 @@ int			minipipe(char **pipesplitcmds, int n, t_vars *p)
 	}
 	else if (childpid == 0)
 	{
+		// dprintf(2, "entered child ew\n");
 		close(fd[1]);
 		dup2(fd[0], 0);
 		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
 		close(fd[0]);
+		// dprintf(2, "child out\n");
 		exit(0);
 	}
 	else

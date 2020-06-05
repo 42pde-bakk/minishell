@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/04 16:46:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 15:47:56 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,16 @@ typedef struct	s_vars
 
 typedef struct	s_dup
 {
-	int			check[2];
-	int			savestdin;
-	int			savestdout;
-	int			infilefd;
-	int			outfilefd;
-	int			duppedin;
-	int			duppedout;
+	int			in;
+	int			out;
+	char		*input;
+	char		*output;
+	int			stdinbak;
+	int			stdoutbak;
 }				t_dup;
 
 int				cd(char **args);
 int				pwd();
-int				redirect(char **args, t_dup *redir);
-void			reset_redirect(t_dup *redir);
 void			argcheck(char **args, t_vars *p);
 int				env(char **args, t_vars *p);
 int				bubble_sort(char **arr);
@@ -103,5 +100,9 @@ int				gameloop(t_vars *p, char *line);
 //pipes
 int				getpipes(char **args);
 int				minipipe(char **pipesplitcmds, int n, t_vars *p);
+
+//redirections
+t_dup			redirect(char **args);
+void			reset_redirections(t_dup redirs);
 
 #endif
