@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/05 19:27:29 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 19:33:20 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	**trimargs(char **args)
 
 	i = 0;
 	len = 0;
-	dprintf(2, "entered trimargs\n");
 	while (args[len] && ft_strncmp(args[len], "", 1) != 0 &&
 	ft_strncmp(args[len], "<", 2) != 0 && ft_strncmp(args[len], ">", 2) != 0
 	&& ft_strncmp(args[len], ">>", 3) != 0)
@@ -32,7 +31,6 @@ char	**trimargs(char **args)
 		i++;
 	}
 	out[i] = NULL;
-	dprintf(2, "exiting trimargs\n");
 	return (out);
 }
 
@@ -47,25 +45,19 @@ int	do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	while (1)
 	{
 		trimmed = trimargs(args);
+		for (int i = 0;trimmed[i];i++)
+			dprintf(2, "trimmed[%d] = %s\n", i, trimmed[i]);
 		if (pipesplitcmds[n + 1])
-		{
-			dprintf(2, "entering minipipe\n");
 			minipipe(pipesplitcmds, n, p);
-		}
 		else if (args[0])
-		{
-			dprintf(2, "entering argcheck\n");
 			argcheck(trimmed, p);
-		}
 		dprintf(2, "after argcheck\n");
 		reset_redirections(redirs);
 		redirs = redirect(args);
-		dprintf(2, "new redirs: in=%d, out=%d\n", redirs.in, redirs.out);
 		free_args(trimmed);
 		if (redirs.in == 0 && redirs.out == 0)
 			break;
 	}
-	dprintf(2, "done with loop\n");
 	free_args(args);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/05 19:24:26 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 19:36:01 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	get_inout(t_dup *redirs, char **args)
 
 	i = 0;
 	ft_bzero(redirs, sizeof(t_dup*));
+	check[0] = 0;
+	check[1] = 0;
 	while (args[i])
 	{
 		if (ft_strncmp(args[i], "<", 2) == 0 && check[0] == 0)
@@ -79,7 +81,6 @@ t_dup	redirect(char **args)
 	get_inout(&redirs, args);
 	if (redirs.in)
 	{
-		dprintf(2, "redirs.in: input = %s\n", redirs.input);
 		fd[0] = open(redirs.input, O_RDONLY);
 		redirs.stdinbak = dup(0);
 		if (redirs.stdinbak < 0)
@@ -87,11 +88,9 @@ t_dup	redirect(char **args)
 		if (dup2(fd[0], 0) < 0)
 			exit(0);
 		close(fd[0]);
-		dprintf(2, "stdinbak = %d\n", redirs.stdinbak);
 	}
 	if (redirs.out)
 	{
-		dprintf(2, "redirs.out\n");
 		if (redirs.out == 1)
 			fd[1] = open(redirs.output, O_CREAT | O_TRUNC | O_RDWR, 0644);
 		else if (redirs.out == 2)
@@ -102,7 +101,6 @@ t_dup	redirect(char **args)
 		if (dup2(fd[1], 1) < 0)
 			exit(0);
 		close(fd[1]);
-		dprintf(2, "stdoutbak = %d\n", redirs.stdoutbak);
 	}
 	return (redirs);
 }
