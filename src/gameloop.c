@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   gameloop.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/05 19:33:20 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 20:17:24 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	while (1)
 	{
 		trimmed = trimargs(args);
-		for (int i = 0;trimmed[i];i++)
-			dprintf(2, "trimmed[%d] = %s\n", i, trimmed[i]);
+		// for (int i = 0;trimmed[i];i++)
+		// 	dprintf(2, "trimmed[%d] = %s\n", i, trimmed[i]);
 		if (pipesplitcmds[n + 1])
 			minipipe(pipesplitcmds, n, p);
 		else if (args[0])
 			argcheck(trimmed, p);
-		dprintf(2, "after argcheck\n");
+		// dprintf(2, "after argcheck\n");
 		reset_redirections(redirs);
 		redirs = redirect(args);
 		free_args(trimmed);

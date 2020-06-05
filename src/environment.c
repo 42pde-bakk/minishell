@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   environment.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:44:12 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/04 15:55:14 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/05 20:15:38 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,7 @@ char	*fill_var_two(char *str, char **var)
 char	**ft_split_equal(char *str)
 {
 	char	**var;
-	int		i;
-	int		j;
-	int		k;
 
-	k = 0;
-	j = 0;
-	i = 0;
 	var = malloc(sizeof(char *) * 2);
 	if (var == NULL)
 		return (NULL);

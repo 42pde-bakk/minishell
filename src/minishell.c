@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/05 19:27:36 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/05 20:15:23 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ int		echo(char **args, t_vars *p, int fd)
 
 void	argcheck(char **args, t_vars *p)
 {
-	int i;
-
-	i = 0;
 	remove_case(&args[0]);
 	if (args[0] == NULL)
 		return ;
