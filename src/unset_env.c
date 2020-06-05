@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 15:43:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 17:30:25 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/05 15:25:29 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ void		free_old_arr(t_vars *p, char **arr, int i2)
 	}
 	free(p->env1);
 	i = 0;
-	while (arr[i])
-	{
-		p->env1[i] = arr[i];
-		i++;
-	}
-	p->env1[i] = 0;
 	p->env1 = arr;
 }
 
@@ -86,6 +80,8 @@ int			unset_new(char **args, t_vars *p)
 			exit(0);
 		if (found >= 0)
 			make_smaller_array(found, p, arr, 0);
+		else 
+			free(arr);
 		k++;
 	}
 	return (0);
