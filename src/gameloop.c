@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/05 20:17:24 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/06 18:34:49 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,21 @@ int	do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	char	**trimmed;
 
 	args = split_quotes2(pipesplitcmds[n]);
-	redirs = redirect(args);
-	while (1)
-	{
+	ft_bzero(&redirs, sizeof(t_dup));
+	redirect(args, &redirs);
+	// while (1)
+	// {
 		trimmed = trimargs(args);
-		// for (int i = 0;trimmed[i];i++)
-		// 	dprintf(2, "trimmed[%d] = %s\n", i, trimmed[i]);
 		if (pipesplitcmds[n + 1])
 			minipipe(pipesplitcmds, n, p);
 		else if (args[0])
 			argcheck(trimmed, p);
-		// dprintf(2, "after argcheck\n");
-		reset_redirections(redirs);
-		redirs = redirect(args);
+		reset_redirections(&redirs);
+		// redirect(args, &redirs);
 		free_args(trimmed);
-		if (redirs.in == 0 && redirs.out == 0)
-			break;
-	}
+		// if (redirs.in == 0 && redirs.out == 0)
+		// 	break;
+	// }
 	free_args(args);
 	return (0);
 }

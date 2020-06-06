@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: peer <peer@student.codam.nl>                 +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/05 19:27:45 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/06 18:12:31 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_dup
 	char		*output;
 	int			stdinbak;
 	int			stdoutbak;
+	int			trimmedlen;
 }				t_dup;
 
 int				cd(char **args);
@@ -102,7 +103,7 @@ int				getpipes(char **args);
 int				minipipe(char **pipesplitcmds, int n, t_vars *p);
 
 //redirections
-t_dup			redirect(char **args);
-void			reset_redirections(t_dup redirs);
+void			redirect(char **args, t_dup *redirs);
+void			reset_redirections(t_dup *redirs);
 
 #endif
