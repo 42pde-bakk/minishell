@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/06 20:36:28 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/06 20:48:58 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void    		write_instant(char *str, int fd, t_vars *p);
 char			**ft_split_q(char *s, char c);
 int				main(void);
 
-//utils
+/*
+** Utils
+*/
 int				ft_strcmp_equal(char *str1, char *str2);
 char			*ft_strstrip(char *str, int i, int k);
 int				get_next_line_q(int fd, char **line);
@@ -80,28 +82,34 @@ void			fill_char_e(char *str, char **new, int *i, int *n);
 int				run_back_slash(char *str, int *index);
 void			not_found(char *str);
 
-//export
+/*
+** Export
+*/
 int				check_valid_export(char *str);
 int				export(char **args, t_vars *p);
 char			**ft_split_equal(char *str);
 int				find_match(char *env, char *new);
 void			free_var(char **var, int *s);
 
-//free_functions
+/*
+** Free_functions
+*/
 void			free_args(char **args);
 void			free_line_cmds(char **cmds, char *line, int i);
 void			free_arr_top_down(char **arr, int *i);
 void			*ft_free_array(char **arr);
 int				free_var_ret(char **var);
 
-//gameloop
+/*
+** Gameloop
+*/
 int				do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p);
 int				gameloop(t_vars *p, char *line);
 
-//pipes
+/*
+** Pipes and redirections
+*/
 void			minipipe(char **pipesplitcmds, int n, t_vars *p);
-
-//redirections
 void			redirect(char **args, t_dup *redirs);
 void			reset_redirections(t_dup *redirs);
 
