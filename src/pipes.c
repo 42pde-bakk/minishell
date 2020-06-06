@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/05 19:30:30 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/06 20:46:44 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,31 @@
 #include <string.h>
 #include <sys/ioctl.h>
 
-static void	parent(char **pipesplitcmds, int n, t_vars *p, int fd[2])
+static void	leftpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 {
 	char	**args;
-	int		stdoutbackup;
 
-	stdoutbackup = dup(1);
 	close(fd[0]);
-	if (dup2(fd[1], 1) == -1)
-		exit(0);
+	if (dup2(fd[1], 1) < 0)
+		exit(1);
 	args = split_quotes2(pipesplitcmds[n]);
 	argcheck(args, p);
 	close(fd[1]);
-	if (dup2(stdoutbackup, 1) < 0)
-		exit(0);
 	free_args(args);
-	waitpid(0, NULL, 0);
+}
+
+static void	rightpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
+{
+	int	stdinbackup;
+
+	stdinbackup = dup(0);
+	close(fd[1]);
+	if (dup2(fd[0], 0) < 0)
+		exit(1);
+	do_pipes_and_redirs(pipesplitcmds, n + 1, p);
+	close(fd[0]);
+	if (dup2(stdinbackup, 0) < 0)
+		exit(1);
 }
 
 /*
@@ -45,7 +54,7 @@ static void	parent(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 **         ...                       |               ...
 */
 
-int			minipipe(char **pipesplitcmds, int n, t_vars *p)
+void		minipipe(char **pipesplitcmds, int n, t_vars *p)
 {
 	int		fd[2];
 	int		childpid;
@@ -53,23 +62,22 @@ int			minipipe(char **pipesplitcmds, int n, t_vars *p)
 	if (pipe(fd) == -1)
 	{
 		perror("pipe failed");
-		return (-1);
+		exit(1);
 	}
 	childpid = fork();
 	if (childpid == -1)
 	{
 		perror("fork failed");
-		return (-1);
+		exit(1);
 	}
 	else if (childpid == 0)
 	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
-		close(fd[0]);
+		leftpipe(pipesplitcmds, n, p, fd);
 		exit(0);
 	}
 	else
-		parent(pipesplitcmds, n, p, fd);
-	return (1);
+	{
+		rightpipe(pipesplitcmds, n, p, fd);
+		waitpid(0, NULL, 0);
+	}
 }

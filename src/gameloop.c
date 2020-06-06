@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/06 18:34:49 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/06 20:21:07 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**trimargs(char **args)
 	return (out);
 }
 
-int	do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
+int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 {
 	t_dup	redirs;
 	char	**args;
@@ -43,24 +43,18 @@ int	do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	args = split_quotes2(pipesplitcmds[n]);
 	ft_bzero(&redirs, sizeof(t_dup));
 	redirect(args, &redirs);
-	// while (1)
-	// {
-		trimmed = trimargs(args);
-		if (pipesplitcmds[n + 1])
-			minipipe(pipesplitcmds, n, p);
-		else if (args[0])
-			argcheck(trimmed, p);
-		reset_redirections(&redirs);
-		// redirect(args, &redirs);
-		free_args(trimmed);
-		// if (redirs.in == 0 && redirs.out == 0)
-		// 	break;
-	// }
+	trimmed = trimargs(args);
+	if (pipesplitcmds[n + 1])
+		minipipe(pipesplitcmds, n, p);
+	else if (args[0])
+		argcheck(trimmed, p);
+	reset_redirections(&redirs);
+	free_args(trimmed);
 	free_args(args);
 	return (0);
 }
 
-int	gameloop(t_vars *p, char *line)
+int		gameloop(t_vars *p, char *line)
 {
 	int		i;
 	int		n;
