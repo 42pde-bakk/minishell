@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/06 18:42:20 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/07 15:43:45 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	redirect_output(char **args, t_dup *redirs, int *i)
 	if (dup2(redirs->out, 1) < 0)
 		exit(0);
 	close(redirs->out);
+	free(args[*i]);
+	args[*i] = ft_strdup("");
 }
 
 void	redirect(char **args, t_dup *redirs)
@@ -73,6 +75,8 @@ void	redirect(char **args, t_dup *redirs)
 			if (dup2(redirs->in, 0) < 0)
 				exit(0);
 			close(redirs->in);
+			free(args[i]);
+			args[i] = ft_strdup("");
 		}
 		if ((ft_strncmp(args[i], ">", 2) == 0 ||
 			ft_strncmp(args[i], ">>", 3) == 0) && args[i + 1])

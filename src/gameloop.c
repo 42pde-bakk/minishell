@@ -6,11 +6,20 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/06 20:21:07 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/07 16:24:06 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		trimcheck(char **args, int i)
+{
+	if (ft_strncmp(args[i], "", 1) != 0 &&
+		(i == 0 || ft_strncmp(args[i - 1], "", 1) != 0))
+		return (1);
+	else
+		return (0);
+}
 
 char	**trimargs(char **args)
 {
@@ -20,17 +29,24 @@ char	**trimargs(char **args)
 
 	i = 0;
 	len = 0;
-	while (args[len] && ft_strncmp(args[len], "", 1) != 0 &&
-	ft_strncmp(args[len], "<", 2) != 0 && ft_strncmp(args[len], ">", 2) != 0
-	&& ft_strncmp(args[len], ">>", 3) != 0)
-		len++;
-	out = malloc((1 + len) * sizeof(char*));
-	while (args[i] && i < len)
+	while (args[i])
 	{
-		out[i] = ft_strdup(args[i]);
+		if (trimcheck(args, i) == 1)
+			len++;
 		i++;
 	}
-	out[i] = NULL;
+	i = 0;
+	out = ft_calloc(len + 1, sizeof(char*));
+	len = 0;
+	while (args[i])
+	{
+		if (trimcheck(args, i) == 1)
+		{
+			out[len] = ft_strdup(args[i]);
+			len++;
+		}
+		i++;
+	}
 	return (out);
 }
 
