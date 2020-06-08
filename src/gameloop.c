@@ -6,16 +6,22 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/07 16:24:06 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/08 15:09:07 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Checks if current arg isnt </>/>> and
+** if either i == 0 or the previous argument isnt </>/>>
+*/
 int		trimcheck(char **args, int i)
 {
-	if (ft_strncmp(args[i], "", 1) != 0 &&
-		(i == 0 || ft_strncmp(args[i - 1], "", 1) != 0))
+	if ((ft_strncmp(args[i], "<", 2) != 0 && ft_strncmp(args[i], ">", 2) &&
+	ft_strncmp(args[i], ">>", 3) != 0) && (i == 0 ||
+	(ft_strncmp(args[i - 1], "<", 2) != 0 && ft_strncmp(args[i - 1], ">", 2)
+	&& ft_strncmp(args[i - 1], ">>", 3) != 0)))
 		return (1);
 	else
 		return (0);
@@ -61,9 +67,13 @@ int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
 	if (pipesplitcmds[n + 1])
-		minipipe(pipesplitcmds, n, p);
+	{
+		minipipe(pipesplitcmds, n, p, trimmed);
+	}
 	else if (args[0])
+	{
 		argcheck(trimmed, p);
+	}
 	reset_redirections(&redirs);
 	free_args(trimmed);
 	free_args(args);

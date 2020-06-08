@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/06 20:46:44 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/08 19:26:43 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@
 #include <string.h>
 #include <sys/ioctl.h>
 
-static void	leftpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
+static void	leftpipe(char **trimmedargs, int n, t_vars *p, int fd[2])
 {
-	char	**args;
-
-	close(fd[0]);
+	(void)n;
+	if (close(fd[0]) < 0)
+		exit(1);
 	if (dup2(fd[1], 1) < 0)
 		exit(1);
-	args = split_quotes2(pipesplitcmds[n]);
-	argcheck(args, p);
-	close(fd[1]);
-	free_args(args);
+	argcheck(trimmedargs, p);
+	if (close(fd[1]) < 0)
+		exit(1);
 }
 
 static void	rightpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
@@ -34,11 +33,13 @@ static void	rightpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 	int	stdinbackup;
 
 	stdinbackup = dup(0);
-	close(fd[1]);
+	if (close(fd[1]) < 0)
+		exit(1);
 	if (dup2(fd[0], 0) < 0)
 		exit(1);
 	do_pipes_and_redirs(pipesplitcmds, n + 1, p);
-	close(fd[0]);
+	if (close(fd[0]) < 0)
+		exit(1);
 	if (dup2(stdinbackup, 0) < 0)
 		exit(1);
 }
@@ -49,15 +50,15 @@ static void	rightpipe(char **pipesplitcmds, int n, t_vars *p, int fd[2])
 **                         you now have two
 **                         programs running
 **                         --------------------
-**      if (p > 0) {                 |            if (p == 0) {
-**         printf("parent\n");       |               printf("child\n");
-**         ...                       |               ...
+**      if (p == 0) {               |            if (p > 0) {
+**         printf("leftpipe\n");    |               printf("rightpipe\n");
+**         ...                      |               ...
 */
 
-void		minipipe(char **pipesplitcmds, int n, t_vars *p)
+void		minipipe(char **pipesplitcmds, int n, t_vars *p, char **trimmed)
 {
 	int		fd[2];
-	int		childpid;
+	pid_t	childpid;
 
 	if (pipe(fd) == -1)
 	{
@@ -65,14 +66,14 @@ void		minipipe(char **pipesplitcmds, int n, t_vars *p)
 		exit(1);
 	}
 	childpid = fork();
-	if (childpid == -1)
+	if ((int)childpid == (pid_t)-1)
 	{
 		perror("fork failed");
 		exit(1);
 	}
-	else if (childpid == 0)
+	else if (childpid == (pid_t)0)
 	{
-		leftpipe(pipesplitcmds, n, p, fd);
+		leftpipe(trimmed, n, p, fd);
 		exit(0);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/05 19:23:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/08 19:07:02 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,13 @@ void		ft_execute(char **args, t_vars *p)
 	args[0] = remove_start(args);
 	if (fork() == 0)
 	{
-		execve(args[0], args, NULL);
+		int check = execve(args[0], args, NULL);
 		get_paths(args[0], p);
 		while (p->paths[k])
 		{
-			execve(p->paths[k], args, NULL);
+			errno = 0;
+			// dprintf(2, "b4: k = %d, paths[k] = %s, errno (0) = %i\t", k, p->paths[k], errno);
+			check = execve(p->paths[k], args, NULL);
 			k++;
 		}
 		free_args(p->paths);

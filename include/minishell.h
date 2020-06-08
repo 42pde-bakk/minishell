@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/06 20:48:58 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/08 16:56:43 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int				gameloop(t_vars *p, char *line);
 /*
 ** Pipes and redirections
 */
-void			minipipe(char **pipesplitcmds, int n, t_vars *p);
+void			minipipe(char **pipesplitcmds, int n, t_vars *p, char **trimmed);
 void			redirect(char **args, t_dup *redirs);
 void			reset_redirections(t_dup *redirs);
 
