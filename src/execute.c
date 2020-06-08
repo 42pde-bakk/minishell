@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/05 19:23:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/08 14:56:11 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		*remove_start(char **args)
 	return (str);
 }
 
-void		fill_paths(char *str, char *args, int k, t_vars *p)
+void		fill_paths(char *str, char **args, int k, t_vars *p)
 {
 	int i;
 
@@ -41,12 +41,19 @@ void		fill_paths(char *str, char *args, int k, t_vars *p)
 	p->paths = ft_split(str + k, ':');
 	while (p->paths[i])
 	{
-		p->paths[i] = ft_strjoin_free_slash(p->paths[i], args, 0);
+		p->paths[i] = ft_strjoin_free_slash(p->paths[i], args[0], 0);
 		i++;
 	}
+	i = 0;
+	while (p->paths[i])
+	{
+		execve(p->paths[i], args, NULL);
+		i++;
+	}
+	free_args(p->paths);
 }
 
-void		get_paths(char *args, t_vars *p)
+void		get_paths(char **args, t_vars *p)
 {
 	int i;
 	int k;
@@ -95,17 +102,14 @@ void		ft_execute(char **args, t_vars *p)
 	k = 0;
 	i = 0;
 	remove_quotes(args);
-	args[0] = remove_start(args);
 	if (fork() == 0)
 	{
-		execve(args[0], args, NULL);
-		get_paths(args[0], p);
-		while (p->paths[k])
+		if (args[0][0] == '.' && args[0][1] == '/')
 		{
-			execve(p->paths[k], args, NULL);
-			k++;
+			args[0] = remove_start(args);
+			execve(args[0], args, NULL);
 		}
-		free_args(p->paths);
+		get_paths(args, p);
 		p->is_child = 0;
 		not_found(args[0]);
 		exit(127);
