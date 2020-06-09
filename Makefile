@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/09 17:31:52 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/09 18:13:09 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,21 +44,21 @@ FLAGS = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(FILES)
-	@echo "$(BLUE)Remaking libft.a"
-	@make re -C ./libft
+	@echo "$(BLUE)Remaking libft.a and libftprintf.a"
+	@make re -s -C ./libft
 	@cp ./libft/libft.a .
-	@make re -C ./ft_dprintf
+	@make re -s -C ./ft_dprintf
 	@cp ./ft_dprintf/libftprintf.a .
 	@gcc $(FLAGS) -I ./include/ $(FILES) libft.a libftprintf.a -o $(NAME)
 
 clean:
 	/bin/rm -f *.o *~ *.gch
-	@make clean -C ./libft
-	@make clean -C ./ft_dprintf
+	@make clean -s -C ./libft
+	@make clean -s -C ./ft_dprintf
 
 fclean: clean
-	@make fclean -C ./libft
-	@make fclean -C ./ft_dprintf
+	@make fclean -s -C ./libft
+	@make fclean -s -C ./ft_dprintf
 	/bin/rm -f libft.a
 	/bin/rm -f minishell
 

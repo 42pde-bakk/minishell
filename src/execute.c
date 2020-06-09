@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/09 17:47:24 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 18:32:12 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ void		ft_execute(char **args, t_vars *p)
 		}
 		else
 			get_paths(args, p);
-		perror("child: errno");
 		p->is_child = 0;
-		not_found(args[0]);
+		ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno)); //strerror geeft 'no such file or directory' maar moet 'command not found' zijn
+		// not_found(args[0]);
 		exit(127);
 	}
 	waitpid(i, NULL, 0);

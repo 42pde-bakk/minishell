@@ -6,7 +6,7 @@
 #    By: pde-bakk <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/12/02 17:36:51 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/06/09 17:39:19 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/09 18:11:05 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,20 +35,19 @@ RESET = \x1b[0m
 all: $(NAME)
 
 $(NAME):
-	@echo "$(YELLOW)Linking the library"
-	gcc -c $(FLAGS) $(HEADER) $(SRC)
-	ar -rc $(NAME) $(OBJ)
-	@echo "$(GREEN)Done!$(RESET)"
+#	@echo "$(YELLOW)Linking the library"
+	@gcc -c $(FLAGS) $(HEADER) $(SRC)
+	@ar -rc $(NAME) $(OBJ)
+#	@echo "$(GREEN)Done!$(RESET)"
 
 clean:
-	@echo "$(RED)Cleaning...$(RESET)"
-	/bin/rm -f *.o *~ *.gch
+#	@echo "$(RED)Cleaning ft_dprintf...$(RESET)"
+	@/bin/rm -f *.o *~ *.gch
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all
 
 bonus: re
 	@echo "$(PINK)Linking bonus files$(RESET)"
-

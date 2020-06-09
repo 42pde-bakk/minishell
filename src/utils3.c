@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:14:18 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/09 16:44:42 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 18:16:45 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		block_ctrl_c(int sig)
 {
 	g_ret = 1;
-	ft_putstr_fd("\nbash-3.3$ ", 1);
+	ft_putstr_fd("\x1b[35;01m\nbash-3.3$\x1b[31;37m ", 1);
 	(void)sig;
 }
 
