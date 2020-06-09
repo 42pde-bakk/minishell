@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/08 15:09:07 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 16:48:59 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 ** Checks if current arg isnt </>/>> and
 ** if either i == 0 or the previous argument isnt </>/>>
 */
+
 int		trimcheck(char **args, int i)
 {
 	if ((ft_strncmp(args[i], "<", 2) != 0 && ft_strncmp(args[i], ">", 2) &&

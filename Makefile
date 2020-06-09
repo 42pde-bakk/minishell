@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/04 16:43:55 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/09 17:31:52 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,14 +47,18 @@ $(NAME): $(FILES)
 	@echo "$(BLUE)Remaking libft.a"
 	@make re -C ./libft
 	@cp ./libft/libft.a .
-	@gcc $(FLAGS) -I ./include/ $(FILES) libft.a -o $(NAME)
+	@make re -C ./ft_dprintf
+	@cp ./ft_dprintf/libftprintf.a .
+	@gcc $(FLAGS) -I ./include/ $(FILES) libft.a libftprintf.a -o $(NAME)
 
 clean:
 	/bin/rm -f *.o *~ *.gch
 	@make clean -C ./libft
+	@make clean -C ./ft_dprintf
 
 fclean: clean
 	@make fclean -C ./libft
+	@make fclean -C ./ft_dprintf
 	/bin/rm -f libft.a
 	/bin/rm -f minishell
 

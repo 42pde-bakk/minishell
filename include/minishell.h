@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/08 16:56:43 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 17:43:06 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "libft.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
-extern int errno;
+# include <string.h>
+extern int	errno;
+int			g_ret;
 
 extern char **environ;
 
@@ -109,7 +112,8 @@ int				gameloop(t_vars *p, char *line);
 /*
 ** Pipes and redirections
 */
-void			minipipe(char **pipesplitcmds, int n, t_vars *p, char **trimmed);
+void			minipipe(char **pipesplitcmds, int n,
+						t_vars *p, char **trimmed);
 void			redirect(char **args, t_dup *redirs);
 void			reset_redirections(t_dup *redirs);
 

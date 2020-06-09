@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/08 15:09:54 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 17:43:51 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,23 @@ int		main(void)
 	while (1)
 	{
 		if (p.is_child == 2)
-			ft_putstr_fd("Quit: 3\nminishell> ", 1);
+			ft_putstr_fd("Quit: 3\nbash-3.3$ ", 1);
 		if (p.is_child == 1 || p.is_child == 2)
+		{
+			g_ret = 0;
 			p.is_child = 0;
+		}
 		else
-			ft_putstr_fd("minishell> ", 1);
+			ft_putstr_fd("\x1b[35;01mbash-3.3$\x1b[0m ", 1);
 		signal(SIGINT, block_ctrl_c);
 		signal(SIGQUIT, block_ctrl_slash);
 		if (!(get_next_line_q(0, &line)))
 		{
-			write(1, "logout\n", 7);
+			write(1, "exit\n", 5);
 			exit(0);
 		}
+		p.ret += g_ret;
+		g_ret = 0;
 		gameloop(&p, line);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/08 19:33:19 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/09 17:47:24 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,18 @@ void		ft_execute(char **args, t_vars *p)
 	remove_quotes(args);
 	if (fork() == 0)
 	{
-		if (args[0][0] == '.' && args[0][1] == '/')
+		if (args[0][0] == '.' || args[0][0] == '/')
 		{
 			args[0] = remove_start(args);
 			execve(args[0], args, NULL);
 		}
-		get_paths(args, p);
+		else
+			get_paths(args, p);
+		perror("child: errno");
 		p->is_child = 0;
 		not_found(args[0]);
 		exit(127);
 	}
-	wait(&i);
+	waitpid(i, NULL, 0);
 	return_values(i, p);
 }

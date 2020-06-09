@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/03 14:43:53 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/09 17:32:42 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int		cd(char **args)
 		i = chdir(new);
 	}
 	else
+	{
 		i = chdir(args[1]);
+		if (i < 0)
+			ft_dprintf(2, "bash: cd: %s: %s\n", args[1], strerror(errno));
+	}
 	return (i * -1);
 }
 
