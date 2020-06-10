@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_flags.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/29 20:51:26 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:34:19 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:04:33 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_secondflagfinder(const char *s, t_map *map, va_list *args)
 
 void	ft_flagfinder(const char *s, t_map *map, va_list *args)
 {
-	while (ft_strchr("cspdiouxX%nfFgGeEaA", s[map->pos]) == 0)
+	while (ft_strchr_p("cspdiouxX%nfFgGeEaA", s[map->pos]) == 0)
 	{
 		while (s[map->pos] == '-')
 		{

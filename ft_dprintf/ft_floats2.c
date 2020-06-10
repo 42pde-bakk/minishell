@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_floats2.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/09 18:16:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:34:35 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:04:37 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,15 @@ char	*ft_floatjoin(char *s, char *ds, t_map *map)
 {
 	char	*result;
 	int		i;
-	int		n;
 	int		length;
 
 	i = 0;
-	n = 0;
 	length = ft_strlen_peer(s) + ft_strlen_peer(ds);
 	if (map->prec == 0)
 		length = ft_strlen_peer(s);
 	if (map->typ == 'e' || map->typ == 'E')
 		length = length + 4;
-	result = ft_calloc(length + 3, sizeof(char));
+	result = ft_calloc_p(length + 3, sizeof(char));
 	if (result == 0)
 		return (NULL);
 	while (s && s[i])
@@ -68,10 +66,8 @@ void	ft_putscience(int fd, t_map *map)
 {
 	char	*science;
 	char	*power;
-	int		i;
 	int		count;
 
-	i = 3;
 	count = 0;
 	if (map->typ != 'e' && map->typ != 'E')
 		return ;
@@ -131,6 +127,6 @@ void	ft_morebonusflags(const char *s, t_map *map)
 		map->apos = 0;
 		map->pos++;
 	}
-	while (ft_strchr("jzt", s[map->pos]))
+	while (ft_strchr_p("jzt", s[map->pos]))
 		map->pos++;
 }

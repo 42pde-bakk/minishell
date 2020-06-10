@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_typefinder.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/02 21:32:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:17:01 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:05:06 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_typefinder5(const char *s, t_map *map, va_list *args)
 	}
 	if (ft_floatfinder(s, map, args) == 1)
 		return (1);
-	while (ft_strchr("cspdiuxX%nfFgGeEaA", s[map->pos]) == 0)
+	while (ft_strchr_p("cspdiuxX%nfFgGeEaA", s[map->pos]) == 0)
 		map->pos++;
 	return (0);
 }

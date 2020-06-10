@@ -3,16 +3,16 @@
 /*                                                        ::::::::            */
 /*   ft_memsetfunctions.c                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/14 18:30:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:34:38 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:10:24 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memset_p(void *b, int c, size_t len)
 {
 	size_t			i;
 	unsigned char	*ptr;
@@ -27,7 +27,7 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero_p(void *s, size_t n)
 {
 	size_t			i;
 	unsigned char	*ptr;
@@ -41,7 +41,7 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc_p(size_t count, size_t size)
 {
 	void *ptr;
 
@@ -52,11 +52,11 @@ void	*ft_calloc(size_t count, size_t size)
 	}
 	ptr = malloc(count * size);
 	if (ptr)
-		ft_bzero(ptr, count * size);
+		ft_bzero_p(ptr, count * size);
 	return (ptr);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr_p(const char *s, int c)
 {
 	int i;
 	int len;

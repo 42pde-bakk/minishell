@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_printf.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/26 15:19:04 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:34:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:03:11 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ typedef struct	s_map
 	long long		sci;
 }				t_map;
 
-void			*ft_memset(void *b, int c, size_t len);
-void			ft_bzero(void *s, size_t n);
-void			*ft_calloc(size_t count, size_t size);
-char			*ft_strchr(const char *s, int c);
+void			*ft_memset_p(void *b, int c, size_t len);
+void			ft_bzero_p(void *s, size_t n);
+void			*ft_calloc_p(size_t count, size_t size);
+char			*ft_strchr_p(const char *s, int c);
 char			*ft_ultoa(unsigned long long nb, long bas, t_map *map, char c);
 
 int				ft_strlen_peer(const char *s);

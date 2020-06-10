@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/08 19:26:43 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:13:22 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	leftpipe(char **trimmedargs, int n, t_vars *p, int fd[2])
 	if (dup2(fd[1], 1) < 0)
 		exit(1);
 	argcheck(trimmedargs, p);
+	dprintf(2, "left side is done with args\n");
 	if (close(fd[1]) < 0)
 		exit(1);
 }
@@ -79,6 +80,10 @@ void		minipipe(char **pipesplitcmds, int n, t_vars *p, char **trimmed)
 	else
 	{
 		rightpipe(pipesplitcmds, n, p, fd);
+		dprintf(2, "rightpipe is waiting\n");
+		if (close(fd[1]) < 0)
+			exit(1);
 		waitpid(0, NULL, 0);
+		dprintf(2, "rightpipe is done waiting\n");
 	}
 }

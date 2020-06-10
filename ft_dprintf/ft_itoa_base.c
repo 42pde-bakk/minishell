@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_itoa_base.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/28 18:29:13 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:35:54 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:04:07 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char			*ft_itoa_base(long long nb, long long base, t_map *map, char c)
 		tab = "0123456789abcdefghijklmnopqrstuvwxyz";
 	if (base < 2 || base > 36)
 		return (0);
-	str = (char*)ft_calloc(amount + 1, sizeof(char));
+	str = (char*)ft_calloc_p(amount + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	while (amount > 0)

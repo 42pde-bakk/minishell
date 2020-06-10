@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_moreputstuff.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
+/*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/04 19:24:51 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:35:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/10 18:04:13 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_apostrophe(char *s, t_map *map)
 	n = 0;
 	if (map->apos <= -1 || map->typ == 'x' || map->typ == 'X')
 		return (s);
-	ret = ft_calloc(ft_strlen_peer(s) + map->apos + 1, sizeof(char));
+	ret = ft_calloc_p(ft_strlen_peer(s) + map->apos + 1, sizeof(char));
 	if (!ret)
 		return (0);
 	while (s[n])
