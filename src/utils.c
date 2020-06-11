@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 19:20:16 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/11 15:29:58 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void		create_two_spaces(char **str)
 
 	i = 0;
 	new = malloc(ft_strlen(*str) + 3);
+	if (new == NULL)
+		return ;
 	new[0] = ' ';
 	new[1] = ' ';
 	while ((*str)[i])

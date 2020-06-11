@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/09 18:15:14 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/11 15:29:33 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,18 @@ char	**get_environment(t_vars *p, int i)
 	p->is_child = 0;
 	while (environ[i])
 		i++;
-	env1 = malloc(sizeof(char *) * (i + 1));
-	env1[i] = NULL;
+	env1 = ft_calloc(i + 1, sizeof(char *));
+	if (env1 == NULL)
+		return (NULL);
 	i = 0;
 	while (environ[i])
 	{
 		env1[i] = malloc(ft_strlen(environ[i]) + 1);
+		if (env1[i] == NULL)
+		{
+			free_args(env1);
+			return (NULL);
+		}
 		while (environ[i][k])
 		{
 			env1[i][k] = environ[i][k];

@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/09 18:16:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/10 18:04:37 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/11 16:02:48 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_floatjoin(char *s, char *ds, t_map *map)
 	if (map->typ == 'e' || map->typ == 'E')
 		length = length + 4;
 	result = ft_calloc_p(length + 3, sizeof(char));
-	if (result == 0)
+	if (result == NULL)
 		return (NULL);
 	while (s && s[i])
 	{
