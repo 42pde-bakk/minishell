@@ -6,56 +6,15 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/06/12 16:45:23 by wbarendr      ########   odam.nl         */
+=======
+/*   Updated: 2020/06/12 17:36:25 by pde-bakk      ########   odam.nl         */
+>>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Checks if current arg isnt </>/>> and
-** if either i == 0 or the previous argument isnt </>/>>
-*/
-
-int		trimcheck(char **args, int i)
-{
-	if ((ft_strncmp(args[i], "<", 2) != 0 && ft_strncmp(args[i], ">", 2) &&
-	ft_strncmp(args[i], ">>", 3) != 0) && (i == 0 ||
-	(ft_strncmp(args[i - 1], "<", 2) != 0 && ft_strncmp(args[i - 1], ">", 2)
-	&& ft_strncmp(args[i - 1], ">>", 3) != 0)))
-		return (1);
-	else
-		return (0);
-}
-
-char	**trimargs(char **args)
-{
-	int		i;
-	int		len;
-	char	**out;
-
-	i = 0;
-	len = 0;
-	while (args[i])
-	{
-		if (trimcheck(args, i) == 1)
-			len++;
-		i++;
-	}
-	i = 0;
-	out = ft_calloc(len + 1, sizeof(char*));
-	len = 0;
-	while (args[i])
-	{
-		if (trimcheck(args, i) == 1)
-		{
-			out[len] = ft_strdup(args[i]);
-			len++;
-		}
-		i++;
-	}
-	return (out);
-}
 
 int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 {
@@ -73,7 +32,7 @@ int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	{
 		minipipe(pipesplitcmds, n, p, trimmed);
 	}
-	else if (args[0])
+	else if (trimmed[0] && trimmed[0][0] != '<' && trimmed[0][0] != '>')
 	{
 		argcheck(trimmed, p);
 	}
@@ -92,11 +51,21 @@ int		gameloop(t_vars *p, char *line)
 
 	i = 0;
 	cmds = NULL;
+	if (syntax_check(line))
+	{
+		free(line);
+		return (0);
+	}
+	line = improve_line(line);
 	if (line)
 		cmds = ft_split_q(line, ';');
+<<<<<<< HEAD
 	if (cmds == NULL)
 		exit(1);
 	while (cmds[i])
+=======
+	while (cmds && cmds[i])
+>>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
 	{
 		n = 0;
 		pipesplitcmds = ft_split_q(cmds[i], '|');

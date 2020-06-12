@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/09 18:13:09 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/12 17:42:52 by wbarendr      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ fclean: clean
 	@make fclean -s -C ./libft
 	@make fclean -s -C ./ft_dprintf
 	/bin/rm -f libft.a
+	/bin/rm -f libftprintf.a
 	/bin/rm -f minishell
 
 re: fclean all

@@ -6,7 +6,11 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/06/12 14:29:11 by wbarendr      ########   odam.nl         */
+=======
+/*   Updated: 2020/06/12 15:59:36 by pde-bakk      ########   odam.nl         */
+>>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +45,8 @@ char		*ft_str3join(char *a, char *b, char *c)
 
 	out = ft_calloc(ft_strlen(a) + ft_strlen(b) + ft_strlen(c) + 1,
 			sizeof(char));
+	if (out == NULL)
+		return (out);
 	ft_strlcpy(out, a, ft_strlen(a) + 1);
 	ft_strlcpy(out + ft_strlen(a), b, ft_strlen(b) + 1);
 	ft_strlcpy(out + ft_strlen(a) + ft_strlen(b), c, ft_strlen(c) + 1);
@@ -59,6 +65,8 @@ char		**get_pathentries(t_vars *p)
 	if (p->env1[i] == NULL)
 		return ((char**)NULL);
 	sub = ft_substr(p->env1[i], 5, ft_strlen(p->env1[i]) - 4);
+	if (sub == NULL)
+		return (NULL);
 	out = ft_split_q(sub, ':');
 	free(sub);
 	return (out);
@@ -73,9 +81,11 @@ void		get_abspath(char **abspath, t_vars *p, char **args)
 
 	i = 0;
 	entries = get_pathentries(p);
-	while (entries[i])
+	while (entries && entries[i])
 	{
 		tmp = ft_str3join(entries[i], "/", args[0]);
+		if (tmp == NULL)
+			return ;
 		if (stat(tmp, &statstruct) != -1)
 		{
 			*abspath = tmp;
@@ -104,6 +114,6 @@ void		ft_execute(char **args, t_vars *p)
 		p->is_child = 0;
 		exit(127);
 	}
-	waitpid(i, NULL, 0);
+	waitpid(i, &i, 0);
 	return_values(i, p);
 }
