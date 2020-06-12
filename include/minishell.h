@@ -6,11 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/06/12 17:26:03 by wbarendr      ########   odam.nl         */
-=======
-/*   Updated: 2020/06/12 17:37:37 by pde-bakk      ########   odam.nl         */
->>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
+/*   Updated: 2020/06/12 18:01:37 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +86,7 @@ void			fill_char_e(char *str, char **new, int *i, int *n);
 int				run_back_slash(char *str, int *index);
 void			not_found(char *str);
 void			get_environment2(char **env1, char *environ, int i);
+void			p_is_child(t_vars *p);
 
 /*
 ** Export

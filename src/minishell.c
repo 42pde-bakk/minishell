@@ -6,11 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/06/12 17:28:08 by wbarendr      ########   odam.nl         */
-=======
-/*   Updated: 2020/06/12 17:25:15 by pde-bakk      ########   odam.nl         */
->>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
+/*   Updated: 2020/06/12 18:10:15 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +104,6 @@ char	**get_environment(t_vars *p, int i)
 	return (env1);
 }
 
-void	p_is_child(t_vars *p)
-{
-	if (p->is_child == 2)
-		ft_putstr_fd("\x1b[34;01mQuit: 3\nbash-3.3$ \x1b[0m", 1);
-	if (p->is_child == 1 || p->is_child == 2)
-	{
-		g_ret = 0;
-		p->is_child = 0;
-	}
-	else
-		ft_putstr_fd("\x1b[35;01mbash-3.3$\x1b[31;37m ", 1);
-}
-
 int		main(void)
 {
 	char	*line;
@@ -134,7 +117,7 @@ int		main(void)
 		signal(SIGQUIT, block_ctrl_slash);
 		if (!(get_next_line_q(0, &line)))
 		{
-			write(1, "\x1b[31;01mexit\x1b[0m\n", 5);
+			ft_dprintf(1, "\x1b[34;01m exit \x1b[0m\n");
 			exit(0);
 		}
 		p.ret += g_ret;

@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/12 17:42:52 by wbarendr      ########   odam.nl          #
+#    Updated: 2020/06/12 18:09:32 by wbarendr      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,20 @@ SRC = 	minishell.c \
 		free_functions.c \
 		ft_split_q.c \
 		gameloop.c \
-		pipes.c
+		pipes.c \
+		trimming.c \
+		syntax.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))
+# COLORS
+PINK = \x1b[35;01m
+BLUE = \x1b[34;01m
+YELLOW = \x1b[33;01m
+GREEN = \x1b[32;01m
+RED = \x1b[31;01m
+WHITE = \x1b[31;37m
+RESET = \x1b[0m
 
 FLAGS = -Wall -Werror -Wextra
 

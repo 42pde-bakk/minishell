@@ -6,11 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/06/12 14:29:11 by wbarendr      ########   odam.nl         */
-=======
-/*   Updated: 2020/06/12 15:59:36 by pde-bakk      ########   odam.nl         */
->>>>>>> 2348e2b2a4ac84f76ce6d66fc6dfc354e0483bc8
+/*   Updated: 2020/06/12 17:48:54 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

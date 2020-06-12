@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 14:39:26 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/12 17:23:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:54:26 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,17 @@ int		syntax_check(char *line)
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == '|')
-		return (dprintf(2, "%s \'|\'\n", syntax));
+		return (dprintf(2, "%s `|\'\n", syntax));
 	while (line[i])
 	{
 		if (line[i] == ';' && line[i + 1] == ';')
-			return (dprintf(2, "%s \';;\'\n", syntax));
+			return (dprintf(2, "%s `;;\'\n", syntax));
 		if (syntax_check_redirs(line, &i) == 1)
-			return (dprintf(2, "%s \'%c\'\n", syntax, line[i]));
+		{
+			if (line[i] == '\n')
+				return (dprintf(2, "%s `%s\'\n", syntax, "newline"));
+			return (dprintf(2, "%s `%c\'\n", syntax, line[i]));
+		}
 		i++;
 	}
 	return (0);
