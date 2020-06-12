@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/12 14:40:16 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:37:37 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int				free_var_ret(char **var);
 */
 char			*improve_line(char *line);
 int				syntax_check(char *line);
+char			**trimargs(char **args);
 int				do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p);
 int				gameloop(t_vars *p, char *line);
 

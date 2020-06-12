@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/12 16:20:29 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:25:15 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,19 @@ char	**get_environment(t_vars *p, int i)
 	return (env1);
 }
 
+void	p_is_child(t_vars *p)
+{
+	if (p->is_child == 2)
+		ft_putstr_fd("\x1b[34;01mQuit: 3\nbash-3.3$ \x1b[0m", 1);
+	if (p->is_child == 1 || p->is_child == 2)
+	{
+		g_ret = 0;
+		p->is_child = 0;
+	}
+	else
+		ft_putstr_fd("\x1b[35;01mbash-3.3$\x1b[31;37m ", 1);
+}
+
 int		main(void)
 {
 	char	*line;
@@ -97,15 +110,7 @@ int		main(void)
 	p.env1 = get_environment(&p, 0);
 	while (1)
 	{
-		if (p.is_child == 2)
-			ft_putstr_fd("\x1b[34;01mQuit: 3\nbash-3.3$ \x1b[0m", 1);
-		if (p.is_child == 1 || p.is_child == 2)
-		{
-			g_ret = 0;
-			p.is_child = 0;
-		}
-		else
-			ft_putstr_fd("\x1b[35;01mbash-3.3$\x1b[31;37m ", 1);
+		p_is_child(&p);
 		signal(SIGINT, block_ctrl_c);
 		signal(SIGQUIT, block_ctrl_slash);
 		if (!(get_next_line_q(0, &line)))

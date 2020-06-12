@@ -6,11 +6,26 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 14:39:26 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/12 16:13:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:23:15 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		syntax_check_redirs(char *line, int *i)
+{
+	if (line[*i] == '>' || line[*i] == '<')
+	{
+		(*i)++;
+		if (line[*i] == '>' && line[*i] == '>')
+			(*i)++;
+		while (line[*i] == ' ')
+			(*i)++;
+		if (ft_isalnum(line[*i]) == 0)
+			return (1);
+	}
+	return (0);
+}
 
 int		syntax_check(char *line)
 {
@@ -27,16 +42,8 @@ int		syntax_check(char *line)
 	{
 		if (line[i] == ';' && line[i + 1] == ';')
 			return (dprintf(2, "%s \';;\'\n", syntax));
-		if (line[i] == '>' || line[i] == '<')
-		{
-			i++;
-			if (line[i] == '>' && line[i] == '>')
-				i++;
-			while (line[i] == ' ')
-				i++;
-			if (ft_isalnum(line[i]) == 0)
-				return (dprintf(2, "%s \'%c\'\n", syntax, line[i]));
-		}
+		if (syntax_check_redirs(line, &i) == 1)
+			return (dprintf(2, "%s \'%c\'\n", syntax, line[i]));
 		i++;
 	}
 	return (0);
