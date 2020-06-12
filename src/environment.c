@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:44:12 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/09 18:50:30 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:14:40 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ int		check_valid_export(char *str)
 	if (!(ft_isalpha(str[0]) || str[0] == '_'))
 	{
 		ft_dprintf(2, "-bash: export: `%s': %s\n", str, strerror(errno));
-		// ft_putstr_fd("-bash: export: `", 2);
-		// ft_putstr_fd(str, 2);
-		// ft_putstr_fd("': not a valid identifier", 2);
-		// write(2, "\n", 1);
 		return (1);
 	}
 	while (str[i])
@@ -31,10 +27,6 @@ int		check_valid_export(char *str)
 		if (!ft_isalpha(str[i]) && str[i] != '_' && !ft_isdigit(str[i]))
 		{
 			ft_dprintf(2, "-bash: export: `%s': %s\n", str, strerror(errno));
-			// ft_putstr_fd("-bash: export: `", 2);
-			// ft_putstr_fd(str, 2);
-			// ft_putstr_fd("': not a valid identifier", 2);
-			// write(2, "\n", 1);
 			return (1);
 		}
 		i++;

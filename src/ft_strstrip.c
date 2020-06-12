@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/17 14:35:27 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/03 16:04:26 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:23:15 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char		*ft_strstrip(char *str, int i, int k)
 
 	new_str = malloc(count_char(str, 0, 0) + 1);
 	if (!new_str)
-		exit(0);
+		exit(1);
 	while (str[i])
 	{
 		if (i == 0)

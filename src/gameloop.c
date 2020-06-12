@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 16:48:59 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:45:23 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	char	**trimmed;
 
 	args = split_quotes2(pipesplitcmds[n]);
+	if (args == NULL)
+		exit(1);
 	ft_bzero(&redirs, sizeof(t_dup));
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
@@ -92,10 +94,14 @@ int		gameloop(t_vars *p, char *line)
 	cmds = NULL;
 	if (line)
 		cmds = ft_split_q(line, ';');
+	if (cmds == NULL)
+		exit(1);
 	while (cmds[i])
 	{
 		n = 0;
 		pipesplitcmds = ft_split_q(cmds[i], '|');
+		if (pipesplitcmds == NULL)
+			exit(1);
 		do_pipes_and_redirs(pipesplitcmds, n, p);
 		i++;
 		free_args(pipesplitcmds);

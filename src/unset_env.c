@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 15:43:45 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/05 15:25:29 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:18:17 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		make_smaller_array(int found, t_vars *p, char **arr, int k)
 		{
 			arr[i2] = malloc(ft_strlen(p->env1[i]) + 1);
 			if (!arr[i2])
-				exit(0);
+				exit(1);
 			while (p->env1[i][k])
 			{
 				arr[i2][k] = p->env1[i][k];
@@ -54,6 +54,14 @@ void		make_smaller_array(int found, t_vars *p, char **arr, int k)
 		i++;
 	}
 	free_old_arr(p, arr, i2);
+}
+
+void		unset_new2(int found, t_vars *p, char **arr)
+{
+	if (found >= 0)
+		make_smaller_array(found, p, arr, 0);
+	else
+		free(arr);
 }
 
 int			unset_new(char **args, t_vars *p)
@@ -77,11 +85,8 @@ int			unset_new(char **args, t_vars *p)
 		}
 		arr = malloc(sizeof(char *) * i);
 		if (!arr)
-			exit(0);
-		if (found >= 0)
-			make_smaller_array(found, p, arr, 0);
-		else 
-			free(arr);
+			exit(1);
+		unset_new2(found, p, arr);
 		k++;
 	}
 	return (0);

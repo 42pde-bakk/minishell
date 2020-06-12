@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/09 17:43:06 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:26:03 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_vars
 	int			ret;
 	int			is_child;
 	char		**paths;
+	char		*home_path;
 }				t_vars;
 
 typedef struct	s_dup
@@ -48,7 +49,7 @@ typedef struct	s_dup
 	int			trimmedlen;
 }				t_dup;
 
-int				cd(char **args);
+int				cd(char **args, t_vars *p);
 int				pwd();
 void			argcheck(char **args, t_vars *p);
 int				env(char **args, t_vars *p);
@@ -84,6 +85,7 @@ void			fill_char_c(char *str, char **new, int *i, int *n);
 void			fill_char_e(char *str, char **new, int *i, int *n);
 int				run_back_slash(char *str, int *index);
 void			not_found(char *str);
+void			get_environment2(char **env1, char *environ, int i);
 
 /*
 ** Export

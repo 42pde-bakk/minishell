@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:45:58 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/11 15:25:14 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 14:26:33 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,38 @@ void	later_in_alph(char **arr, int *i)
 	(*i) = 0;
 }
 
+void	cpy_loop(char *env1, char **arr)
+{
+	int k;
+
+	k = 0;
+	while (env1[k])
+	{
+		(*arr)[k] = env1[k];
+		k++;
+	}
+	(*arr)[k] = 0;
+}
+
 char	**make_cpy(char **env1)
 {
 	char	**arr;
 	int		i;
-	int		k;
 
-	k = 0;
 	i = 0;
 	while (env1[i])
 		i++;
 	arr = malloc(sizeof(char *) * (i + 1));
+	if (arr == NULL)
+		exit(1);
 	arr[i] = 0;
 	i = 0;
 	while (env1[i])
 	{
 		arr[i] = malloc(ft_strlen(env1[i]) + 1);
-		while (env1[i][k])
-		{
-			arr[i][k] = env1[i][k];
-			k++;
-		}
-		arr[i][k] = 0;
-		k = 0;
+		if (arr[i] == NULL)
+			exit(1);
+		cpy_loop(env1[i], &arr[i]);
 		i++;
 	}
 	return (arr);

@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:14:18 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/09 18:16:45 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:27:35 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,22 @@ void		not_found(char *str)
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": command not found\n", 2);
+}
+
+void		get_environment2(char **env1, char *environ, int i)
+{
+	int k;
+
+	k = 0;
+	if (env1[i] == NULL)
+	{
+		free_args(env1);
+		exit(1);
+	}
+	while (environ[k])
+	{
+		env1[i][k] = environ[k];
+		k++;
+	}
+	env1[i][k] = 0;
 }

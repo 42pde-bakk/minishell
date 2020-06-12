@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/11 14:40:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 14:29:11 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ void		ft_execute(char **args, t_vars *p)
 	{
 		get_abspath(&abspath, p, args);
 		if (abspath && execve(abspath, args, p->env1) == -1)
-			ft_dprintf(2, "abs. bash: %s: %s\n", args[0], strerror(errno));
+			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
 		else if (!abspath && execve(args[0], args, p->env1) == -1)
-			ft_dprintf(2, "!abs. bash: %s: %s\n", args[0], strerror(errno));
+			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
 		p->is_child = 0;
 		exit(127);
 	}

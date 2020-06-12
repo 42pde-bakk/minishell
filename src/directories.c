@@ -6,13 +6,13 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/09 18:44:07 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:45:09 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		cd(char **args)
+int		cd(char **args, t_vars *p)
 {
 	char	*new;
 	int		i;
@@ -21,14 +21,18 @@ int		cd(char **args)
 		return (0);
 	if (args[1][0] == '~')
 	{
-		new = args[1];
-		(new)++;
-		new = ft_strjoin("/home/peer", new);
+		if (args[1][1] && args[1][2])
+			new = ft_strjoin(p->home_path, args[1] + 2);
+		else
+			new = p->home_path;
+		if (new == NULL)
+			exit(1);
 		i = chdir(new);
 		if (i < 0)
 			ft_dprintf(2, "bash: cd: %s: %s\n", args[1], strerror(errno));
+		free(new);
 	}
-	else
+	else if (1)
 	{
 		i = chdir(args[1]);
 		if (i < 0)

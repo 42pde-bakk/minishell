@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/15 19:58:50 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/11 15:25:11 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:19:13 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ void	create_new_var(char **var, char *args, t_vars *p, int i)
 	if (find_equal(args))
 		var[0] = ft_strjoin_free(var[0], "=");
 	env2 = malloc(sizeof(char *) * (i + 2));
+	if (env2 == NULL)
+		exit(1);
 	i = 0;
 	while (p->env1[i])
 	{
 		env2[i] = malloc(ft_strlen(p->env1[i]) + 1);
+		if (env2[i] == NULL)
+			exit(1);
 		while (p->env1[i][k])
 		{
 			env2[i][k] = p->env1[i][k];
@@ -109,7 +113,7 @@ int		export(char **args, t_vars *p)
 	{
 		var = ft_split_equal(args[s]);
 		if (!var[0])
-			exit(0); // malloc fail externo ding installere ook in de rest
+			exit(0);
 		if (check_valid_export(var[0]))
 		{
 			free_var(var, &s);

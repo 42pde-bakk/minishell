@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/16 14:20:00 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/11 15:29:58 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:43:54 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char		*ft_strjoin_free(char *s1, char const *s2)
 		return (0);
 	join = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (join == NULL)
-		return (NULL);
+		exit(1);
 	while (s1[i])
 	{
 		join[i] = s1[i];
@@ -72,7 +72,7 @@ char		*ft_strjoin_free_slash(char *s1, char const *s2, int n)
 		return (0);
 	join = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (join == NULL)
-		return (NULL);
+		exit(1);
 	while (s1[i])
 	{
 		join[i] = s1[i];
@@ -99,7 +99,7 @@ void		create_two_spaces(char **str)
 	i = 0;
 	new = malloc(ft_strlen(*str) + 3);
 	if (new == NULL)
-		return ;
+		exit(1);
 	new[0] = ' ';
 	new[1] = ' ';
 	while ((*str)[i])

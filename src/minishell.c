@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/11 15:29:33 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:28:08 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	argcheck(char **args, t_vars *p)
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
 		p->ret = pwd();
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
-		p->ret = cd(args);
+		p->ret = cd(args, p);
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 		p->ret = export(args, p);
 	else if (ft_strncmp(args[0], "env", 4) == 0)
@@ -52,6 +52,31 @@ void	argcheck(char **args, t_vars *p)
 		p->ret = unset_new(args, p);
 	else
 		ft_execute(args, p);
+}
+
+void	get_path_home(t_vars *p, char **env1)
+{
+	int		i;
+	char	*sub;
+	int		k;
+
+	k = 0;
+	i = 0;
+	while (env1[i] && ft_strncmp(env1[i], "HOME=", 5) != 0)
+		i++;
+	if (env1[i] == NULL)
+		return ;
+	sub = ft_substr(env1[i], 5, ft_strlen(env1[i]) - 4);
+	i = 0;
+	p->home_path = malloc(ft_strlen(sub + 1));
+	while (sub[i])
+	{
+		p->home_path[i] = sub[i];
+		i++;
+	}
+	p->home_path[i] = '/';
+	p->home_path[i + 1] = 0;
+	free(sub);
 }
 
 char	**get_environment(t_vars *p, int i)
@@ -67,25 +92,15 @@ char	**get_environment(t_vars *p, int i)
 		i++;
 	env1 = ft_calloc(i + 1, sizeof(char *));
 	if (env1 == NULL)
-		return (NULL);
+		exit(1);
 	i = 0;
 	while (environ[i])
 	{
 		env1[i] = malloc(ft_strlen(environ[i]) + 1);
-		if (env1[i] == NULL)
-		{
-			free_args(env1);
-			return (NULL);
-		}
-		while (environ[i][k])
-		{
-			env1[i][k] = environ[i][k];
-			k++;
-		}
-		env1[i][k] = 0;
-		k = 0;
+		get_environment2(env1, environ[i], i);
 		i++;
 	}
+	get_path_home(p, env1);
 	return (env1);
 }
 
