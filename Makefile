@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/09 18:13:09 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/12 16:14:59 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,12 +34,16 @@ SRC = 	minishell.c \
 		free_functions.c \
 		ft_split_q.c \
 		gameloop.c \
-		pipes.c
+		pipes.c \
+		syntax.c
 
 FILES = $(addprefix $(SRC_DIR)/, $(SRC))
 #FILES += $(addprefix $(LIBFT_DIR), $(LIBFT))
 
 FLAGS = -Wall -Werror -Wextra
+ifdef DEBUG
+ FLAGS += -g -fsanitize=address
+endif
 
 all: $(NAME)
 

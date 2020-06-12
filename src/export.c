@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/15 19:58:50 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/11 15:25:11 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 14:06:35 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	create_new_var(char **var, char *args, t_vars *p, int i)
 	while (p->env1[i])
 	{
 		env2[i] = malloc(ft_strlen(p->env1[i]) + 1);
+		if (env2[i] == NULL)
+			exit(1);
 		while (p->env1[i][k])
 		{
 			env2[i][k] = p->env1[i][k];

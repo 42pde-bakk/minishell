@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 16:48:59 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:20:15 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	**trimargs(char **args)
 	}
 	i = 0;
 	out = ft_calloc(len + 1, sizeof(char*));
+	if (out == NULL)
+		return (out);
 	len = 0;
 	while (args[i])
 	{
@@ -71,7 +73,7 @@ int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	{
 		minipipe(pipesplitcmds, n, p, trimmed);
 	}
-	else if (args[0])
+	else if (trimmed[0] && trimmed[0][0] != '<' && trimmed[0][0] != '>')
 	{
 		argcheck(trimmed, p);
 	}
@@ -90,9 +92,15 @@ int		gameloop(t_vars *p, char *line)
 
 	i = 0;
 	cmds = NULL;
+	if (syntax_check(line))
+	{
+		free(line);
+		return (0);
+	}
+	line = improve_line(line);
 	if (line)
 		cmds = ft_split_q(line, ';');
-	while (cmds[i])
+	while (cmds && cmds[i])
 	{
 		n = 0;
 		pipesplitcmds = ft_split_q(cmds[i], '|');

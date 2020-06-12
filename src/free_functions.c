@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/27 13:56:51 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/05 15:13:43 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/12 15:29:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_args(char **args)
 
 void	free_line_cmds(char **cmds, char *line, int i)
 {
-	while (i >= 0)
+	while (cmds && i >= 0)
 	{
 		if (cmds[i])
 			free(cmds[i]);
