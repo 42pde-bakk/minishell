@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/12 18:10:15 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/13 22:35:18 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ void	get_path_home(t_vars *p, char **env1)
 {
 	int		i;
 	char	*sub;
-	int		k;
 
-	k = 0;
 	i = 0;
 	while (env1[i] && ft_strncmp(env1[i], "HOME=", 5) != 0)
 		i++;
@@ -82,9 +80,7 @@ void	get_path_home(t_vars *p, char **env1)
 char	**get_environment(t_vars *p, int i)
 {
 	char	**env1;
-	int		k;
 
-	k = 0;
 	write(1, "\e[1;1H\e[2J", 11);
 	p->ret = 0;
 	p->is_child = 0;
