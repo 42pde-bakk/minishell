@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 17:28:29 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 21:38:03 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		minipipe(char **pipesplitcmds, int n, t_vars *p, char **trimmed)
 		rightpipe(pipesplitcmds, n, p, fd);
 		if (close(fd[1]) < 0)
 			exit(1);
+		close(fd[0]);
 		waitpid(0, &i, 0);
 	}
 }

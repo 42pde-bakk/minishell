@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/15 14:43:48 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/15 21:32:39 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,5 +75,6 @@ fclean: clean
 	/bin/rm -f libft.a
 	/bin/rm -f libftprintf.a
 	/bin/rm -f minishell
+	/bin/rm -rf minishell.dSYM
 
 re: fclean all

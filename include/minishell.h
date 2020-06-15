@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 15:55:13 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 21:26:47 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 int			g_ret;
 
