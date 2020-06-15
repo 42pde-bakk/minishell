@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 15:04:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 19:01:18 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	redirect_output(char **args, t_dup *redirs, int *i)
 		redirs->out = open(redirs->output, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	else
 		redirs->out = open(redirs->output, O_CREAT | O_APPEND | O_RDWR, 0644);
-	if (dup2(redirs->out, 1) < 0)
-		exit(0);
-	close(redirs->out);
+	// if (dup2(redirs->out, 1) < 0)
+	// 	exit(0);
+	// close(redirs->out);
 }
 
 void	redirect(char **args, t_dup *redirs)
@@ -63,16 +63,16 @@ void	redirect(char **args, t_dup *redirs)
 	int		i;
 
 	i = 0;
-	get_backup(redirs);
+	// get_backup(redirs);
 	while (args[i])
 	{
 		if (ft_strncmp(args[i], "<", 2) == 0 && args[i + 1])
 		{
 			redirs->input = args[i + 1];
 			redirs->in = open(redirs->input, O_RDONLY);
-			if (dup2(redirs->in, 0) < 0)
-				exit(0);
-			close(redirs->in);
+			// if (dup2(redirs->in, 0) < 0)
+			// 	exit(0);
+			// close(redirs->in);
 		}
 		if ((ft_strncmp(args[i], ">", 2) == 0 ||
 			ft_strncmp(args[i], ">>", 3) == 0) && args[i + 1])

@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:45:58 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/12 14:26:33 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 18:16:31 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**make_cpy(char **env1)
 	return (arr);
 }
 
-int		bubble_sort(char **env1)
+int		bubble_sort(char **env1, int fd)
 {
 	int		i;
 	char	**arr;
@@ -101,9 +101,9 @@ int		bubble_sort(char **env1)
 	i = 0;
 	while (arr[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd_1(arr[i], 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd_1(arr[i], fd);
+		ft_putchar_fd('\n', fd);
 		i++;
 	}
 	free_arr_top_down(arr, &i);

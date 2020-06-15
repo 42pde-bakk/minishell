@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 21:26:47 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 23:15:39 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ typedef struct	s_vars
 	char		*home_path;
 }				t_vars;
 
+typedef struct	s_pipes
+{
+	int			prevpipe[2];
+	int			currpipe[2];
+	int			n;
+	int			inuse[2];
+}				t_pipes;
+
 typedef struct	s_dup
 {
 	int			in;
@@ -47,16 +55,15 @@ typedef struct	s_dup
 }				t_dup;
 
 int				cd(char **args, t_vars *p);
-int				pwd();
-void			argcheck(char **args, t_vars *p, int forkneed);
-int				env(char **args, t_vars *p);
-int				bubble_sort(char **arr);
+int				pwd(int fd);
+void			argcheck(char **args, t_vars *p, t_dup *redirs);
+int				env(char **args, t_vars *p, int fd);
+int				bubble_sort(char **arr, int fd);
 int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
 void			return_values(int i, t_vars *p);
 void			get_abspath(char **abspath, t_vars *p, char **args);
-void			ft_execute(char **args, t_vars *p);
-void			exec_without_fork(char **args, t_vars *p);
+void			ft_execute(char **args, t_vars *p, t_dup *redirs);
 int				print_env_var(char *args, t_vars *p, int fd);
 void			write_instant(char *str, int fd, t_vars *p);
 char			**ft_split_q(char *s, char c);
@@ -92,7 +99,7 @@ void			p_is_child(t_vars *p);
 ** Export
 */
 int				check_valid_export(char *str);
-int				export(char **args, t_vars *p);
+int				export(char **args, t_vars *p, int fd);
 char			**ft_split_equal(char *str);
 int				find_match(char *env, char *new);
 void			free_var(char **var, int *s);
@@ -112,14 +119,14 @@ int				free_var_ret(char **var);
 char			*improve_line(char *line);
 int				syntax_check(char *line);
 char			**trimargs(char **args);
-int				do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p);
+// int				do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p);
 int				gameloop(t_vars *p, char *line);
 
 /*
 ** Pipes and redirections
 */
 void			minipipe(char **pipesplitcmds, int n,
-						t_vars *p, char **trimmed);
+						t_vars *p, char **args);
 void			redirect(char **args, t_dup *redirs);
 void			reset_redirections(t_dup *redirs);
 
