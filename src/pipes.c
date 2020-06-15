@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 16:22:16 by Peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 23:15:43 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/15 23:19:01 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,6 @@
 // 	// trimmed = a
 
 
-<<<<<<< HEAD
-	i = 0;
-	if (pipe(fd) == -1)
-		exit(1);
-	childpid = fork();
-	if ((int)childpid == (pid_t)-1)
-		exit(1);
-	else if (childpid == (pid_t)0)
-	{
-		leftpipe(trimmed, n, p, fd);
-		exit(0);
-	}
-	else
-	{
-		rightpipe(pipesplitcmds, n, p, fd);
-		if (close(fd[1]) < 0)
-			exit(1);
-		close(fd[0]);
-		waitpid(0, &i, 0);
-	}
-}
-=======
 // 	// childpid = fork();
 // 	// if ((int)childpid == (pid_t)-1)
 // 	// 	exit(1);
@@ -102,4 +80,3 @@
 // 	// 	waitpid(0, &i, 0);
 // 	// }
 // }
->>>>>>> 615fcdd881955a17b5fcfeab7bd7d290f23edc22

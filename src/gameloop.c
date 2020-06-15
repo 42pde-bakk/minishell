@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/15 21:23:03 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 23:58:11 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 void	closepipes(t_pipes *pipes)
 {
-	if (pipes->currpipe[0] > 1)
-		if (close(pipes->currpipe[0] == -1))
-			exit(1);
-	if (pipes->currpipe[1] > 1)
-		if (close(pipes->currpipe[1] == -1))
-			exit(1);
+	// if (pipes->currpipe[0] > 1)
+	// 	if (close(pipes->currpipe[0] == -1))
+	// 		exit(1);
 	if (pipes->prevpipe[0] > 1)
 		if (close(pipes->prevpipe[0] == -1))
 			exit(1);
-	if (pipes->prevpipe[1] > 1)
-		if (close(pipes->prevpipe[1] == -1))
+	pipes->prevpipe[0] = 0;
+	// if (pipes->prevpipe[1] > 1)
+	// 	if (close(pipes->prevpipe[1] == -1))
+	// 		exit(1);
+	// pipes->prevpipe[1] = 0;
+	if (pipes->currpipe[1] > 1)
+		if (close(pipes->currpipe[1] == -1))
 			exit(1);
+	pipes->currpipe[1] = 0;
 }
 
 int		lefthandpipe(char **pipesplitcmds, int n, t_vars *p, t_pipes pipes)
@@ -39,16 +42,23 @@ int		lefthandpipe(char **pipesplitcmds, int n, t_vars *p, t_pipes pipes)
 	if (args == NULL)
 		exit(1);
 	ft_bzero(&redirs, sizeof(redirs));
-	if (pipes.prevpipe[0] > 0)
+	if (pipes.prevpipe[0] > 1)
+	{
 		redirs.in = pipes.prevpipe[0];
+		ft_dprintf(2, "%s gon read from fd: %d\n", args[0], redirs.in);
+	}
 	if (pipes.currpipe[1] > 1)
-		redirs.out = pipes.prevpipe[1];
+	{
+		redirs.out = pipes.currpipe[1];
+		ft_dprintf(2, "%s gon write to fd: %d\n", args[0], redirs.out);
+	}
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
 	argcheck(trimmed, p, &redirs);
+	closepipes(&pipes);
+	ft_dprintf(2, "%s closed pipes: prev = [%d, %d], curr = [%d, %d]\n", args[0], pipes.prevpipe[0], pipes.prevpipe[1], pipes.currpipe[0], pipes.currpipe[1]);
 	free_args(trimmed);
 	free_args(args);
-	// closepipes(&pipes);
 	return (0);
 }
 
@@ -71,7 +81,9 @@ t_pipes pipes)
 		exit(1);
 	lefthandpipe(pipesplitcmds, n, p, pipes);
 	do_pipes_and_redirs(pipesplitcmds, n + 1, p, pipes);
-	closepipes(&pipes);
+	ft_dprintf(2, "after all calls\n");
+	// close(pipes.currpipe[0]);
+	// close(pipes.currpipe[1]);
 	return (0);
 }
 

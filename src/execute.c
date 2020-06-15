@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/15 20:28:17 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 23:40:13 by peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 		p->is_child = 0;
 		exit(127);
 	}
-	// ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
+	ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
 	waitpid(i, &i, 0);
-	// ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
+	ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
 	return_values(i, p);
 }
