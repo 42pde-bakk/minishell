@@ -6,7 +6,7 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/12 16:45:09 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 18:17:58 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		cd(char **args, t_vars *p)
 	return (i * -1);
 }
 
-int		pwd(void)
+int		pwd(int fd)
 {
 	char	buf[10240];
 	char	*ptr;
@@ -52,12 +52,12 @@ int		pwd(void)
 		ft_dprintf(2, "bash: pwd: %s\n", strerror(errno));
 		return (1);
 	}
-	ft_putstr_fd(ptr, 1);
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(ptr, fd);
+	ft_putchar_fd('\n', fd);
 	return (0);
 }
 
-int		env(char **args, t_vars *p)
+int		env(char **args, t_vars *p, int fd)
 {
 	int	i;
 
@@ -67,8 +67,8 @@ int		env(char **args, t_vars *p)
 	{
 		if (find_equal(p->env1[i]))
 		{
-			ft_putstr_fd(p->env1[i], 1);
-			ft_putchar_fd('\n', 1);
+			ft_putstr_fd(p->env1[i], fd);
+			ft_putchar_fd('\n', fd);
 		}
 		i++;
 	}

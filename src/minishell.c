@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/15 15:52:50 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 18:25:51 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,32 @@ int		echo(char **args, t_vars *p, int fd)
 	return (0);
 }
 
-void	argcheck(char **args, t_vars *p, int forkneed)
+void	argcheck(char **args, t_vars *p, t_dup *redirs)
 {
+	int fd;
+
+	fd = 1;
 	remove_case(&args[0]);
+	if (redirs->out > 0)
+		fd = redirs->out;
 	if (args[0] == NULL)
 		return ;
 	else if (ft_strncmp(args[0], "echo", 5) == 0)
-		p->ret = echo(args, p, 1);
+		p->ret = echo(args, p, fd);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
-		p->ret = pwd();
+		p->ret = pwd(fd);
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
 		p->ret = cd(args, p);
 	else if (ft_strncmp(args[0], "export", 7) == 0)
-		p->ret = export(args, p);
+		p->ret = export(args, p, fd);
 	else if (ft_strncmp(args[0], "env", 4) == 0)
-		p->ret = env(args, p);
+		p->ret = env(args, p, fd);
 	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
 		p->ret = unset_new(args, p);
-	else if (forkneed == 1)
-		ft_execute(args, p);
 	else
-		exec_without_fork(args, p);
+		ft_execute(args, p, redirs);
 }
 
 void	get_path_home(t_vars *p, char **env1)

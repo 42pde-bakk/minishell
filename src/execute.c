@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/15 15:54:25 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 20:28:17 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		get_abspath(char **abspath, t_vars *p, char **args)
 	}
 }
 
-void		ft_execute(char **args, t_vars *p)
+void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 {
 	int			i;
 	char		*abspath;
@@ -100,6 +100,12 @@ void		ft_execute(char **args, t_vars *p)
 	remove_quotes(args);
 	if (fork() == 0)
 	{
+		if (redirs->in > 0)
+			if (dup2(redirs->in, 0) < 0)
+				exit(1);
+		if (redirs->out > 0)
+			if (dup2(redirs->out, 1) < 0)
+				exit(1);
 		get_abspath(&abspath, p, args);
 		if (abspath && execve(abspath, args, p->env1) == -1)
 			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
@@ -110,6 +116,8 @@ void		ft_execute(char **args, t_vars *p)
 		p->is_child = 0;
 		exit(127);
 	}
+	// ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
 	waitpid(i, &i, 0);
+	// ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
 	return_values(i, p);
 }
