@@ -6,14 +6,11 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/12 17:48:54 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 15:54:25 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 void		return_values(int i, t_vars *p)
 {
@@ -94,8 +91,9 @@ void		get_abspath(char **abspath, t_vars *p, char **args)
 
 void		ft_execute(char **args, t_vars *p)
 {
-	int		i;
-	char	*abspath;
+	int			i;
+	char		*abspath;
+	struct stat	statstr;
 
 	i = 0;
 	abspath = NULL;
@@ -105,6 +103,8 @@ void		ft_execute(char **args, t_vars *p)
 		get_abspath(&abspath, p, args);
 		if (abspath && execve(abspath, args, p->env1) == -1)
 			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
+		else if (!abspath && args[0][0] != '.' && stat(args[0], &statstr) < 0)
+			ft_dprintf(2, "bash: %s: command not found\n", args[0]);
 		else if (!abspath && execve(args[0], args, p->env1) == -1)
 			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
 		p->is_child = 0;

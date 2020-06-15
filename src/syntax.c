@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 14:39:26 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/13 23:45:45 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/15 14:00:41 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int		syntax_check_redirs(char *line, int *i, char *syntax)
 			(*i)++;
 		if (ft_isalnum(line[*i]) == 0)
 		{
+			if (line[*i] == '/' || line[*i] == '~' || line[*i] == '.')
+				return (0);
 			if (line[*i] == '\n')
 				return (ft_dprintf(2, "%s `%s\'\n", syntax, "newline"));
 			return (ft_dprintf(2, "%s `%c\'\n", syntax, line[*i]));

@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/13 23:40:14 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/15 15:50:24 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 	if (pipesplitcmds[n + 1])
 		minipipe(pipesplitcmds, n, p, trimmed);
 	else if (trimmed[0] && trimmed[0][0] != '<' && trimmed[0][0] != '>')
-		argcheck(trimmed, p);
+		argcheck(trimmed, p, 1);
 	reset_redirections(&redirs);
 	free_args(trimmed);
 	free_args(args);

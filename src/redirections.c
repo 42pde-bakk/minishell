@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/08 13:47:02 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 15:04:37 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	reset_redirections(t_dup *redirs)
 		redirs->input = NULL;
 		if (dup2(redirs->stdinbak, 0) < 0)
 		{
-			perror("resetting stdin failed");
+			strerror(errno);
 			exit(1);
 		}
 	}
@@ -30,7 +30,7 @@ void	reset_redirections(t_dup *redirs)
 		redirs->output = NULL;
 		if (dup2(redirs->stdoutbak, 1) < 0)
 		{
-			perror("resetting stdout failed");
+			strerror(errno);
 			exit(1);
 		}
 	}

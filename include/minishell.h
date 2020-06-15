@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 13:44:38 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 15:55:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
+#include <sys/stat.h>
 
 int			g_ret;
 
@@ -47,12 +48,15 @@ typedef struct	s_dup
 
 int				cd(char **args, t_vars *p);
 int				pwd();
-void			argcheck(char **args, t_vars *p);
+void			argcheck(char **args, t_vars *p, int forkneed);
 int				env(char **args, t_vars *p);
 int				bubble_sort(char **arr);
 int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
+void			return_values(int i, t_vars *p);
+void			get_abspath(char **abspath, t_vars *p, char **args);
 void			ft_execute(char **args, t_vars *p);
+void			exec_without_fork(char **args, t_vars *p);
 int				print_env_var(char *args, t_vars *p, int fd);
 void			write_instant(char *str, int fd, t_vars *p);
 char			**ft_split_q(char *s, char c);

@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/15 13:46:29 by wbarendr      ########   odam.nl          #
+#    Updated: 2020/06/15 14:43:48 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,10 @@ RED = \x1b[31;01m
 WHITE = \x1b[31;37m
 RESET = \x1b[0m
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
+ifdef DEBUG
+ FLAGS += -fsanitize=address
+endif
 
 all: $(NAME)
 

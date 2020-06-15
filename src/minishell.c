@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/15 13:43:04 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 15:52:50 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		echo(char **args, t_vars *p, int fd)
 	return (0);
 }
 
-void	argcheck(char **args, t_vars *p)
+void	argcheck(char **args, t_vars *p, int forkneed)
 {
 	remove_case(&args[0]);
 	if (args[0] == NULL)
@@ -50,8 +50,10 @@ void	argcheck(char **args, t_vars *p)
 		p->ret = env(args, p);
 	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
 		p->ret = unset_new(args, p);
-	else
+	else if (forkneed == 1)
 		ft_execute(args, p);
+	else
+		exec_without_fork(args, p);
 }
 
 void	get_path_home(t_vars *p, char **env1)
@@ -66,7 +68,12 @@ void	get_path_home(t_vars *p, char **env1)
 		return ;
 	sub = ft_substr(env1[i], 5, ft_strlen(env1[i]) - 4);
 	i = 0;
-	p->home_path = malloc(ft_strlen(sub + 1));
+	p->home_path = malloc(ft_strlen(sub + 1) + 3);
+	if (p->home_path == NULL)
+	{
+		free(sub);
+		return ;
+	}
 	while (sub[i])
 	{
 		p->home_path[i] = sub[i];

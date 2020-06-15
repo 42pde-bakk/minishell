@@ -6,14 +6,13 @@
 /*   By: pde-bakk <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/26 15:19:04 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/09 17:33:47 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/15 13:49:02 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
