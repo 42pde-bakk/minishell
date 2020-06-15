@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/13 22:35:18 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/15 13:43:04 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	get_path_home(t_vars *p, char **env1)
 
 char	**get_environment(t_vars *p, int i)
 {
-	char	**env1;
+	char		**env1;
+	extern char	**environ;
 
 	write(1, "\e[1;1H\e[2J", 11);
 	p->ret = 0;

@@ -6,14 +6,13 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/12 18:01:37 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 13:44:38 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h> //pls remove when done
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -22,12 +21,9 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include <errno.h>
 # include <string.h>
-extern int	errno;
-int			g_ret;
 
-extern char **environ;
+int			g_ret;
 
 typedef struct	s_vars
 {
@@ -58,7 +54,7 @@ int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
 void			ft_execute(char **args, t_vars *p);
 int				print_env_var(char *args, t_vars *p, int fd);
-void    		write_instant(char *str, int fd, t_vars *p);
+void			write_instant(char *str, int fd, t_vars *p);
 char			**ft_split_q(char *s, char c);
 int				main(void);
 
