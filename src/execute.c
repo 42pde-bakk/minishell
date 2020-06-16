@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/16 18:02:42 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 01:30:34 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,9 @@ void		close_ifnot_and_dup(t_vars *p, t_dup *redirs)
 
 void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 {
-	int			i;
 	char		*abspath;
 	struct stat	statstr;
 
-	i = 0;
 	abspath = NULL;
 	remove_quotes(args);
 	if (fork() == 0)

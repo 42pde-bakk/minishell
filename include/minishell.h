@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/16 18:27:12 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 01:38:37 by Peer          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int				env(char **args, t_vars *p, int fd);
 int				bubble_sort(char **arr, int fd);
 int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
-void			return_values(int i, t_vars *p);
 void			get_abspath(char **abspath, t_vars *p, char **args);
 void			ft_execute(char **args, t_vars *p, t_dup *redirs);
 int				print_env_var(char *args, t_vars *p, int fd);
