@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/15 23:40:13 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/16 15:10:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,11 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 	remove_quotes(args);
 	if (fork() == 0)
 	{
-		if (redirs->in > 0)
-			if (dup2(redirs->in, 0) < 0)
-				exit(1);
-		if (redirs->out > 0)
-			if (dup2(redirs->out, 1) < 0)
-				exit(1);
+		if (redirs->in > 0 && dup2(redirs->in, 0) < 0)
+			exit(1);
+		if (redirs->out > 0 && dup2(redirs->out, 1) < 0)
+			exit(1);
+		ft_dprintf(2, "args[0] = %s, dup2\'ed [%d, %d]\n", args[0], redirs->in, redirs->out);
 		get_abspath(&abspath, p, args);
 		if (abspath && execve(abspath, args, p->env1) == -1)
 			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
@@ -116,8 +115,8 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 		p->is_child = 0;
 		exit(127);
 	}
-	ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
+	// ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
 	waitpid(i, &i, 0);
-	ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
+	// ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
 	return_values(i, p);
 }

@@ -6,84 +6,48 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/15 23:58:11 by peer          ########   odam.nl         */
+/*   Updated: 2020/06/16 15:05:30 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	closepipes(t_pipes *pipes)
-{
-	// if (pipes->currpipe[0] > 1)
-	// 	if (close(pipes->currpipe[0] == -1))
-	// 		exit(1);
-	if (pipes->prevpipe[0] > 1)
-		if (close(pipes->prevpipe[0] == -1))
-			exit(1);
-	pipes->prevpipe[0] = 0;
-	// if (pipes->prevpipe[1] > 1)
-	// 	if (close(pipes->prevpipe[1] == -1))
-	// 		exit(1);
-	// pipes->prevpipe[1] = 0;
-	if (pipes->currpipe[1] > 1)
-		if (close(pipes->currpipe[1] == -1))
-			exit(1);
-	pipes->currpipe[1] = 0;
-}
-
-int		lefthandpipe(char **pipesplitcmds, int n, t_vars *p, t_pipes pipes)
+int		pipe_do_stuff(char **pipesplitcmds, int n, t_vars *p)
 {
 	t_dup	redirs;
 	char	**trimmed;
 	char	**args;
 
 	args = split_quotes2(pipesplitcmds[n]);
-	ft_dprintf(2, "lh: args[0] = %s, prevpipe = [%d, %d], currpipe = [%d, %d]\n", args[0], pipes.prevpipe[0], pipes.prevpipe[1], pipes.currpipe[0], pipes.currpipe[1]);
 	if (args == NULL)
 		exit(1);
 	ft_bzero(&redirs, sizeof(redirs));
-	if (pipes.prevpipe[0] > 1)
-	{
-		redirs.in = pipes.prevpipe[0];
-		ft_dprintf(2, "%s gon read from fd: %d\n", args[0], redirs.in);
-	}
-	if (pipes.currpipe[1] > 1)
-	{
-		redirs.out = pipes.currpipe[1];
-		ft_dprintf(2, "%s gon write to fd: %d\n", args[0], redirs.out);
-	}
+	if (p->pipes[n][1] > 1)
+		redirs.out = p->pipes[n][1];
+	if (n > 0 && p->pipes[n - 1][0] > 1)
+		redirs.in = p->pipes[n - 1][0];
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
 	argcheck(trimmed, p, &redirs);
-	closepipes(&pipes);
-	ft_dprintf(2, "%s closed pipes: prev = [%d, %d], curr = [%d, %d]\n", args[0], pipes.prevpipe[0], pipes.prevpipe[1], pipes.currpipe[0], pipes.currpipe[1]);
 	free_args(trimmed);
 	free_args(args);
+	if (p->pipes[n][1] > 1)
+		close(p->pipes[n][1]);
+	if (n > 0 && p->pipes[n - 1][0] > 1)
+		close(p->pipes[n - 1][0]);
+	// close(redirs.in);
+	// close(redirs.out);
+	// close(p->pipes[n][1]);
+	// if (n > 0)
+	// 	close(p->pipes[n - 1][0]);
 	return (0);
 }
 
-t_pipes	init_pipes(t_pipes pipes)
+int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 {
-	pipes.prevpipe[0] = pipes.currpipe[0];
-	pipes.prevpipe[1] = pipes.currpipe[1];
-	ft_bzero(&pipes.currpipe, sizeof(pipes.currpipe));
-	ft_bzero(&pipes.inuse, sizeof(pipes.inuse));
-	return (pipes);
-}
-
-int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p,
-t_pipes pipes)
-{
-	pipes = init_pipes(pipes);
-	if (pipesplitcmds[n + 1] == NULL)
-		return (lefthandpipe(pipesplitcmds, n, p, pipes));
-	if (pipe(pipes.currpipe) == -1)
-		exit(1);
-	lefthandpipe(pipesplitcmds, n, p, pipes);
-	do_pipes_and_redirs(pipesplitcmds, n + 1, p, pipes);
-	ft_dprintf(2, "after all calls\n");
-	// close(pipes.currpipe[0]);
-	// close(pipes.currpipe[1]);
+	pipe_do_stuff(pipesplitcmds, n, p);
+	if (pipesplitcmds[n + 1])
+		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
 	return (0);
 }
 
@@ -93,13 +57,31 @@ int		free_line(char *line)
 	return (0);
 }
 
+void	setpipes(t_vars *p, char **pipesplitcmds)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	ft_bzero(&p->pipes, sizeof(p->pipes));
+	while (pipesplitcmds[n + 1])
+	{
+		// p->pipes[n] = ft_calloc(1, sizeof(int[2]));
+		if (pipe(p->pipes[n]) == -1)
+			exit(1);
+		// ft_dprintf(2, "created a pipe for p->pipes[%d]: [%d, %d]\n", n, p->pipes[n][0], p->pipes[n][1]);
+		n++;
+	}
+	// ft_dprintf(2, "extra pipe for n=%d: [%d, %d]\n", n, p->pipes[n][0], p->pipes[n][1]);
+}
+
 int		gameloop(t_vars *p, char *line)
 {
 	int		i;
 	int		n;
 	char	**pipesplitcmds;
 	char	**cmds;
-	t_pipes	pipes;
 
 	i = 0;
 	cmds = NULL;
@@ -114,8 +96,8 @@ int		gameloop(t_vars *p, char *line)
 		pipesplitcmds = ft_split_q(cmds[i], '|');
 		if (pipesplitcmds == NULL)
 			exit(1);
-		ft_bzero(&pipes, sizeof(t_pipes));
-		do_pipes_and_redirs(pipesplitcmds, n, p, pipes);
+		setpipes(p, pipesplitcmds);
+		do_pipes_and_redirs(pipesplitcmds, n, p);
 		i++;
 		free_args(pipesplitcmds);
 	}
