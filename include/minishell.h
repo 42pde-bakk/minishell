@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/16 14:45:39 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 15:26:58 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_vars
 	char		**paths;
 	char		*home_path;
 	int			pipes[64][2];
+	int			pids;
 }				t_vars;
 
 typedef struct	s_dup

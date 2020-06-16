@@ -6,31 +6,11 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/16 15:10:44 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 15:59:53 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void		return_values(int i, t_vars *p)
-{
-	if (WIFEXITED(i))
-		p->ret = WEXITSTATUS(i);
-	if (WIFSIGNALED(i))
-	{
-		p->ret = WTERMSIG(i);
-		if (p->ret == 2)
-		{
-			p->ret = 130;
-			p->is_child = 1;
-		}
-		if (p->ret == 3)
-		{
-			p->ret = 131;
-			p->is_child = 2;
-		}
-	}
-}
 
 char		*ft_str3join(char *a, char *b, char *c)
 {
@@ -89,6 +69,20 @@ void		get_abspath(char **abspath, t_vars *p, char **args)
 	}
 }
 
+void	close_ifnot(t_vars *p, t_dup *redirs)
+{
+	int i;
+
+	i = 0;
+	while (p->pipes[i])
+	{
+		if (p->pipes[i][0] > 2 && p->pipes[i][0] != redirs->in)
+			close(p->pipes[i][0]);
+		if (p->pipes[i][1] > 2 && p->pipes[i][1] != redirs->out)
+			close(p->pipes[i][1]);
+	}
+}
+
 void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 {
 	int			i;
@@ -100,6 +94,8 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 	remove_quotes(args);
 	if (fork() == 0)
 	{
+		// close all pipes not used by this execve call
+		close_ifnot(p, redirs);
 		if (redirs->in > 0 && dup2(redirs->in, 0) < 0)
 			exit(1);
 		if (redirs->out > 0 && dup2(redirs->out, 1) < 0)
@@ -115,8 +111,15 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 		p->is_child = 0;
 		exit(127);
 	}
+	else
+		p->pids++;
+	// close the pipes used by /\ execve call
+	if (redirs->in > 2)
+		close(redirs->in);
+	if (redirs->out > 2)
+		close(redirs->out);
 	// ft_dprintf(2, "args0 = %s: waiting for exec to finish\n", args[0]);
-	waitpid(i, &i, 0);
+	// waitpid(i, &i, 0);
 	// ft_dprintf(2, "args0 = %s: done waiting\n", args[0]);
-	return_values(i, p);
+	// return_values(i, p);
 }

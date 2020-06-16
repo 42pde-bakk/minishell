@@ -6,35 +6,35 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/28 14:50:52 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 19:01:18 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 15:43:00 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_redirections(t_dup *redirs)
-{
-	if (redirs->in)
-	{
-		redirs->in = 0;
-		redirs->input = NULL;
-		if (dup2(redirs->stdinbak, 0) < 0)
-		{
-			strerror(errno);
-			exit(1);
-		}
-	}
-	if (redirs->out)
-	{
-		redirs->out = 0;
-		redirs->output = NULL;
-		if (dup2(redirs->stdoutbak, 1) < 0)
-		{
-			strerror(errno);
-			exit(1);
-		}
-	}
-}
+// void	reset_redirections(t_dup *redirs)
+// {
+// 	if (redirs->in)
+// 	{
+// 		redirs->in = 0;
+// 		redirs->input = NULL;
+// 		if (dup2(redirs->stdinbak, 0) < 0)
+// 		{
+// 			strerror(errno);
+// 			exit(1);
+// 		}
+// 	}
+// 	if (redirs->out)
+// 	{
+// 		redirs->out = 0;
+// 		redirs->output = NULL;
+// 		if (dup2(redirs->stdoutbak, 1) < 0)
+// 		{
+// 			strerror(errno);
+// 			exit(1);
+// 		}
+// 	}
+// }
 
 void	get_backup(t_dup *redirs)
 {
