@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/16 16:35:41 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 16:37:33 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	setpipes(t_vars *p, char **pipesplitcmds)
 
 void	soul_goodman(t_vars *p, int *i)
 {
-	int i;
+	int soul;
 
-	i = 0;
-	while (i < p->pids)
+	soul = 0;
+	while (soul < p->pids)
 	{
 		waitpid(-1, &p->ret, 0);
-		i++;
+		soul++;
 	}
 	(*i)++;
 }
