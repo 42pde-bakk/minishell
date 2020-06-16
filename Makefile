@@ -6,7 +6,7 @@
 #    By: peer <peer@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/04/13 21:19:23 by peer          #+#    #+#                  #
-#    Updated: 2020/06/15 21:32:39 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/06/16 16:36:30 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC = 	minishell.c \
 		utils.c \
 		utils2.c \
 		utils3.c \
+		utils4.c \
 		unset_env.c \
 		split_quotes1.c \
 		split_quotes2.c \
@@ -34,7 +35,6 @@ SRC = 	minishell.c \
 		free_functions.c \
 		ft_split_q.c \
 		gameloop.c \
-		pipes.c \
 		trimming.c \
 		syntax.c
 

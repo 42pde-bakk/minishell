@@ -6,7 +6,7 @@
 /*   By: Wester <Wester@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/05/15 19:58:50 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/12 17:44:15 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/15 18:16:57 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	create_new_var(char **var, char *args, t_vars *p, int i)
 	create_new_var2(var, env2, p, i);
 }
 
-int		export(char **args, t_vars *p)
+int		export(char **args, t_vars *p, int fd)
 {
 	int		i;
 	int		s;
@@ -108,7 +108,7 @@ int		export(char **args, t_vars *p)
 
 	s = 1;
 	if (!args[1])
-		return (bubble_sort(p->env1));
+		return (bubble_sort(p->env1, fd));
 	while (args[s])
 	{
 		var = ft_split_equal(args[s]);

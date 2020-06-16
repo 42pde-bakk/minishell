@@ -6,31 +6,11 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/15 15:54:25 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 18:02:42 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void		return_values(int i, t_vars *p)
-{
-	if (WIFEXITED(i))
-		p->ret = WEXITSTATUS(i);
-	if (WIFSIGNALED(i))
-	{
-		p->ret = WTERMSIG(i);
-		if (p->ret == 2)
-		{
-			p->ret = 130;
-			p->is_child = 1;
-		}
-		if (p->ret == 3)
-		{
-			p->ret = 131;
-			p->is_child = 2;
-		}
-	}
-}
 
 char		*ft_str3join(char *a, char *b, char *c)
 {
@@ -89,7 +69,30 @@ void		get_abspath(char **abspath, t_vars *p, char **args)
 	}
 }
 
-void		ft_execute(char **args, t_vars *p)
+void		close_ifnot_and_dup(t_vars *p, t_dup *redirs)
+{
+	int i;
+
+	i = 0;
+	while (p->pipes[i])
+	{
+		if (p->pipes[i][0] > 2 && p->pipes[i][0] != redirs->in)
+		{
+			close(p->pipes[i][0]);
+		}
+		if (p->pipes[i][1] > 2 && p->pipes[i][1] != redirs->out)
+		{
+			close(p->pipes[i][1]);
+		}
+		i++;
+	}
+	if (redirs->in > 0 && dup2(redirs->in, 0) < 0)
+		exit(1);
+	if (redirs->out > 0 && dup2(redirs->out, 1) < 0)
+		exit(1);
+}
+
+void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 {
 	int			i;
 	char		*abspath;
@@ -100,6 +103,7 @@ void		ft_execute(char **args, t_vars *p)
 	remove_quotes(args);
 	if (fork() == 0)
 	{
+		close_ifnot_and_dup(p, redirs);
 		get_abspath(&abspath, p, args);
 		if (abspath && execve(abspath, args, p->env1) == -1)
 			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
@@ -110,6 +114,8 @@ void		ft_execute(char **args, t_vars *p)
 		p->is_child = 0;
 		exit(127);
 	}
-	waitpid(i, &i, 0);
-	return_values(i, p);
+	else
+		p->pids++;
+	close_fd(redirs->in);
+	close_fd(redirs->out);
 }

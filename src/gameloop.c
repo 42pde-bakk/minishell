@@ -6,38 +6,75 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/15 15:50:24 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/16 18:26:55 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
+int		pipe_do_stuff(char **pipesplitcmds, int n, t_vars *p)
 {
 	t_dup	redirs;
-	char	**args;
 	char	**trimmed;
+	char	**args;
 
 	args = split_quotes2(pipesplitcmds[n]);
 	if (args == NULL)
 		exit(1);
-	ft_bzero(&redirs, sizeof(t_dup));
+	ft_bzero(&redirs, sizeof(redirs));
+	if (p->pipes && p->pipes[n] && p->pipes[n][1] > 1)
+		redirs.out = p->pipes[n][1];
+	if (p->pipes && n > 0 && p->pipes[n - 1] && p->pipes[n - 1][0] > 1)
+		redirs.in = p->pipes[n - 1][0];
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
-	if (pipesplitcmds[n + 1])
-		minipipe(pipesplitcmds, n, p, trimmed);
-	else if (trimmed[0] && trimmed[0][0] != '<' && trimmed[0][0] != '>')
-		argcheck(trimmed, p, 1);
-	reset_redirections(&redirs);
+	argcheck(trimmed, p, &redirs);
 	free_args(trimmed);
 	free_args(args);
+	if (p->pipes)
+	{
+		if (p->pipes[n] && p->pipes[n][1] > 1)
+			close(p->pipes[n][1]);
+		if (n > 0 && p->pipes[n - 1] && p->pipes[n - 1][0] > 1)
+			close(p->pipes[n - 1][0]);
+	}
 	return (0);
 }
 
-int		free_line(char *line)
+int		do_pipes_and_redirs(char **pipesplitcmds, int n, t_vars *p)
 {
-	free(line);
+	pipe_do_stuff(pipesplitcmds, n, p);
+	if (pipesplitcmds[n + 1])
+		do_pipes_and_redirs(pipesplitcmds, n + 1, p);
 	return (0);
+}
+
+void	setpipes(t_vars *p, char **pipesplitcmds)
+{
+	int	i;
+	int	len;
+	int **pipearray;
+
+	i = 0;
+	len = 0;
+	p->pids = 0;
+	while (pipesplitcmds[len])
+		len++;
+	if (len == 0)
+		return ;
+	pipearray = ft_calloc(len, sizeof(int *));
+	if (pipearray == NULL)
+		exit(1);
+	while (i + 1 < len)
+	{
+		pipearray[i] = ft_calloc(3, sizeof(int));
+		if (pipearray[i] == NULL)
+			exit(1);
+		if (pipe(pipearray[i]) == -1)
+			exit(1);
+		i++;
+	}
+	p->pipes = pipearray;
 }
 
 int		gameloop(t_vars *p, char *line)
@@ -60,8 +97,9 @@ int		gameloop(t_vars *p, char *line)
 		pipesplitcmds = ft_split_q(cmds[i], '|');
 		if (pipesplitcmds == NULL)
 			exit(1);
+		setpipes(p, pipesplitcmds);
 		do_pipes_and_redirs(pipesplitcmds, n, p);
-		i++;
+		soul_goodman(p, &i);
 		free_args(pipesplitcmds);
 	}
 	free_line_cmds(cmds, line, i);
