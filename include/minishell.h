@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/17 01:38:37 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/17 16:23:06 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,21 @@ typedef struct	s_dup
 	int			trimmedlen;
 }				t_dup;
 
+int				echo(char **args, t_vars *p, int fd);
+void			our_exit(char **args, t_vars *p);
 int				cd(char **args, t_vars *p);
 int				pwd(int fd);
-void			argcheck(char **args, t_vars *p, t_dup *redirs);
+void			argcheck(char **args, t_vars *p, t_dup *redirs, int forked);
+void			fork_check(char **args, t_vars *p, t_dup *redirs);
 int				env(char **args, t_vars *p, int fd);
 int				bubble_sort(char **arr, int fd);
 int				unset_new(char **args, t_vars *p);
 char			**split_quotes2(char *str);
+char			*ft_str3join(char *a, char *b, char *c);
 void			get_abspath(char **abspath, t_vars *p, char **args);
 void			ft_execute(char **args, t_vars *p, t_dup *redirs);
+void			exec_checkifforked(char **args, t_vars *p, t_dup *redirs,
+				int forked);
 int				print_env_var(char *args, t_vars *p, int fd);
 void			write_instant(char *str, int fd, t_vars *p);
 char			**ft_split_q(char *s, char c);

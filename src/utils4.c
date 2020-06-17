@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/16 16:33:42 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/17 01:38:13 by Peer          ########   odam.nl         */
+/*   Updated: 2020/06/17 16:05:57 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,37 @@ void	free_int_array(int **arr)
 	arr = NULL;
 }
 
-void	return_values(t_vars *p)
+void	return_values(int i, t_vars *p)
 {
-	if (p->ret == 256)
-		p->ret = 1;
-	if (p->ret == 32512)
-		p->ret = 127;
-	if (p->ret == 2)
+	if (WIFEXITED(i))
+		p->ret = WEXITSTATUS(i);
+	if (WIFSIGNALED(i))
 	{
-		p->ret = 130;
-		p->is_child = 1;
-	}
-	if (p->ret == 3)
-	{
-		p->ret = 131;
-		p->is_child = 2;
+		p->ret = WTERMSIG(i);
+		if (p->ret == 2)
+		{
+			p->ret = 130;
+			p->is_child = 1;
+		}
+		if (p->ret == 3)
+		{
+			p->ret = 131;
+			p->is_child = 2;
+		}
 	}
 }
 
 void	soul_goodman(t_vars *p, int *i)
 {
 	int soul;
+	int child;
 
+	child = 0;
 	soul = 0;
 	while (soul < p->pids)
 	{
-		waitpid(-1, &p->ret, 0);
-		return_values(p);
+		waitpid(-1, &child, 0);
+		return_values(child, p);
 		soul++;
 	}
 	(*i)++;

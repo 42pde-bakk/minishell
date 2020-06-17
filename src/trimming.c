@@ -6,11 +6,25 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 17:36:03 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/17 12:41:25 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 16:23:18 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_str3join(char *a, char *b, char *c)
+{
+	char	*out;
+
+	out = ft_calloc(ft_strlen(a) + ft_strlen(b) + ft_strlen(c) + 1,
+			sizeof(char));
+	if (out == NULL)
+		return (out);
+	ft_strlcpy(out, a, ft_strlen(a) + 1);
+	ft_strlcpy(out + ft_strlen(a), b, ft_strlen(b) + 1);
+	ft_strlcpy(out + ft_strlen(a) + ft_strlen(b), c, ft_strlen(c) + 1);
+	return (out);
+}
 
 /*
 ** Checks if current arg isnt </>/>> and

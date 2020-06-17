@@ -6,37 +6,21 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/16 16:24:25 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 16:22:37 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		echo(char **args, t_vars *p, int fd)
-{
-	int i;
+/*
+** If forked == 1, dont need to fork again in ft_execute.
+*/
 
-	i = 1;
-	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
-		i = 2;
-	while (args[i])
-	{
-		write_instant(args[i], fd, p);
-		i++;
-		if (args[i] != 0)
-			ft_putchar_fd(' ', fd);
-	}
-	if (!args[1] || (args[1] && ft_strncmp(args[1], "-n", 3) != 0))
-		ft_putchar_fd('\n', fd);
-	return (0);
-}
-
-void	argcheck(char **args, t_vars *p, t_dup *redirs)
+void	argcheck(char **args, t_vars *p, t_dup *redirs, int forked)
 {
 	int fd;
 
 	fd = 1;
-	remove_case(&args[0]);
 	if (redirs->out > 0)
 		fd = redirs->out;
 	if (args[0] == NULL)
@@ -44,7 +28,7 @@ void	argcheck(char **args, t_vars *p, t_dup *redirs)
 	else if (ft_strncmp(args[0], "echo", 5) == 0)
 		p->ret = echo(args, p, fd);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
-		exit(0);
+		our_exit(args, p);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
 		p->ret = pwd(fd);
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
@@ -56,7 +40,28 @@ void	argcheck(char **args, t_vars *p, t_dup *redirs)
 	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
 		p->ret = unset_new(args, p);
 	else
-		ft_execute(args, p, redirs);
+		exec_checkifforked(args, p, redirs, forked);
+}
+
+void	fork_check(char **args, t_vars *p, t_dup *redirs)
+{
+	remove_case(&args[0]);
+	if (redirs->in > 2 || redirs->out > 2)
+	{
+		if (fork() == 0)
+		{
+			argcheck(args, p, redirs, 1);
+			exit(0);
+		}
+		else
+		{
+			p->pids++;
+		}
+	}
+	else
+		argcheck(args, p, redirs, 0);
+	close_fd(redirs->in);
+	close_fd(redirs->out);
 }
 
 void	get_path_home(t_vars *p, char **env1)

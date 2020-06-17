@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/17 13:04:47 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 15:37:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		pipe_do_stuff(char **pipesplitcmds, int n, t_vars *p)
 		redirs.in = p->pipes[n - 1][0];
 	redirect(args, &redirs);
 	trimmed = trimargs(args);
-	argcheck(trimmed, p, &redirs);
+	fork_check(trimmed, p, &redirs);
 	free_args(trimmed);
 	free_args(args);
 	close_pipes(p, n);

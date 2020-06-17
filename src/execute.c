@@ -6,25 +6,11 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/29 15:42:29 by Wester        #+#    #+#                 */
-/*   Updated: 2020/06/17 13:03:07 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 16:21:23 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char		*ft_str3join(char *a, char *b, char *c)
-{
-	char	*out;
-
-	out = ft_calloc(ft_strlen(a) + ft_strlen(b) + ft_strlen(c) + 1,
-			sizeof(char));
-	if (out == NULL)
-		return (out);
-	ft_strlcpy(out, a, ft_strlen(a) + 1);
-	ft_strlcpy(out + ft_strlen(a), b, ft_strlen(b) + 1);
-	ft_strlcpy(out + ft_strlen(a) + ft_strlen(b), c, ft_strlen(c) + 1);
-	return (out);
-}
 
 char		**get_pathentries(t_vars *p)
 {
@@ -99,21 +85,28 @@ void		ft_execute(char **args, t_vars *p, t_dup *redirs)
 
 	abspath = NULL;
 	remove_quotes(args);
-	if (fork() == 0)
-	{
-		close_ifnot_and_dup(p, redirs);
-		get_abspath(&abspath, p, args);
-		if (abspath && execve(abspath, args, p->env1) == -1)
-			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
-		else if (!abspath && args[0][0] != '.' && stat(args[0], &statstr) < 0)
-			ft_dprintf(2, "bash: %s: command not found\n", args[0]);
-		else if (!abspath && execve(args[0], args, p->env1) == -1)
-			ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
-		p->is_child = 0;
-		exit(127);
-	}
+	close_ifnot_and_dup(p, redirs);
+	get_abspath(&abspath, p, args);
+	if (abspath && execve(abspath, args, p->env1) == -1)
+		ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
+	else if (!abspath && args[0][0] != '.' && stat(args[0], &statstr) < 0)
+		ft_dprintf(2, "bash: %s: command not found\n", args[0]);
+	else if (!abspath && execve(args[0], args, p->env1) == -1)
+		ft_dprintf(2, "bash: %s: %s\n", args[0], strerror(errno));
+	p->is_child = 0;
+	exit(127);
+}
+
+void		exec_checkifforked(char **args, t_vars *p, t_dup *redirs,
+	int forked)
+{
+	if (forked == 1)
+		ft_execute(args, p, redirs);
 	else
-		p->pids++;
-	close_fd(redirs->in);
-	close_fd(redirs->out);
+	{
+		if (fork() == 0)
+			ft_execute(args, p, redirs);
+		else
+			p->pids++;
+	}
 }
