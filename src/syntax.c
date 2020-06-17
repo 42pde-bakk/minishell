@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 14:39:26 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/15 14:00:41 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 16:38:01 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		quote_check(int *singlequote, int *doublequote, char c)
 {
+	if (!c)
+		return (1);
 	if (c == '\'')
 		(*singlequote)++;
 	else if (c == '\"')
@@ -61,6 +63,8 @@ int		syntax_check(char *line)
 	{
 		while (quote_check(&quotes[0], &quotes[1], line[i]) == 0)
 			i++;
+		if (line[i] == 0)
+			break ;
 		if (line[i] == ';' && line[i + 1] == ';')
 			return (ft_dprintf(2, "%s `;;\'\n", syntax));
 		if (syntax_check_redirs(line, &i, syntax) > 0)

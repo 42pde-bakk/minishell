@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/17 16:23:06 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 17:02:37 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ typedef struct	s_dup
 	int			out;
 	char		*input;
 	char		*output;
-	int			stdinbak;
-	int			stdoutbak;
-	int			trimmedlen;
+	int			ispipe[2];
 }				t_dup;
 
 int				echo(char **args, t_vars *p, int fd);
-void			our_exit(char **args, t_vars *p);
+void			our_exit(char **args, int forked);
 int				cd(char **args, t_vars *p);
 int				pwd(int fd);
 void			argcheck(char **args, t_vars *p, t_dup *redirs, int forked);

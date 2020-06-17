@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/17 16:22:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 17:03:49 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	argcheck(char **args, t_vars *p, t_dup *redirs, int forked)
 	else if (ft_strncmp(args[0], "echo", 5) == 0)
 		p->ret = echo(args, p, fd);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
-		our_exit(args, p);
+		our_exit(args, forked);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
 		p->ret = pwd(fd);
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
@@ -46,7 +46,7 @@ void	argcheck(char **args, t_vars *p, t_dup *redirs, int forked)
 void	fork_check(char **args, t_vars *p, t_dup *redirs)
 {
 	remove_case(&args[0]);
-	if (redirs->in > 2 || redirs->out > 2)
+	if (redirs->ispipe[0] == 1 || redirs->ispipe[1] == 1)
 	{
 		if (fork() == 0)
 		{
