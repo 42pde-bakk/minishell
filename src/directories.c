@@ -6,11 +6,54 @@
 /*   By: peer <peer@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/14 15:16:21 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/15 18:17:58 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 14:46:01 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		found_home(char *str)
+{
+	int		i;
+	char	*new;
+
+	i = 5;
+	while (str[i])
+		i++;
+	new = malloc(i - 5 + 1);
+	if (new == NULL)
+		exit(1);
+	i = 5;
+	while (str[i])
+	{
+		new[i - 5] = str[i];
+		i++;
+	}
+	new[i - 5] = 0;
+	i = chdir(new);
+	if (i < 0)
+		ft_dprintf(2, "bash: cd: %s: %s\n", new, strerror(errno));
+	free(new);
+	return (i * -1);
+}
+
+int		cd_no_arg(t_vars *p)
+{
+	int		i;
+
+	i = 0;
+	while (p->env1[i])
+	{
+		if (find_match(p->env1[i], "HOME"))
+		{
+			if (p->env1[i][4] == '=')
+				return (found_home(p->env1[i]));
+		}
+		i++;
+	}
+	ft_dprintf(2, "bash: cd: HOME not set\n");
+	return (1);
+}
 
 int		cd(char **args, t_vars *p)
 {
@@ -18,13 +61,13 @@ int		cd(char **args, t_vars *p)
 	int		i;
 
 	if (!args[1])
-		return (0);
+		return (cd_no_arg(p));
 	if (args[1][0] == '~')
 	{
 		if (args[1][1] && args[1][2])
 			new = ft_strjoin(p->home_path, args[1] + 2);
 		else
-			new = p->home_path;
+			new = ft_strdup(p->home_path);
 		if (new == NULL)
 			exit(1);
 		i = chdir(new);
