@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/12 17:36:03 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/16 15:42:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 12:41:25 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**trimargs(char **args)
 void	p_is_child(t_vars *p)
 {
 	if (p->is_child == 2)
-		ft_putstr_fd("\x1b[34;01mQuit: 3\nbash-3.3$ \x1b[0m", 1);
+		ft_putstr_fd("\x1b[34;01mQuit: 3\n\x1b[35;01mbash-3.3$ \x1b[31;37m", 1);
 	if (p->is_child == 1 || p->is_child == 2)
 	{
 		g_ret = 0;

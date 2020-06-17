@@ -6,11 +6,28 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/04 14:39:32 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/06/16 18:26:55 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/06/17 13:04:47 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_pipes(t_vars *p, int n)
+{
+	if (p->pipes)
+	{
+		if (p->pipes[n] && p->pipes[n][1] > 1)
+		{
+			close(p->pipes[n][1]);
+			p->pipes[n][1] = -1;
+		}
+		if (n > 0 && p->pipes[n - 1] && p->pipes[n - 1][0] > 1)
+		{
+			close(p->pipes[n - 1][0]);
+			p->pipes[n - 1][0] = -1;
+		}
+	}
+}
 
 int		pipe_do_stuff(char **pipesplitcmds, int n, t_vars *p)
 {
@@ -31,13 +48,7 @@ int		pipe_do_stuff(char **pipesplitcmds, int n, t_vars *p)
 	argcheck(trimmed, p, &redirs);
 	free_args(trimmed);
 	free_args(args);
-	if (p->pipes)
-	{
-		if (p->pipes[n] && p->pipes[n][1] > 1)
-			close(p->pipes[n][1]);
-		if (n > 0 && p->pipes[n - 1] && p->pipes[n - 1][0] > 1)
-			close(p->pipes[n - 1][0]);
-	}
+	close_pipes(p, n);
 	return (0);
 }
 

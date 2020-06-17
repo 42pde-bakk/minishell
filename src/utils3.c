@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:14:18 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/16 17:17:02 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/06/17 12:43:59 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 void		block_ctrl_c(int sig)
 {
-	g_ret = 128;
-	write(2, "\n", 1);
+	g_ret = 1;
+	ft_putstr_fd("\n\x1b[35;01mbash-3.3$\x1b[31;37m ", 1);
 	(void)sig;
 }
 
 void		block_ctrl_slash(int sig)
 {
-	g_ret = 128;
-	ft_putstr_fd("\x1b[34;01mQuit: 3\n\x1b[31;37m", 2);
 	(void)sig;
 }
 
