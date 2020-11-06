@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 19:14:18 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/17 12:43:59 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/06 01:09:27 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		block_ctrl_c(int sig)
 {
 	g_ret = 1;
-	ft_putstr_fd("\n\x1b[35;01mbash-3.3$\x1b[31;37m ", 1);
+	ft_putstr_fd("\n\x1b[35;01mbash-3.3$\x1b[31;37m ", 2);
 	(void)sig;
 }
 
