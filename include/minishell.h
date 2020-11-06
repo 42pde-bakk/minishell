@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/04/13 21:10:47 by peer          #+#    #+#                 */
-/*   Updated: 2020/06/17 17:02:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/06 01:01:30 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <sys/stat.h>
 
-int			g_ret;
+extern int			g_ret;
 
 typedef struct	s_vars
 {

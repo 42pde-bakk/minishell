@@ -6,7 +6,7 @@
 /*   By: Peer <pde-bakk@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/03 14:46:08 by wbarendr      #+#    #+#                 */
-/*   Updated: 2020/06/17 17:03:49 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/06 01:01:40 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /*
 ** If forked == 1, dont need to fork again in ft_execute.
 */
+
+int			g_ret = 0;
 
 void	argcheck(char **args, t_vars *p, t_dup *redirs, int forked)
 {
